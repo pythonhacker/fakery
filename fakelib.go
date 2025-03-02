@@ -1,7 +1,8 @@
 package fakelib
 
 import (
-	"errors"
+	"fakelib/data"
+	"fmt"
 	"math/rand"
 	"time"
 )
@@ -12,29 +13,6 @@ import (
 // Person->Creditcard etc.
 type Faker struct {
 	rng *rand.Rand
-}
-
-type WeightedItem struct {
-	Item   string
-	Weight float64
-}
-
-type WeightedArray struct {
-	Items []WeightedItem
-}
-
-func (w WeightedArray) validate() bool {
-	// weights should add to 1.0
-	var cumWeight float64 = 0.0
-
-	for _, item := range w.Items {
-		cumWeight += item.Weight
-	}
-
-	if cumWeight == 1.0 {
-		return true
-	}
-	return false
 }
 
 // Return an integer in the interval [0, n)
@@ -52,11 +30,11 @@ func (f Faker) Choice() int {
 }
 
 // Return a random item according to weights
-func (f Faker) RandomItem(array WeightedArray) (error, string) {
+func (f Faker) RandomItem(array *data.WeightedArray) (error, string) {
 	randVal := f.rng.Float64()
 
-	if val := array.validate(); !val {
-		return errors.New("weighted array validation failed"), ""
+	if ok, val := array.Validate(); !ok {
+		return fmt.Errorf("weighted array validation failed, weight: %.2f", val), ""
 	}
 
 	// Track cumulative weight

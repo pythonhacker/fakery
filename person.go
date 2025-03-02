@@ -1,10 +1,9 @@
+// Functions related to a fake person
 package fakelib
 
 import (
 	"fakelib/data"
-	"fmt"
 	"strings"
-	// "sync"
 )
 
 type Gender string
@@ -22,10 +21,12 @@ type Person struct {
 	Gender    string `json:"gender"`
 	Prefix    string `json:"prefix,omitempty"`
 	Suffix    string `json:"prefix,omitempty"`
+	Username  string `json:"user_name"`
+	Email     string `json:"email"`
 }
 
-var nameFormats = WeightedArray{
-	Items: []WeightedItem{
+var nameFormats = data.WeightedArray{
+	Items: []data.WeightedItem{
 		// firstName lastName format - most common
 		{Item: "{{firstName}} {{lastName}}", Weight: 0.70},
 		{Item: "{{firstName}} {{lastName}} {{suffix}}", Weight: 0.10},
@@ -40,29 +41,49 @@ func (f Faker) Gender() Gender {
 	return genders[idx]
 }
 
+// Return a random name
+func (f Faker) Name() string {
+
+	var firstName string
+	var lastName string
+
+	if f.Choice() == 0 {
+		firstName = f.RandomString(data.FirstNameMale)
+	} else {
+		firstName = f.RandomString(data.FirstNameFemale)
+	}
+	lastName = f.RandomString(data.LastName)
+
+	return strings.Join([]string{firstName, lastName}, " ")
+}
+
 // returns a fake Person object
-func (f Faker) Person() (*Person, error) {
+func (f Faker) Person() *Person {
+	var person *Person
+
 	gender := f.Gender()
 
 	switch gender {
 	case GenderMale:
-		return f.PersonMale()
+		person = f.PersonMale()
 	case GenderFemale:
-		return f.PersonFemale()
+		person = f.PersonFemale()
 	}
 
-	return nil, fmt.Errorf("invalid gender - %s", gender)
+	// Fill in rest
+	person.Email = f.EmailWithName(person.FirstName, person.LastName)
+	return person
 }
 
 // Returns a fake Person object with Male gender
-func (f Faker) PersonMale() (*Person, error) {
+func (f Faker) PersonMale() *Person {
 
 	var person Person
 	var nameFormat string
 
-	err, nameFormat := f.RandomItem(nameFormats)
+	err, nameFormat := f.RandomItem(&nameFormats)
 	if err != nil {
-		return nil, err
+		return nil
 	}
 
 	person.FirstName = f.RandomString(data.FirstNameMale)
@@ -77,18 +98,18 @@ func (f Faker) PersonMale() (*Person, error) {
 	}
 
 	person.Gender = string(GenderMale)
-	return &person, nil
+	return &person
 }
 
 // Returns a fake Person object with Female gender
-func (f Faker) PersonFemale() (*Person, error) {
+func (f Faker) PersonFemale() *Person {
 
 	var person Person
 	var nameFormat string
 
-	err, nameFormat := f.RandomItem(nameFormats)
+	err, nameFormat := f.RandomItem(&nameFormats)
 	if err != nil {
-		return nil, err
+		return nil
 	}
 
 	person.FirstName = f.RandomString(data.FirstNameFemale)
@@ -103,5 +124,5 @@ func (f Faker) PersonFemale() (*Person, error) {
 	}
 
 	person.Gender = string(GenderFemale)
-	return &person, nil
+	return &person
 }

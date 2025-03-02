@@ -1,8 +1,8 @@
-package fakelib
+package gofakelib
 
 import (
-	"fakelib/data"
 	"fmt"
+	"gofakelib/data"
 	"math/rand"
 	"time"
 )
@@ -61,6 +61,12 @@ func (f Faker) RandomString(stringItems []string) string {
 
 func New() *Faker {
 	seed := time.Now().Nanosecond()
+	return &Faker{
+		rng: rand.New(rand.NewSource(int64(seed))),
+	}
+}
+
+func NewFromSeed(seed int64) *Faker {
 	return &Faker{
 		rng: rand.New(rand.NewSource(int64(seed))),
 	}

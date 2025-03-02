@@ -1,8 +1,8 @@
 // Functions related to a fake person
-package fakelib
+package gofakelib
 
 import (
-	"fakelib/data"
+	"gofakelib/data"
 	"strings"
 )
 

@@ -19,6 +19,7 @@ import (
 
 const prefix = "data/locales"
 
+// structure for loading locale specific data
 type LocaleData struct {
 	id       uuid.UUID           `json:"id"`
 	once     sync.Once           `json:"-"`
@@ -29,19 +30,26 @@ type LocaleData struct {
 	cacheKey string              `json:"cache_key,omitempty"`
 }
 
+// structure mapping locales to locale data
 type DataLoader struct {
 	localeDataMap map[string]*LocaleData
+	// Common file path for a specific type of data
+	fileName string
 }
 
+// structure which allows weighted data to allow
+// probability based randomness
 type WeightedItem struct {
 	Item   string  `json:"item"`
 	Weight float64 `json:"weight"`
 }
 
+// Structure holding array of weighted items
 type WeightedArray struct {
 	Items []WeightedItem
 }
 
+// validating a weighted array
 func (w WeightedArray) Validate() (bool, float64) {
 	// weights should add to 1.0
 	var cumWeight float64 = 0.0
@@ -58,7 +66,7 @@ func (w WeightedArray) Validate() (bool, float64) {
 	return false, cumWeight
 }
 
-// GetModuleFile returns the full path to a file relative to the module directory
+// getModuleFile returns the full path to a file relative to the module directory
 func getModuleFile(relativePath string) (string, error) {
 	// Get the current file's directory
 	_, currentFile, _, ok := runtime.Caller(0)
@@ -81,32 +89,60 @@ func getModuleFile(relativePath string) (string, error) {
 	return fullPath, nil
 }
 
-func (loader *DataLoader) Init(locale, filePath string) *LocaleData {
-	var localeData LocaleData
-
-	log.Printf("Initializing data loader for locale: %s, filePath: %s\n", locale, filePath)
-
-	if len(loader.localeDataMap) == 0 {
-		loader.localeDataMap = make(map[string]*LocaleData)
-	}
-
-	localeData.fileName = filePath
-	localeData.locale = locale
-	localeData.id = uuid.New()
-	loader.localeDataMap[locale] = &localeData
-
-	return &localeData
+// Initialize the data loader with a locale and filePath
+// every facet of data is associated with a unqiue {locale, filePath} tuple
+func (loader *DataLoader) Init(filePath string) {
+	log.Printf("Initializing data loader with filePath - %s", filePath)
+	loader.fileName = filePath
 }
 
-// Return the specific data pointer for the given locale
+// Return or initialize the specific data pointer for the given locale
 func (loader *DataLoader) Get(locale string) *LocaleData {
 	var val *LocaleData
 	var ok bool
 
+	// first time call
+	if len(loader.localeDataMap) == 0 {
+		loader.localeDataMap = make(map[string]*LocaleData)
+	}
+
+	// already inited
 	if val, ok = loader.localeDataMap[locale]; ok {
 		return val
 	}
-	return nil
+
+	var newVal LocaleData
+
+	// Initialize
+	newVal.fileName = loader.fileName
+	newVal.locale = locale
+	newVal.id = uuid.New()
+	loader.localeDataMap[locale] = &newVal
+
+	return &newVal
+}
+
+// Lazy loader wrapper - lazily loads locale data for given locale
+// once in a session whenever requested from a function. Once
+// loaded, data remains in memory.
+func (loader *DataLoader) EnsureLoaded(locale string) *LocaleData {
+	localeData := loader.Get(locale)
+
+	if localeData == nil {
+		// this is a fatal error -we exit
+		log.Fatalf("error - locale data not initialized for locale %s", locale)
+		return nil
+	}
+
+	if !localeData.loaded {
+		err := localeData.Load()
+		if err != nil {
+			log.Printf("error - loading locale data for locale: %s - %v\n", locale, err)
+		}
+		return localeData
+	}
+
+	return localeData
 }
 
 // Fetch value of key
@@ -168,28 +204,7 @@ func (l *LocaleData) Load() error {
 	return err
 }
 
-// Lazy loader wrapper - loads locale data for given locale
-// once in a session whenever requested from a function
-func (loader *DataLoader) EnsureLoaded(locale string) *LocaleData {
-	localeData := loader.Get(locale)
-	if localeData == nil {
-		// this is a fatal error -we exit
-		log.Fatalf("error - locale data not initialized for locale %s", locale)
-		return nil
-	}
-
-	if !localeData.loaded {
-		err := localeData.Load()
-		if err != nil {
-			log.Printf("error - loading locale data for locale: %s - %v\n", locale, err)
-		}
-		return localeData
-	}
-
-	return localeData
-}
-
-// Convert a string to a weighted array
+// Given a data key, fetch its value and parse it into a weighted array
 func (l *LocaleData) GetWeightedArray(key, sep string) (*WeightedArray, error) {
 
 	var dataArray WeightedArray

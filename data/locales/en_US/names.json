@@ -2243,8 +2243,7 @@
   ],
   "prefix_male": [
     "Mr.",
-    "Dr.",
-    "Sir"
+    "Dr."
   ],
   "prefix_female": [
     "Mrs.",
@@ -2253,13 +2252,17 @@
     "Dr."
   ],
   "suffix_male": [
-    "Jr.",
-    "Sr.",
-    "I",
-    "II",
-    "III",
-    "IV",
-    "V"
+      "Jr.",
+      "Sr.",
+      "I",
+      "II",
+      "III",
+      "IV",
+      "V",
+	  "MD",
+      "DDS",
+      "PhD",
+      "DVM"
   ],
   "suffix_female": [
     "MD",

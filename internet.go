@@ -10,7 +10,7 @@ var (
 )
 
 func init() {
-	ndata.Init(DefaultLocale, "internet.json")
+	ndata.Init("internet.json")
 }
 
 func (f Faker) GetRandomTLD() string {

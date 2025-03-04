@@ -16,12 +16,12 @@ type Faker struct {
 }
 
 // Return an integer in the interval [0, n)
-func (f Faker) IntRange(n int) int {
+func (f *Faker) IntRange(n int) int {
 	return f.rng.Intn(n)
 }
 
 // Return either 0 or 1 for a two choice array index
-func (f Faker) Choice() int {
+func (f *Faker) Choice() int {
 	randVal := f.rng.Float64()
 	if randVal <= 0.5 {
 		return 0
@@ -30,7 +30,7 @@ func (f Faker) Choice() int {
 }
 
 // Return a random item according to weights
-func (f Faker) RandomItem(array *WeightedArray) (error, string) {
+func (f *Faker) RandomItem(array *WeightedArray) (error, string) {
 	randVal := f.rng.Float64()
 
 	if ok, val := array.Validate(); !ok {
@@ -53,17 +53,31 @@ func (f Faker) RandomItem(array *WeightedArray) (error, string) {
 }
 
 // Return a random string
-func (f Faker) RandomString(stringItems []string) string {
+func (f *Faker) RandomString(stringItems []string) string {
 
 	idx := f.IntRange(len(stringItems))
 	return stringItems[idx]
 }
 
+// Set locale
+func (f *Faker) SetLocale(locale string) {
+	f.locale = locale
+}
+
+// Faker constructors
 func New() *Faker {
 	seed := time.Now().Nanosecond()
 	return &Faker{
 		rng:    rand.New(rand.NewSource(int64(seed))),
 		locale: DefaultLocale,
+	}
+}
+
+func NewFromLocale(locale string) *Faker {
+	seed := time.Now().Nanosecond()
+	return &Faker{
+		rng:    rand.New(rand.NewSource(int64(seed))),
+		locale: locale,
 	}
 }
 

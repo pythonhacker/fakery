@@ -60,7 +60,7 @@ func (f Faker) Name() string {
 	var firstName string
 	var lastName string
 
-	localeData, _ := pdata.EnsureLoaded(f.locale)
+	localeData := pdata.EnsureLoaded(f.locale)
 
 	if f.Choice() == 0 {
 		firstName = f.RandomString(localeData.Get("first_name_male"))
@@ -101,7 +101,7 @@ func (f Faker) PersonMale() *Person {
 		return nil
 	}
 
-	localeData, _ := pdata.EnsureLoaded(f.locale)
+	localeData := pdata.EnsureLoaded(f.locale)
 
 	person.FirstName = f.RandomString(localeData.Get("first_name_male"))
 	person.LastName = f.RandomString(localeData.Get("last_name"))
@@ -129,7 +129,7 @@ func (f Faker) PersonFemale() *Person {
 		return nil
 	}
 
-	localeData, _ := pdata.EnsureLoaded(f.locale)
+	localeData := pdata.EnsureLoaded(f.locale)
 
 	person.FirstName = f.RandomString(localeData.Get("first_name_female"))
 	person.LastName = f.RandomString(localeData.Get("last_name"))

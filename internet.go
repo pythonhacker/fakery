@@ -14,7 +14,7 @@ func init() {
 }
 
 func (f Faker) GetRandomTLD() string {
-	localeData, _ := ndata.EnsureLoaded(f.locale)
+	localeData := ndata.EnsureLoaded(f.locale)
 	tldArray, _ := localeData.GetWeightedArray("common_tlds_weighted", ":")
 	_, tld := f.RandomItem(tldArray)
 
@@ -22,7 +22,7 @@ func (f Faker) GetRandomTLD() string {
 }
 
 func (f Faker) GetRandomEmailDomain() string {
-	localeData, _ := ndata.EnsureLoaded(f.locale)
+	localeData := ndata.EnsureLoaded(f.locale)
 	return f.RandomString(localeData.Get("fake_email_domains"))
 }
 

@@ -5,6 +5,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/google/uuid"
+	"log"
 	"math"
 	"os"
 	"path"
@@ -18,6 +20,7 @@ import (
 const prefix = "data/locales"
 
 type LocaleData struct {
+	id       uuid.UUID           `json:"id"`
 	once     sync.Once           `json:"-"`
 	locale   string              `json:"locale"`
 	fileName string              `json:"filename"`
@@ -27,7 +30,7 @@ type LocaleData struct {
 }
 
 type DataLoader struct {
-	localeDataMap map[string]LocaleData
+	localeDataMap map[string]*LocaleData
 }
 
 type WeightedItem struct {
@@ -81,24 +84,27 @@ func getModuleFile(relativePath string) (string, error) {
 func (loader *DataLoader) Init(locale, filePath string) *LocaleData {
 	var localeData LocaleData
 
+	log.Printf("Initializing data loader for locale: %s, filePath: %s\n", locale, filePath)
+
 	if len(loader.localeDataMap) == 0 {
-		loader.localeDataMap = make(map[string]LocaleData)
+		loader.localeDataMap = make(map[string]*LocaleData)
 	}
 
 	localeData.fileName = filePath
 	localeData.locale = locale
-	loader.localeDataMap[locale] = localeData
+	localeData.id = uuid.New()
+	loader.localeDataMap[locale] = &localeData
 
 	return &localeData
 }
 
 // Return the specific data pointer for the given locale
 func (loader *DataLoader) Get(locale string) *LocaleData {
-	var val LocaleData
+	var val *LocaleData
 	var ok bool
 
 	if val, ok = loader.localeDataMap[locale]; ok {
-		return &val
+		return val
 	}
 	return nil
 }
@@ -110,7 +116,7 @@ func (l *LocaleData) Get(key string) []string {
 	var exists bool
 
 	if val, exists = l.data[key]; !exists {
-		fmt.Printf("doesnt exist %s\n", key)
+		log.Printf("error - key doesnt exist %s\n", key)
 		return nil
 	}
 	return val
@@ -155,24 +161,32 @@ func (l *LocaleData) Load() error {
 
 	l.once.Do(func() {
 		err = l.load()
+		log.Printf("[%s]: loaded locale data once for locale:%s, filename:%s\n", l.id, l.locale, l.fileName)
 		l.loaded = true
 	})
 
 	return err
 }
 
-func (loader *DataLoader) EnsureLoaded(locale string) (*LocaleData, error) {
+// Lazy loader wrapper - loads locale data for given locale
+// once in a session whenever requested from a function
+func (loader *DataLoader) EnsureLoaded(locale string) *LocaleData {
 	localeData := loader.Get(locale)
 	if localeData == nil {
-		return nil, fmt.Errorf("locale data not initialized for locale %s", locale)
+		// this is a fatal error -we exit
+		log.Fatalf("error - locale data not initialized for locale %s", locale)
+		return nil
 	}
 
 	if !localeData.loaded {
 		err := localeData.Load()
-		return localeData, err
+		if err != nil {
+			log.Printf("error - loading locale data for locale: %s - %v\n", locale, err)
+		}
+		return localeData
 	}
 
-	return localeData, nil
+	return localeData
 }
 
 // Convert a string to a weighted array

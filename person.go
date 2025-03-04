@@ -34,6 +34,7 @@ type Person struct {
 	Suffix    string `json:"suffix,omitempty"`
 	Username  string `json:"user_name,omitempty"`
 	Email     string `json:"email"`
+	Job       string `json:"job"`
 }
 
 func (p Person) String() string {
@@ -90,6 +91,7 @@ func (f *Faker) Person() *Person {
 
 	// Fill in rest
 	person.Email = f.EmailWithName(person.FirstName, person.LastName)
+	person.Job = f.Job().Title
 	return person
 }
 

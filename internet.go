@@ -2,17 +2,28 @@
 package gofakelib
 
 import (
-	"gofakelib/data"
 	"strings"
 )
 
+var (
+	ndata DataLoader
+)
+
+func init() {
+	ndata.Init(DefaultLocale, "internet.json")
+}
+
 func (f Faker) GetRandomTLD() string {
-	_, tld := f.RandomItem(data.WeightedTLD)
+	localeData, _ := ndata.EnsureLoaded(f.locale)
+	tldArray, _ := localeData.GetWeightedArray("common_tlds_weighted", ":")
+	_, tld := f.RandomItem(tldArray)
+
 	return tld
 }
 
 func (f Faker) GetRandomEmailDomain() string {
-	return f.RandomString(data.FakeEmailDomains)
+	localeData, _ := ndata.EnsureLoaded(f.locale)
+	return f.RandomString(localeData.Get("fake_email_domains"))
 }
 
 // return random email
@@ -24,6 +35,7 @@ func (f Faker) Email() string {
 
 	name = f.Name()
 	pieces = strings.Split(name, " ")
+
 	domain = f.GetRandomEmailDomain()
 
 	if f.Choice() == 0 {

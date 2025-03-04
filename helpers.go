@@ -1,5 +1,5 @@
 // Data helpers module
-package data
+package gofakelib
 
 import (
 	"encoding/json"
@@ -12,15 +12,22 @@ import (
 	"runtime"
 	"strconv"
 	"strings"
+	"sync"
 )
 
-const prefix = "locales"
+const prefix = "data/locales"
 
-type JSONDataLoader struct {
-	Locale   string              `json:"locale"`
-	Filename string              `json:"filename"`
-	Data     map[string][]string `json:"data",omitempty"`
-	CacheKey string              `json:"cache_key,omitempty"`
+type LocaleData struct {
+	once     sync.Once           `json:"-"`
+	locale   string              `json:"locale"`
+	fileName string              `json:"filename"`
+	data     map[string][]string `json:"data",omitempty"`
+	loaded   bool                `json:"loaded"`
+	cacheKey string              `json:"cache_key,omitempty"`
+}
+
+type DataLoader struct {
+	localeDataMap map[string]LocaleData
 }
 
 type WeightedItem struct {
@@ -71,25 +78,51 @@ func getModuleFile(relativePath string) (string, error) {
 	return fullPath, nil
 }
 
+func (loader *DataLoader) Init(locale, filePath string) *LocaleData {
+	var localeData LocaleData
+
+	if len(loader.localeDataMap) == 0 {
+		loader.localeDataMap = make(map[string]LocaleData)
+	}
+
+	localeData.fileName = filePath
+	localeData.locale = locale
+	loader.localeDataMap[locale] = localeData
+
+	return &localeData
+}
+
+// Return the specific data pointer for the given locale
+func (loader *DataLoader) Get(locale string) *LocaleData {
+	var val LocaleData
+	var ok bool
+
+	if val, ok = loader.localeDataMap[locale]; ok {
+		return &val
+	}
+	return nil
+}
+
 // Fetch value of key
-func (l *JSONDataLoader) Get(key string) []string {
+func (l *LocaleData) Get(key string) []string {
 
 	var val []string
 	var exists bool
 
-	if val, exists = l.Data[key]; !exists {
+	if val, exists = l.data[key]; !exists {
 		fmt.Printf("doesnt exist %s\n", key)
 		return nil
 	}
 	return val
 }
 
-func (l *JSONDataLoader) Load(locale, fileName string) error {
+// Load the data for the given locale and fileName
+func (l *LocaleData) load() error {
 
 	var err error
 	var data []byte
 
-	relPath := path.Join(prefix, locale, fileName)
+	relPath := path.Join(prefix, l.locale, l.fileName)
 	filePath, err := getModuleFile(relPath)
 	if err != nil {
 		return err
@@ -104,18 +137,46 @@ func (l *JSONDataLoader) Load(locale, fileName string) error {
 		return err
 	}
 
-	if err = json.Unmarshal(data, &l.Data); err != nil {
+	if err = json.Unmarshal(data, &l.data); err != nil {
 		return err
 	}
-
-	l.Filename = filePath
-	l.Locale = locale
 
 	return nil
 }
 
+// Do the loading once only for every locale
+func (l *LocaleData) Load() error {
+
+	if l.fileName == "" || l.locale == "" {
+		return fmt.Errorf("error - loader not initialized")
+	}
+
+	var err error
+
+	l.once.Do(func() {
+		err = l.load()
+		l.loaded = true
+	})
+
+	return err
+}
+
+func (loader *DataLoader) EnsureLoaded(locale string) (*LocaleData, error) {
+	localeData := loader.Get(locale)
+	if localeData == nil {
+		return nil, fmt.Errorf("locale data not initialized for locale %s", locale)
+	}
+
+	if !localeData.loaded {
+		err := localeData.Load()
+		return localeData, err
+	}
+
+	return localeData, nil
+}
+
 // Convert a string to a weighted array
-func (l *JSONDataLoader) GetWeightedArray(key, sep string) (*WeightedArray, error) {
+func (l *LocaleData) GetWeightedArray(key, sep string) (*WeightedArray, error) {
 
 	var dataArray WeightedArray
 

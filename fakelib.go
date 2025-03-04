@@ -2,7 +2,6 @@ package gofakelib
 
 import (
 	"fmt"
-	"gofakelib/data"
 	"math/rand"
 	"time"
 )
@@ -12,7 +11,8 @@ import (
 // structures. E.g: Person->Name, Person->Address,
 // Person->Creditcard etc.
 type Faker struct {
-	rng *rand.Rand
+	rng    *rand.Rand
+	locale string
 }
 
 // Return an integer in the interval [0, n)
@@ -30,7 +30,7 @@ func (f Faker) Choice() int {
 }
 
 // Return a random item according to weights
-func (f Faker) RandomItem(array *data.WeightedArray) (error, string) {
+func (f Faker) RandomItem(array *WeightedArray) (error, string) {
 	randVal := f.rng.Float64()
 
 	if ok, val := array.Validate(); !ok {
@@ -62,12 +62,14 @@ func (f Faker) RandomString(stringItems []string) string {
 func New() *Faker {
 	seed := time.Now().Nanosecond()
 	return &Faker{
-		rng: rand.New(rand.NewSource(int64(seed))),
+		rng:    rand.New(rand.NewSource(int64(seed))),
+		locale: DefaultLocale,
 	}
 }
 
 func NewFromSeed(seed int64) *Faker {
 	return &Faker{
-		rng: rand.New(rand.NewSource(int64(seed))),
+		rng:    rand.New(rand.NewSource(int64(seed))),
+		locale: DefaultLocale,
 	}
 }

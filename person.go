@@ -2,7 +2,7 @@
 package gofakelib
 
 import (
-	"gofakelib/data"
+	"encoding/json"
 	"strings"
 )
 
@@ -15,6 +15,14 @@ const (
 
 var genders = []Gender{GenderMale, GenderFemale}
 
+var (
+	pdata DataLoader
+)
+
+func init() {
+	pdata.Init(DefaultLocale, "names.json")
+}
+
 type Person struct {
 	FirstName string `json:"first_name"`
 	LastName  string `json:"last_name,omitempty"`
@@ -25,8 +33,13 @@ type Person struct {
 	Email     string `json:"email"`
 }
 
-var nameFormats = data.WeightedArray{
-	Items: []data.WeightedItem{
+func (p Person) String() string {
+	val, _ := json.MarshalIndent(p, "", "\t")
+	return string(val)
+}
+
+var nameFormats = WeightedArray{
+	Items: []WeightedItem{
 		// firstName lastName format - most common
 		{Item: "{{firstName}} {{lastName}}", Weight: 0.70},
 		{Item: "{{firstName}} {{lastName}} {{suffix}}", Weight: 0.10},
@@ -47,12 +60,14 @@ func (f Faker) Name() string {
 	var firstName string
 	var lastName string
 
+	localeData, _ := pdata.EnsureLoaded(f.locale)
+
 	if f.Choice() == 0 {
-		firstName = f.RandomString(data.FirstNameMale)
+		firstName = f.RandomString(localeData.Get("first_name_male"))
 	} else {
-		firstName = f.RandomString(data.FirstNameFemale)
+		firstName = f.RandomString(localeData.Get("first_name_female"))
 	}
-	lastName = f.RandomString(data.LastName)
+	lastName = f.RandomString(localeData.Get("last_name"))
 
 	return strings.Join([]string{firstName, lastName}, " ")
 }
@@ -86,15 +101,17 @@ func (f Faker) PersonMale() *Person {
 		return nil
 	}
 
-	person.FirstName = f.RandomString(data.FirstNameMale)
-	person.LastName = f.RandomString(data.LastName)
+	localeData, _ := pdata.EnsureLoaded(f.locale)
+
+	person.FirstName = f.RandomString(localeData.Get("first_name_male"))
+	person.LastName = f.RandomString(localeData.Get("last_name"))
 
 	if strings.Contains(nameFormat, "{{prefix}}") {
-		person.Prefix = f.RandomString(data.PrefixMale)
+		person.Prefix = f.RandomString(localeData.Get("prefix_male"))
 	}
 
 	if strings.Contains(nameFormat, "{{suffix}}") {
-		person.Suffix = f.RandomString(data.SuffixMale)
+		person.Suffix = f.RandomString(localeData.Get("suffix_male"))
 	}
 
 	person.Gender = string(GenderMale)
@@ -112,15 +129,17 @@ func (f Faker) PersonFemale() *Person {
 		return nil
 	}
 
-	person.FirstName = f.RandomString(data.FirstNameFemale)
-	person.LastName = f.RandomString(data.LastName)
+	localeData, _ := pdata.EnsureLoaded(f.locale)
+
+	person.FirstName = f.RandomString(localeData.Get("first_name_female"))
+	person.LastName = f.RandomString(localeData.Get("last_name"))
 
 	if strings.Contains(nameFormat, "{{prefix}}") {
-		person.Prefix = f.RandomString(data.PrefixFemale)
+		person.Prefix = f.RandomString(localeData.Get("prefix_female"))
 	}
 
 	if strings.Contains(nameFormat, "{{suffix}}") {
-		person.Suffix = f.RandomString(data.SuffixFemale)
+		person.Suffix = f.RandomString(localeData.Get("suffix_female"))
 	}
 
 	person.Gender = string(GenderFemale)

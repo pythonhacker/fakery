@@ -76,6 +76,33 @@ func (f *Faker) Name() string {
 	return strings.Join([]string{firstName, lastName}, " ")
 }
 
+// Return random first name
+func (f *Faker) FirstName() string {
+
+	var firstName string
+
+	localeData := pdata.EnsureLoaded(f.locale)
+
+	if f.Choice() == 0 {
+		firstName = f.RandomString(localeData.Get("first_name_male"))
+	} else {
+		firstName = f.RandomString(localeData.Get("first_name_female"))
+	}
+
+	return firstName
+}
+
+// Return random last name
+func (f *Faker) LastName() string {
+
+	var lastName string
+
+	localeData := pdata.EnsureLoaded(f.locale)
+
+	lastName = f.RandomString(localeData.Get("last_name"))
+	return lastName
+}
+
 // returns a fake Person object
 func (f *Faker) Person() *Person {
 	var person *Person

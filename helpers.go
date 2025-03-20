@@ -19,6 +19,21 @@ import (
 
 const prefix = "data/locales"
 
+var MinInt = func(a, b int) int {
+	if a < b {
+		return a
+	} else {
+		return b
+	}
+}
+var MaxInt = func(a, b int) int {
+	if a > b {
+		return a
+	} else {
+		return b
+	}
+}
+
 // structure for loading locale specific data
 type LocaleData struct {
 	id       uuid.UUID           `json:"id"`
@@ -35,6 +50,9 @@ type DataLoader struct {
 	localeDataMap map[string]*LocaleData
 	// Common file path for a specific type of data
 	fileName string
+	// cached data for specific locales
+	// key is <locale>_<datakey>
+	cachedData map[string][]string
 }
 
 // structure which allows weighted data to allow
@@ -94,17 +112,35 @@ func getModuleFile(relativePath string) (string, error) {
 func (loader *DataLoader) Init(filePath string) {
 	log.Printf("Initializing data loader with filePath - %s", filePath)
 	loader.fileName = filePath
+	loader.localeDataMap = make(map[string]*LocaleData)
+}
+
+// Pre-load some data given locale and key
+func (loader *DataLoader) Preload(key, locale string) {
+	localeData := loader.Get(locale)
+	data := localeData.Get(key)
+	// cache this
+	cacheKey := fmt.Sprintf("%s_%s", locale, key)
+	loader.cachedData[cacheKey] = data
+}
+
+// Fetch pre-loaded (cached) data given locale and key
+func (loader *DataLoader) GetCached(key, locale string) []string {
+	var val []string
+	var exists bool
+
+	cacheKey := fmt.Sprintf("%s_%s", locale, key)
+	if val, exists = loader.cachedData[cacheKey]; !exists {
+		log.Printf("error - key doesnt exist %s\n", cacheKey)
+		return nil
+	}
+	return val
 }
 
 // Return or initialize the specific data pointer for the given locale
 func (loader *DataLoader) Get(locale string) *LocaleData {
 	var val *LocaleData
 	var ok bool
-
-	// first time call
-	if len(loader.localeDataMap) == 0 {
-		loader.localeDataMap = make(map[string]*LocaleData)
-	}
 
 	// already inited
 	if val, ok = loader.localeDataMap[locale]; ok {
@@ -227,4 +263,50 @@ func (l *LocaleData) GetWeightedArray(key, sep string) (*WeightedArray, error) {
 	}
 
 	return &dataArray, nil
+}
+
+func filterByLength(in []string, minLength int) []string {
+	var filteredStrings []string
+
+	for _, elem := range in {
+		if len(elem) < minLength {
+			continue
+		}
+		filteredStrings = append(filteredStrings, elem)
+	}
+
+	return filteredStrings
+
+}
+
+// Split a string at a vowel returning
+// the two pieces, none smaller than 2 chars
+func splitVowel(in string) []string {
+
+	vowelMap := map[string]bool{
+		"a": true,
+		"e": true,
+		"i": true,
+		"o": true,
+		"u": true,
+	}
+
+	// replace any spaces
+	if len(strings.Split(in, " ")) > 1 {
+		// join em
+		in = strings.Join(strings.Split(in, " "), "")
+	}
+
+	var pieces []string
+
+	for idx, subs := range strings.Split(in, "") {
+		if _, ok := vowelMap[subs]; ok && idx > 1 && idx < len(in) {
+			subs1 := in[:idx]
+			subs2 := in[idx:]
+			pieces = append(pieces, subs1)
+			pieces = append(pieces, subs2)
+		}
+	}
+
+	return pieces
 }

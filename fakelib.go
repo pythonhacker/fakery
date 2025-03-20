@@ -1,7 +1,9 @@
 package gofakelib
 
 import (
+	"encoding/json"
 	"fmt"
+	"math"
 	"math/rand"
 	"strings"
 	"time"
@@ -9,6 +11,13 @@ import (
 
 const upperAlpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 const lowerAlpha = "abcdefghijklmnopqrstuvwxy"
+
+type Base struct{}
+
+func (b *Base) String() string {
+	val, _ := json.MarshalIndent(b, "", "\t")
+	return string(val)
+}
 
 // We will use the format of having a few top level
 // structures and associating field data to those
@@ -27,6 +36,27 @@ func (f *Faker) IntRange(n int) int {
 // Return a random digit in range 0..9
 func (f *Faker) RandDigit() int {
 	return f.IntRange(9999) % 10
+}
+
+// Random integer between x and y, y>x
+func (f *Faker) RandIntBetween(x, y int) int {
+	if y < x {
+		return 0
+	}
+	return x + f.IntRange(y-x)
+}
+
+// Return fake random float in range of (x, y)
+func (f *Faker) RandFloat(maxDecimals, x, y int) float64 {
+	value := float64(f.RandIntBetween(x, y-1))
+	if maxDecimals < 1 {
+		return value
+	}
+
+	p := int(math.Pow10(maxDecimals))
+	decimals := float64(f.RandIntBetween(0, p)) / float64(p)
+
+	return value + decimals
 }
 
 // Return a random digit in range 1..9

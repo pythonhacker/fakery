@@ -21,6 +21,7 @@ func main() {
 	fmt.Println(f.PostCode())
 	fmt.Println("*********")
 	fmt.Println(f.Address())
+	fmt.Println(f.Beer())
 	//	f.SetLocale("en_GB")
 
 	//	fmt.Println(f.Name())

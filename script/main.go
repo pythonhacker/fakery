@@ -22,6 +22,7 @@ func main() {
 	fmt.Println("*********")
 	fmt.Println(f.Address())
 	fmt.Println(f.Beer())
+	fmt.Println(f.Wine())
 	//	f.SetLocale("en_GB")
 
 	//	fmt.Println(f.Name())

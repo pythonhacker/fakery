@@ -2,7 +2,6 @@
 package gofakelib
 
 import (
-	"encoding/json"
 	"strings"
 )
 
@@ -35,11 +34,11 @@ type Person struct {
 	Username  string `json:"user_name,omitempty"`
 	Email     string `json:"email"`
 	Job       string `json:"job"`
+	Base
 }
 
 func (p Person) String() string {
-	val, _ := json.MarshalIndent(p, "", "\t")
-	return string(val)
+	return p.Base.String(p)
 }
 
 var nameFormats = WeightedArray{

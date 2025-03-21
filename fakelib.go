@@ -14,8 +14,8 @@ const lowerAlpha = "abcdefghijklmnopqrstuvwxy"
 
 type Base struct{}
 
-func (b *Base) String() string {
-	val, _ := json.MarshalIndent(b, "", "\t")
+func (b Base) String(v interface{}) string {
+	val, _ := json.MarshalIndent(v, "", "\t")
 	return string(val)
 }
 

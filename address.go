@@ -2,7 +2,6 @@
 package gofakelib
 
 import (
-	"encoding/json"
 	"fmt"
 	"strings"
 )
@@ -26,11 +25,11 @@ type Address struct {
 	Country    string `json:"country"`               // Scotland
 
 	FullAddress string `json:"full_address"` // Full address
+	Base
 }
 
 func (a Address) String() string {
-	val, _ := json.MarshalIndent(a, "", "\t")
-	return string(val)
+	return a.Base.String(a)
 }
 
 var cityFormats = WeightedArray{

@@ -2,7 +2,6 @@
 package gofakelib
 
 import (
-	"encoding/json"
 	"fmt"
 	"strconv"
 )
@@ -23,11 +22,11 @@ type Beer struct {
 	Ibu     string `json:"ibu"`
 	Blg     string `json:"blg"`
 	Alcohol string `json:"alcohol"`
+	Base
 }
 
 func (b Beer) String() string {
-	val, _ := json.MarshalIndent(b, "", "\t")
-	return string(val)
+	return b.Base.String(b)
 }
 
 func (f *Faker) BeerName() string {

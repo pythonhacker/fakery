@@ -2,7 +2,6 @@
 package gofakelib
 
 import (
-	"encoding/json"
 	"fmt"
 	"strconv"
 	"strings"
@@ -17,6 +16,7 @@ func init() {
 	wdata.Init("wine.json")
 }
 
+// Wine structure and wine data - courtesy ChatGPT.
 type Wine struct {
 	Name      string `json:"name"`      // Example: "Chateau Soleil Rouge"
 	Varietal  string `json:"varietal"`  // Example: "Cabernet Sauvignon"
@@ -28,11 +28,11 @@ type Wine struct {
 	Acidity   string `json:"acidity"`   // Example: "Medium"
 	Tannins   string `json:"tannins"`   // Example: "High"
 	Sweetness string `json:"sweetness"` // Example: "Dry"
+	Base
 }
 
 func (w Wine) String() string {
-	val, _ := json.MarshalIndent(w, "", "\t")
-	return string(val)
+	return w.Base.String(w)
 }
 
 func (f *Faker) WineName() string {

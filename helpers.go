@@ -36,23 +36,24 @@ var MaxInt = func(a, b int) int {
 
 // structure for loading locale specific data
 type LocaleData struct {
-	id       uuid.UUID           `json:"id"`
-	once     sync.Once           `json:"-"`
-	locale   string              `json:"locale"`
-	fileName string              `json:"filename"`
-	data     map[string][]string `json:"data",omitempty"`
-	loaded   bool                `json:"loaded"`
-	cacheKey string              `json:"cache_key,omitempty"`
+	id       uuid.UUID `json:"id"`
+	once     sync.Once `json:"-"`
+	locale   string    `json:"locale"`
+	fileName string    `json:"filename"`
+	// Most data is string array
+	data map[string][]string `json:"data,omitempty"`
+	// Some data is a map e.g: currency without specific top level keys
+	dataMap []map[string]string `json:"data_map,omitempty"`
+	loaded  bool                `json:"loaded"`
+	isMap   bool                `json:"is_map"`
 }
 
 // structure mapping locales to locale data
 type DataLoader struct {
 	localeDataMap map[string]*LocaleData
+	configIsMap   map[string]bool
 	// Common file path for a specific type of data
 	fileName string
-	// cached data for specific locales
-	// key is <locale>_<datakey>
-	cachedData map[string][]string
 }
 
 // structure which allows weighted data to allow
@@ -113,6 +114,12 @@ func (loader *DataLoader) Init(filePath string) {
 	//	log.Printf("Initializing data loader with filePath - %s", filePath)
 	loader.fileName = filePath
 	loader.localeDataMap = make(map[string]*LocaleData)
+	loader.configIsMap = make(map[string]bool)
+}
+
+// Configure that the locale's data is map data
+func (loader *DataLoader) SetIsMap(locale string) {
+	loader.configIsMap[locale] = true
 }
 
 // Preload data for a given locale
@@ -150,6 +157,7 @@ func (loader *DataLoader) Get(locale string) *LocaleData {
 	newVal.fileName = loader.fileName
 	newVal.locale = locale
 	newVal.id = uuid.New()
+	newVal.isMap, _ = loader.configIsMap[locale]
 	loader.localeDataMap[locale] = &newVal
 
 	return &newVal
@@ -191,6 +199,11 @@ func (l *LocaleData) Get(key string) []string {
 	return val
 }
 
+// Fetch random data item from map
+func (l *LocaleData) RandomItem(f *Faker) map[string]string {
+	return l.dataMap[f.IntRange(len(l.dataMap))]
+}
+
 // Load the data for the given locale and fileName
 func (l *LocaleData) load() error {
 
@@ -212,7 +225,13 @@ func (l *LocaleData) load() error {
 		return err
 	}
 
-	if err = json.Unmarshal(data, &l.data); err != nil {
+	// Is the data a map ?
+	if l.isMap {
+		if err = json.Unmarshal(data, &l.dataMap); err != nil {
+			return err
+		}
+
+	} else if err = json.Unmarshal(data, &l.data); err != nil {
 		return err
 	}
 

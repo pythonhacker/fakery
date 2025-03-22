@@ -117,6 +117,12 @@ func (f *Faker) RandomItem(array *WeightedArray) (error, string) {
 	return nil, array.Items[len(array.Items)-1].Item
 }
 
+// Return one of any two strings in a string array
+// Use only when the array has two items
+func (f *Faker) OneOf(choices []string) string {
+	return choices[f.Choice()]
+}
+
 // Return a random string
 func (f *Faker) RandomString(stringItems []string) string {
 

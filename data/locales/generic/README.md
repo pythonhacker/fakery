@@ -3,4 +3,4 @@
 3. beer - From ChatGPT and internet and partly from github.com/jaswdr/faker 
 4. wine - From ChatGPT alone.
 5. address - From multiple sources including random data from ChatGPT and claude.
-
+6. currency - Generated from Claude.

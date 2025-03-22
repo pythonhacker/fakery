@@ -15,16 +15,15 @@ func init() {
 
 // Internet data belongs to generic locale
 func (f Faker) GetRandomTLD() string {
-	localeData := ndata.EnsureLoaded(GenericLocale)
-	tldArray, _ := localeData.GetWeightedArray("common_tlds_weighted", ":")
+
+	tldArray, _ := f.LoadGenericLocale(&ndata).GetWeightedArray("common_tlds_weighted", ":")
 	_, tld := f.RandomItem(tldArray)
 
 	return tld
 }
 
 func (f Faker) GetRandomEmailDomain() string {
-	localeData := ndata.EnsureLoaded(GenericLocale)
-	return f.RandomString(localeData.Get("fake_email_domains"))
+	return f.RandomString(f.LoadGenericLocale(&ndata).Get("fake_email_domains"))
 }
 
 // return random email

@@ -9,11 +9,14 @@ import (
 )
 
 var (
-	wdata DataLoader
+	wdata    DataLoader
+	wineData WineData
 )
 
 func init() {
 	wdata.Init("wine.json")
+	// Convert to structure
+	ConvertMapToStruct(wdata.Preload(GenericLocale), &wineData)
 }
 
 // Wine structure and wine data - courtesy ChatGPT.
@@ -31,43 +34,47 @@ type Wine struct {
 	Base
 }
 
+// Structure representing loaded wine data
+type WineData struct {
+	WineNames     []string `json:"wine_names"`
+	WineVarietals []string `json:"wine_varietals"`
+	WineRegions   []string `json:"wine_regions"`
+	WineBodies    []string `json:"wine_bodies"`
+	WineAcidities []string `json:"wine_acidities"`
+	WineTannins   []string `json:"wine_tannins"`
+	WineSweetness []string `json:"wine_sweetness"`
+}
+
 func (w Wine) String() string {
 	return w.Base.String(w)
 }
 
 func (f *Faker) WineName() string {
-	localeData := wdata.EnsureLoaded(GenericLocale)
-	return f.RandomString(localeData.Get("wine_names"))
+	return f.RandomString(wineData.WineNames)
 }
 
 func (f *Faker) WineVarietal() string {
-	localeData := wdata.EnsureLoaded(GenericLocale)
-	return f.RandomString(localeData.Get("wine_varietals"))
+	return f.RandomString(wineData.WineVarietals)
 }
 
 func (f *Faker) WineRegion() string {
-	localeData := wdata.EnsureLoaded(GenericLocale)
-	return f.RandomString(localeData.Get("wine_regions"))
+	return f.RandomString(wineData.WineRegions)
 }
 
 func (f *Faker) WineBody() string {
-	localeData := wdata.EnsureLoaded(GenericLocale)
-	return f.RandomString(localeData.Get("wine_bodies"))
+	return f.RandomString(wineData.WineBodies)
 }
 
 func (f *Faker) WineAcidity() string {
-	localeData := wdata.EnsureLoaded(GenericLocale)
-	return f.RandomString(localeData.Get("wine_acidities"))
+	return f.RandomString(wineData.WineAcidities)
 }
 
 func (f *Faker) WineTannins() string {
-	localeData := wdata.EnsureLoaded(GenericLocale)
-	return f.RandomString(localeData.Get("wine_tannins"))
+	return f.RandomString(wineData.WineTannins)
 }
 
 func (f *Faker) WineSweetness() string {
-	localeData := wdata.EnsureLoaded(GenericLocale)
-	return f.RandomString(localeData.Get("wine_sweetness"))
+	return f.RandomString(wineData.WineSweetness)
 }
 
 func (f *Faker) WineVintage() string {

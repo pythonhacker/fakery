@@ -7,11 +7,16 @@ import (
 )
 
 var (
-	bdata DataLoader
+	bdata    DataLoader
+	beerData BeerData
 )
 
 func init() {
+	// Preload since this is all generic data
 	bdata.Init("beer.json")
+	dataMap := bdata.Preload(GenericLocale)
+	// Convert to structure
+	ConvertMapToStruct(dataMap, &beerData)
 }
 
 type Beer struct {
@@ -25,28 +30,32 @@ type Beer struct {
 	Base
 }
 
+// Structure representing loaded beer data
+type BeerData struct {
+	BeerNames  []string `json:"beer_names"`
+	BeerStyles []string `json:"beer_styles"`
+	BeerHops   []string `json:"beer_hops"`
+	BeerMalts  []string `json:"beer_malts"`
+}
+
 func (b Beer) String() string {
 	return b.Base.String(b)
 }
 
 func (f *Faker) BeerName() string {
-	localeData := bdata.EnsureLoaded(GenericLocale)
-	return f.RandomString(localeData.Get("beer_names"))
+	return f.RandomString(beerData.BeerNames)
 }
 
 func (f *Faker) BeerStyle() string {
-	localeData := bdata.EnsureLoaded(GenericLocale)
-	return f.RandomString(localeData.Get("beer_styles"))
+	return f.RandomString(beerData.BeerStyles)
 }
 
 func (f *Faker) BeerHops() string {
-	localeData := bdata.EnsureLoaded(GenericLocale)
-	return fmt.Sprintf("%s Hops", f.RandomString(localeData.Get("beer_hops")))
+	return fmt.Sprintf("%s Hops", f.RandomString(beerData.BeerHops))
 }
 
 func (f *Faker) BeerMalt() string {
-	localeData := bdata.EnsureLoaded(GenericLocale)
-	return fmt.Sprintf("%s Malt", f.RandomString(localeData.Get("beer_malts")))
+	return fmt.Sprintf("%s Malt", f.RandomString(beerData.BeerMalts))
 }
 
 func (f *Faker) BeerAlcohol() string {

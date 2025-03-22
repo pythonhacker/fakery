@@ -12,6 +12,7 @@ import (
 const upperAlpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 const lowerAlpha = "abcdefghijklmnopqrstuvwxy"
 
+// Base is the base class for data types, not Faker
 type Base struct{}
 
 func (b Base) String(v interface{}) string {
@@ -26,6 +27,21 @@ func (b Base) String(v interface{}) string {
 type Faker struct {
 	rng    *rand.Rand
 	locale string
+	// Cached locale data
+	data *LocaleData
+}
+
+// Wrapper function to load locale data
+// at any given time a faker instance is associated with
+// only one state mapping to its current request
+// so keep this state locally is safe.
+func (f *Faker) LoadLocale(l *DataLoader) *LocaleData {
+	return l.EnsureLoaded(f.locale)
+}
+
+// Wrapper function to load generic locale data
+func (f *Faker) LoadGenericLocale(l *DataLoader) *LocaleData {
+	return l.EnsureLoaded(GenericLocale)
 }
 
 // Return an integer in the interval [0, n)

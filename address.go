@@ -52,7 +52,7 @@ var zipCode = []string{"#####", "#####-####"}
 
 // Return a random fake city
 func (f *Faker) City() string {
-	localeData := adata.EnsureLoaded(GenericLocale)
+	data := f.LoadGenericLocale(&adata)
 
 	err, cityFormat := f.RandomItem(&cityFormats)
 	if err != nil {
@@ -60,7 +60,7 @@ func (f *Faker) City() string {
 	}
 	// Get random prefix
 	if strings.Contains(cityFormat, "{{cityPrefix}}") {
-		cityFormat = strings.Replace(cityFormat, "{{cityPrefix}}", f.RandomString(localeData.Get("city_prefixes")), 1)
+		cityFormat = strings.Replace(cityFormat, "{{cityPrefix}}", f.RandomString(data.Get("city_prefixes")), 1)
 	}
 	if strings.Contains(cityFormat, "{{firstName}}") {
 		cityFormat = strings.Replace(cityFormat, "{{firstName}}", f.FirstName(), 1)
@@ -68,7 +68,7 @@ func (f *Faker) City() string {
 		cityFormat = strings.Replace(cityFormat, "{{lastName}}", f.LastName(), 1)
 	}
 	if strings.Contains(cityFormat, "{{citySuffix}}") {
-		cityFormat = strings.Replace(cityFormat, "{{citySuffix}}", f.RandomString(localeData.Get("city_suffixes")), 1)
+		cityFormat = strings.Replace(cityFormat, "{{citySuffix}}", f.RandomString(data.Get("city_suffixes")), 1)
 	}
 
 	return cityFormat
@@ -97,14 +97,15 @@ func (f *Faker) BuildingNumber() string {
 func (f *Faker) BuildingName() string {
 
 	var namePieces []string
-	localeData := adata.EnsureLoaded(GenericLocale)
+
+	data := f.LoadGenericLocale(&adata)
 
 	if f.Choice() == 1 {
 		namePieces = append(namePieces, f.FirstName())
 	} else {
 		namePieces = append(namePieces, f.LastName())
 	}
-	suffix := f.RandomString(localeData.Get("building_suffixes"))
+	suffix := f.RandomString(data.Get("building_suffixes"))
 	namePieces = append(namePieces, suffix)
 
 	return strings.Join(namePieces, " ")
@@ -114,9 +115,8 @@ func (f *Faker) BuildingName() string {
 func (f *Faker) StreetName() string {
 
 	var name string
-	localeData := adata.EnsureLoaded(GenericLocale)
 
-	suffix := f.RandomString(localeData.Get("street_suffixes"))
+	suffix := f.RandomString(f.LoadGenericLocale(&adata).Get("street_suffixes"))
 
 	if f.Choice() == 1 {
 		name = f.FirstName()
@@ -155,14 +155,13 @@ func (f *Faker) StreetAddress() string {
 
 // Random two letter state abbreviation
 func (f *Faker) StateAbbr() string {
-	localeData := adata.EnsureLoaded(f.locale)
-	return f.RandomString(localeData.Get("state_abbrevs"))
+	return f.RandomString(f.LoadLocale(&adata).Get("state_abbrevs"))
 }
 
 // Random state
 func (f *Faker) State() string {
-	localeData := adata.EnsureLoaded(f.locale)
-	states := localeData.Get("states")
+	// states is specific to
+	states := f.LoadLocale(&adata).Get("states")
 	return f.RandomString(states)
 }
 
@@ -178,8 +177,7 @@ func (f *Faker) ZipCode() string {
 }
 
 func (f *Faker) Country() string {
-	localeData := adata.EnsureLoaded(GenericLocale)
-	return f.RandomString(localeData.Get("countries"))
+	return f.RandomString(f.LoadGenericLocale(&adata).Get("countries"))
 }
 
 func (f *Faker) Address() *Address {
@@ -205,7 +203,7 @@ func (f *Faker) Address() *Address {
 	}
 
 	// get matching country of locale
-	a.Country = getCountry(f.locale)
+	a.Country = f.getCountry()
 	if a.Building != "" {
 		a.FullAddress = fmt.Sprintf("%s %s, %s, %s - %s, %s, %s", a.Number, a.Building, a.Street, a.City, code, a.State, a.Country)
 	} else {
@@ -214,10 +212,10 @@ func (f *Faker) Address() *Address {
 	return &a
 }
 
-// Random state - not used
+// Random State - not used
 func (f *Faker) FakeState() string {
-	localeData := adata.EnsureLoaded(f.locale)
-	states := localeData.Get("states")
+
+	states := f.LoadLocale(&adata).Get("states")
 
 	// Remove any state <= 4 in length
 	states = filterByLength(states, 5)
@@ -262,19 +260,19 @@ func (f *Faker) FakeState() string {
 }
 
 // given locale get the country
-func getCountry(locale string) string {
+func (f *Faker) getCountry() string {
 
 	// Split the locale by underscore
-	parts := strings.Split(locale, "_")
+	parts := strings.Split(f.locale, "_")
 
 	// Validate format
 	if len(parts) != 2 {
 		return ""
 	}
 
-	localeData := adata.EnsureLoaded(GenericLocale)
-	countryCodes := localeData.Get("country_codes")
-	countries := localeData.Get("countries")
+	data := f.LoadGenericLocale(&adata)
+	countryCodes := data.Get("country_codes")
+	countries := data.Get("countries")
 
 	// Extract the country code and convert to uppercase
 	countryCode := strings.ToUpper(parts[1])

@@ -110,31 +110,28 @@ func getModuleFile(relativePath string) (string, error) {
 // Initialize the data loader with a locale and filePath
 // every facet of data is associated with a unqiue {locale, filePath} tuple
 func (loader *DataLoader) Init(filePath string) {
-	log.Printf("Initializing data loader with filePath - %s", filePath)
+	//	log.Printf("Initializing data loader with filePath - %s", filePath)
 	loader.fileName = filePath
 	loader.localeDataMap = make(map[string]*LocaleData)
 }
 
-// Pre-load some data given locale and key
-func (loader *DataLoader) Preload(key, locale string) {
-	localeData := loader.Get(locale)
-	data := localeData.Get(key)
-	// cache this
-	cacheKey := fmt.Sprintf("%s_%s", locale, key)
-	loader.cachedData[cacheKey] = data
-}
+// Preload data for a given locale
+func (loader *DataLoader) Preload(locale string) map[string]interface{} {
 
-// Fetch pre-loaded (cached) data given locale and key
-func (loader *DataLoader) GetCached(key, locale string) []string {
-	var val []string
-	var exists bool
+	var data map[string]interface{}
 
-	cacheKey := fmt.Sprintf("%s_%s", locale, key)
-	if val, exists = loader.cachedData[cacheKey]; !exists {
-		log.Printf("error - key doesnt exist %s\n", cacheKey)
+	localeData := loader.EnsureLoaded(locale)
+	if localeData == nil {
 		return nil
 	}
-	return val
+
+	data = make(map[string]interface{})
+	// Load all keys
+	for key, val := range localeData.data {
+		data[key] = val
+	}
+
+	return data
 }
 
 // Return or initialize the specific data pointer for the given locale
@@ -233,7 +230,7 @@ func (l *LocaleData) Load() error {
 
 	l.once.Do(func() {
 		err = l.load()
-		log.Printf("[%s]: loaded locale data once for locale:%s, filename:%s\n", l.id, l.locale, l.fileName)
+		// log.Printf("[%s]: loaded locale data once for locale:%s, filename:%s\n", l.id, l.locale, l.fileName)
 		l.loaded = true
 	})
 
@@ -265,6 +262,8 @@ func (l *LocaleData) GetWeightedArray(key, sep string) (*WeightedArray, error) {
 	return &dataArray, nil
 }
 
+// Filter an array of strings by length. Only strings
+// with length >= minLength is returned in the return array
 func filterByLength(in []string, minLength int) []string {
 	var filteredStrings []string
 
@@ -309,4 +308,20 @@ func splitVowel(in string) []string {
 	}
 
 	return pieces
+}
+
+func ConvertMapToStruct(data map[string]interface{}, result interface{}) error {
+	// Marshal map into JSON
+	jsonData, err := json.Marshal(data)
+	if err != nil {
+		return err
+	}
+
+	// Unmarshal JSON into the struct
+	err = json.Unmarshal(jsonData, result)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

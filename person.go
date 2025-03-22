@@ -15,13 +15,15 @@ const (
 var genders = []Gender{GenderMale, GenderFemale}
 
 var (
-	pdata DataLoader
+	pdata     DataLoader
+	namesData NamesData
 )
 
 func init() {
 	pdata.Init("names.json")
 }
 
+// Struct describing a person
 type Person struct {
 	Name string `json:"name"`
 	// full name with suffix prefix and all
@@ -35,6 +37,17 @@ type Person struct {
 	Email     string `json:"email"`
 	Job       string `json:"job"`
 	Base
+}
+
+// All data representing names
+type NamesData struct {
+	FirstNameMale   []string
+	FirstNameFemale []string
+	LastName        []string
+	PrefixFemale    []string
+	PrefixMale      []string
+	SuffixMale      []string
+	SuffixFemale    []string
 }
 
 func (p Person) String() string {
@@ -63,14 +76,14 @@ func (f *Faker) Name() string {
 	var firstName string
 	var lastName string
 
-	localeData := pdata.EnsureLoaded(f.locale)
+	data := f.LoadLocale(&pdata)
 
 	if f.Choice() == 0 {
-		firstName = f.RandomString(localeData.Get("first_name_male"))
+		firstName = f.RandomString(data.Get("first_name_male"))
 	} else {
-		firstName = f.RandomString(localeData.Get("first_name_female"))
+		firstName = f.RandomString(data.Get("first_name_female"))
 	}
-	lastName = f.RandomString(localeData.Get("last_name"))
+	lastName = f.RandomString(data.Get("last_name"))
 
 	return strings.Join([]string{firstName, lastName}, " ")
 }
@@ -80,12 +93,12 @@ func (f *Faker) FirstName() string {
 
 	var firstName string
 
-	localeData := pdata.EnsureLoaded(f.locale)
+	data := f.LoadLocale(&pdata)
 
 	if f.Choice() == 0 {
-		firstName = f.RandomString(localeData.Get("first_name_male"))
+		firstName = f.RandomString(data.Get("first_name_male"))
 	} else {
-		firstName = f.RandomString(localeData.Get("first_name_female"))
+		firstName = f.RandomString(data.Get("first_name_female"))
 	}
 
 	return firstName
@@ -96,9 +109,9 @@ func (f *Faker) LastName() string {
 
 	var lastName string
 
-	localeData := pdata.EnsureLoaded(f.locale)
+	data := f.LoadLocale(&pdata)
 
-	lastName = f.RandomString(localeData.Get("last_name"))
+	lastName = f.RandomString(data.Get("last_name"))
 	return lastName
 }
 
@@ -133,22 +146,22 @@ func (f *Faker) PersonMale() *Person {
 		return nil
 	}
 
-	localeData := pdata.EnsureLoaded(f.locale)
+	data := f.LoadLocale(&pdata)
 
 	if strings.Contains(nameFormat, "{{prefix}}") {
-		person.Prefix = f.RandomString(localeData.Get("prefix_male"))
+		person.Prefix = f.RandomString(data.Get("prefix_male"))
 		namePieces = append(namePieces, person.Prefix)
 	}
 
-	person.FirstName = f.RandomString(localeData.Get("first_name_male"))
-	person.LastName = f.RandomString(localeData.Get("last_name"))
+	person.FirstName = f.RandomString(data.Get("first_name_male"))
+	person.LastName = f.RandomString(data.Get("last_name"))
 	person.Name = strings.Join([]string{person.FirstName, person.LastName}, " ")
 
 	namePieces = append(namePieces, person.FirstName)
 	namePieces = append(namePieces, person.LastName)
 
 	if strings.Contains(nameFormat, "{{suffix}}") {
-		person.Suffix = f.RandomString(localeData.Get("suffix_male"))
+		person.Suffix = f.RandomString(data.Get("suffix_male"))
 		namePieces = append(namePieces, person.Suffix)
 	}
 
@@ -169,22 +182,22 @@ func (f *Faker) PersonFemale() *Person {
 		return nil
 	}
 
-	localeData := pdata.EnsureLoaded(f.locale)
+	data := f.LoadLocale(&pdata)
 
 	if strings.Contains(nameFormat, "{{prefix}}") {
-		person.Prefix = f.RandomString(localeData.Get("prefix_female"))
+		person.Prefix = f.RandomString(data.Get("prefix_female"))
 		namePieces = append(namePieces, person.Prefix)
 	}
 
-	person.FirstName = f.RandomString(localeData.Get("first_name_female"))
-	person.LastName = f.RandomString(localeData.Get("last_name"))
+	person.FirstName = f.RandomString(data.Get("first_name_female"))
+	person.LastName = f.RandomString(data.Get("last_name"))
 	person.Name = strings.Join([]string{person.FirstName, person.LastName}, " ")
 
 	namePieces = append(namePieces, person.FirstName)
 	namePieces = append(namePieces, person.LastName)
 
 	if strings.Contains(nameFormat, "{{suffix}}") {
-		person.Suffix = f.RandomString(localeData.Get("suffix_female"))
+		person.Suffix = f.RandomString(data.Get("suffix_female"))
 		namePieces = append(namePieces, person.Suffix)
 	}
 

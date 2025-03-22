@@ -16,9 +16,8 @@ type Job struct {
 func (f *Faker) Job() *Job {
 	var job string
 
-	// job data is not locale specific
-	localeData := jdata.EnsureLoaded(GenericLocale)
-	job = f.RandomString(localeData.Get("jobs"))
+	data := f.LoadGenericLocale(&jdata)
+	job = f.RandomString(data.Get("jobs"))
 	// Right now not handling profession
 	return &Job{Title: job}
 }

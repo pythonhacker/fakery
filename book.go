@@ -372,7 +372,7 @@ func (f *Faker) BookFormat() string {
 }
 
 func (f *Faker) BookYear() int {
-	return f.RandIntBetween(1970, time.Now().Year()-1)
+	return f.RandIntBetween(1980, time.Now().Year()-1)
 }
 
 func (f *Faker) BookISBN() string {

@@ -6,24 +6,24 @@ import (
 )
 
 var (
-	ndata DataLoader
+	netLoader DataLoader
 )
 
 func init() {
-	ndata.Init("internet.json")
+	netLoader.Init("internet.json")
 }
 
 // Internet data belongs to generic locale
 func (f Faker) GetRandomTLD() string {
 
-	tldArray, _ := f.LoadGenericLocale(&ndata).GetWeightedArray("common_tlds_weighted", ":")
-	_, tld := f.RandomItem(tldArray)
+	tldArray, _ := f.LoadGenericLocale(&netLoader).GetWeightedArray("common_tlds_weighted", ":")
+	tld, _ := f.RandomItem(tldArray)
 
 	return tld
 }
 
 func (f Faker) GetRandomEmailDomain() string {
-	return f.RandomString(f.LoadGenericLocale(&ndata).Get("fake_email_domains"))
+	return f.RandomString(f.LoadGenericLocale(&netLoader).Get("fake_email_domains"))
 }
 
 // return random email

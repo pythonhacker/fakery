@@ -1,10 +1,10 @@
 // Functions related to a person's job but managed in separate data source
 package gofakelib
 
-var jdata DataLoader
+var jobLoader DataLoader
 
 func init() {
-	jdata.Init("jobs.json")
+	jobLoader.Init("jobs.json")
 }
 
 type Job struct {
@@ -16,7 +16,7 @@ type Job struct {
 func (f *Faker) Job() *Job {
 	var job string
 
-	data := f.LoadGenericLocale(&jdata)
+	data := f.LoadGenericLocale(&jobLoader)
 	job = f.RandomString(data.Get("jobs"))
 	// Right now not handling profession
 	return &Job{Title: job}

@@ -1,13 +1,13 @@
 package gofakelib
 
 var (
-	cdata DataLoader
+	currencyLoader DataLoader
 )
 
 func init() {
-	cdata.Init("currency.json")
+	currencyLoader.Init("currency.json")
 	// Indicate the data is an array of maps for generic locale
-	cdata.SetIsMap(GenericLocale)
+	currencyLoader.SetIsMap(GenericLocale)
 }
 
 type Currency struct {
@@ -23,17 +23,17 @@ func (c Currency) String() string {
 }
 
 func (f *Faker) CurrencyCode() string {
-	item := f.LoadGenericLocale(&cdata).RandomItem(f)
+	item := f.LoadGenericLocale(&currencyLoader).RandomItem(f)
 	return item["code"]
 }
 
 func (f *Faker) CurrencyName() string {
-	item := f.LoadGenericLocale(&cdata).RandomItem(f)
+	item := f.LoadGenericLocale(&currencyLoader).RandomItem(f)
 	return item["currency"]
 }
 
 func (f *Faker) CurrencyCountry() string {
-	item := f.LoadGenericLocale(&cdata).RandomItem(f)
+	item := f.LoadGenericLocale(&currencyLoader).RandomItem(f)
 	return item["country"]
 }
 
@@ -41,7 +41,7 @@ func (f *Faker) Currency() *Currency {
 	var c Currency
 
 	// The data has to be consistent
-	item := f.LoadGenericLocale(&cdata).RandomItem(f)
+	item := f.LoadGenericLocale(&currencyLoader).RandomItem(f)
 	c.Name = item["currency"]
 	c.Code = item["code"]
 	c.Country = item["country"]

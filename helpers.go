@@ -283,7 +283,7 @@ func (l *LocaleData) GetWeightedArray(key, sep string) (*WeightedArray, error) {
 
 // Filter an array of strings by length. Only strings
 // with length >= minLength is returned in the return array
-func filterByLength(in []string, minLength int) []string {
+func FilterByLength(in []string, minLength int) []string {
 	var filteredStrings []string
 
 	for _, elem := range in {
@@ -299,7 +299,7 @@ func filterByLength(in []string, minLength int) []string {
 
 // Split a string at a vowel returning
 // the two pieces, none smaller than 2 chars
-func splitVowel(in string) []string {
+func SplitVowel(in string) []string {
 
 	vowelMap := map[string]bool{
 		"a": true,
@@ -327,6 +327,24 @@ func splitVowel(in string) []string {
 	}
 
 	return pieces
+}
+
+func startsWithVowel(in string) bool {
+	return strings.Contains("AEIOU", string(in[0]))
+}
+
+// determine article depending on following word
+func DetermineArticle(following string, f *Faker) string {
+	var article = "a"
+	if startsWithVowel(following) {
+		if f.Choice() == 1 {
+			article = "an"
+		} else {
+			article = "the"
+		}
+	}
+
+	return article
 }
 
 func ConvertMapToStruct(data map[string]interface{}, result interface{}) error {

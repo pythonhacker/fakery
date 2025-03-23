@@ -15,12 +15,12 @@ const (
 var genders = []Gender{GenderMale, GenderFemale}
 
 var (
-	pdata     DataLoader
-	namesData NamesData
+	personLoader DataLoader
+	namesData    NamesData
 )
 
 func init() {
-	pdata.Init("names.json")
+	personLoader.Init("names.json")
 }
 
 // Struct describing a person
@@ -76,7 +76,7 @@ func (f *Faker) Name() string {
 	var firstName string
 	var lastName string
 
-	data := f.LoadLocale(&pdata)
+	data := f.LoadLocale(&personLoader)
 
 	if f.Choice() == 0 {
 		firstName = f.RandomString(data.Get("first_name_male"))
@@ -93,7 +93,7 @@ func (f *Faker) FirstName() string {
 
 	var firstName string
 
-	data := f.LoadLocale(&pdata)
+	data := f.LoadLocale(&personLoader)
 
 	if f.Choice() == 0 {
 		firstName = f.RandomString(data.Get("first_name_male"))
@@ -109,7 +109,7 @@ func (f *Faker) LastName() string {
 
 	var lastName string
 
-	data := f.LoadLocale(&pdata)
+	data := f.LoadLocale(&personLoader)
 
 	lastName = f.RandomString(data.Get("last_name"))
 	return lastName
@@ -141,12 +141,12 @@ func (f *Faker) PersonMale() *Person {
 	var nameFormat string
 	var namePieces []string
 
-	err, nameFormat := f.RandomItem(&nameFormats)
+	nameFormat, err := f.RandomItem(&nameFormats)
 	if err != nil {
 		return nil
 	}
 
-	data := f.LoadLocale(&pdata)
+	data := f.LoadLocale(&personLoader)
 
 	if strings.Contains(nameFormat, "{{prefix}}") {
 		person.Prefix = f.RandomString(data.Get("prefix_male"))
@@ -177,12 +177,12 @@ func (f *Faker) PersonFemale() *Person {
 	var nameFormat string
 	var namePieces []string
 
-	err, nameFormat := f.RandomItem(&nameFormats)
+	nameFormat, err := f.RandomItem(&nameFormats)
 	if err != nil {
 		return nil
 	}
 
-	data := f.LoadLocale(&pdata)
+	data := f.LoadLocale(&personLoader)
 
 	if strings.Contains(nameFormat, "{{prefix}}") {
 		person.Prefix = f.RandomString(data.Get("prefix_female"))

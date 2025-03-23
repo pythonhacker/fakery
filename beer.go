@@ -7,14 +7,14 @@ import (
 )
 
 var (
-	bdata    DataLoader
-	beerData BeerData
+	beerLoader DataLoader
+	beerData   BeerData
 )
 
 func init() {
 	// Preload since this is all generic data
-	bdata.Init("beer.json")
-	dataMap := bdata.Preload(GenericLocale)
+	beerLoader.Init("beer.json")
+	dataMap := beerLoader.Preload(GenericLocale)
 	// Convert to structure
 	ConvertMapToStruct(dataMap, &beerData)
 }

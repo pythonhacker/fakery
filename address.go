@@ -7,11 +7,11 @@ import (
 )
 
 var (
-	adata DataLoader
+	addressLoader DataLoader
 )
 
 func init() {
-	adata.Init("address.json")
+	addressLoader.Init("address.json")
 }
 
 type Address struct {
@@ -52,9 +52,9 @@ var zipCode = []string{"#####", "#####-####"}
 
 // Return a random fake city
 func (f *Faker) City() string {
-	data := f.LoadGenericLocale(&adata)
+	data := f.LoadGenericLocale(&addressLoader)
 
-	err, cityFormat := f.RandomItem(&cityFormats)
+	cityFormat, err := f.RandomItem(&cityFormats)
 	if err != nil {
 		return ""
 	}
@@ -98,7 +98,7 @@ func (f *Faker) BuildingName() string {
 
 	var namePieces []string
 
-	data := f.LoadGenericLocale(&adata)
+	data := f.LoadGenericLocale(&addressLoader)
 
 	if f.Choice() == 1 {
 		namePieces = append(namePieces, f.FirstName())
@@ -116,7 +116,7 @@ func (f *Faker) StreetName() string {
 
 	var name string
 
-	suffix := f.RandomString(f.LoadGenericLocale(&adata).Get("street_suffixes"))
+	suffix := f.RandomString(f.LoadGenericLocale(&addressLoader).Get("street_suffixes"))
 
 	if f.Choice() == 1 {
 		name = f.FirstName()
@@ -155,13 +155,13 @@ func (f *Faker) StreetAddress() string {
 
 // Random two letter state abbreviation
 func (f *Faker) StateAbbr() string {
-	return f.RandomString(f.LoadLocale(&adata).Get("state_abbrevs"))
+	return f.RandomString(f.LoadLocale(&addressLoader).Get("state_abbrevs"))
 }
 
 // Random state
 func (f *Faker) State() string {
 	// states is specific to
-	states := f.LoadLocale(&adata).Get("states")
+	states := f.LoadLocale(&addressLoader).Get("states")
 	return f.RandomString(states)
 }
 
@@ -177,7 +177,7 @@ func (f *Faker) ZipCode() string {
 }
 
 func (f *Faker) Country() string {
-	return f.RandomString(f.LoadGenericLocale(&adata).Get("countries"))
+	return f.RandomString(f.LoadGenericLocale(&addressLoader).Get("countries"))
 }
 
 func (f *Faker) Address() *Address {
@@ -215,10 +215,10 @@ func (f *Faker) Address() *Address {
 // Random State - not used
 func (f *Faker) FakeState() string {
 
-	states := f.LoadLocale(&adata).Get("states")
+	states := f.LoadLocale(&addressLoader).Get("states")
 
 	// Remove any state <= 4 in length
-	states = filterByLength(states, 5)
+	states = FilterByLength(states, 5)
 
 	// Load a state
 	state1 := f.RandomString(states)
@@ -227,8 +227,8 @@ func (f *Faker) FakeState() string {
 	state2 := f.RandomStringExcl(states, state1)
 	// Split the first one at a vowel for example Kansas -> Kans
 	// Split the second one at a vowel for example Hawaii -> Haw
-	pieces1 := splitVowel(state1)
-	pieces2 := splitVowel(state2)
+	pieces1 := SplitVowel(state1)
+	pieces2 := SplitVowel(state2)
 	fmt.Println(state1, pieces1)
 	fmt.Println(state2, pieces2)
 
@@ -270,7 +270,7 @@ func (f *Faker) getCountry() string {
 		return ""
 	}
 
-	data := f.LoadGenericLocale(&adata)
+	data := f.LoadGenericLocale(&addressLoader)
 	countryCodes := data.Get("country_codes")
 	countries := data.Get("countries")
 

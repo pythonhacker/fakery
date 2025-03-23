@@ -95,11 +95,11 @@ func (f *Faker) RollDice() int {
 }
 
 // Return a random item according to weights
-func (f *Faker) RandomItem(array *WeightedArray) (error, string) {
+func (f *Faker) RandomItem(array *WeightedArray) (string, error) {
 	randVal := f.rng.Float64()
 
 	if ok, val := array.Validate(); !ok {
-		return fmt.Errorf("weighted array validation failed, weight: %.2f", val), ""
+		return "", fmt.Errorf("weighted array validation failed, weight: %.2f", val)
 	}
 
 	// Track cumulative weight
@@ -109,12 +109,12 @@ func (f *Faker) RandomItem(array *WeightedArray) (error, string) {
 	for _, item := range array.Items {
 		cumulativeWeight += item.Weight
 		if randVal < cumulativeWeight {
-			return nil, item.Item
+			return item.Item, nil
 		}
 	}
 
 	// Fallback in case of rounding errors
-	return nil, array.Items[len(array.Items)-1].Item
+	return array.Items[len(array.Items)-1].Item, nil
 }
 
 // Return one of any two strings in a string array

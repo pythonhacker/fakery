@@ -9,14 +9,14 @@ import (
 )
 
 var (
-	wdata    DataLoader
-	wineData WineData
+	wineLoader DataLoader
+	wineData   WineData
 )
 
 func init() {
-	wdata.Init("wine.json")
+	wineLoader.Init("wine.json")
 	// Convert to structure
-	ConvertMapToStruct(wdata.Preload(GenericLocale), &wineData)
+	ConvertMapToStruct(wineLoader.Preload(GenericLocale), &wineData)
 }
 
 // Wine structure and wine data - courtesy ChatGPT.

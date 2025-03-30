@@ -1,0 +1,12 @@
+[
+  { "model": "208", "type": "Hatchback" },
+  { "model": "2008", "type": "SUV" },
+  { "model": "308", "type": "Hatchback" },
+  { "model": "3008", "type": "SUV" },
+  { "model": "408", "type": "Fastback" },
+  { "model": "5008", "type": "SUV" },
+  { "model": "508", "type": "Sedan" },
+  { "model": "Rifter", "type": "Van" },
+  { "model": "Traveller", "type": "Van" },
+  { "model": "Expert", "type": "Van" }
+]

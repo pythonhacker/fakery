@@ -1,0 +1,70 @@
+[
+  {
+    "model": "Spark",
+    "type": "Subcompact Hatchback"
+  },
+  {
+    "model": "Malibu",
+    "type": "Midsize Sedan"
+  },
+  {
+    "model": "Camaro",
+    "type": "Sports Coupe"
+  },
+  {
+    "model": "Corvette",
+    "type": "Supercar"
+  },
+  {
+    "model": "Trailblazer",
+    "type": "Subcompact SUV"
+  },
+  {
+    "model": "Equinox",
+    "type": "Compact SUV"
+  },
+  {
+    "model": "Blazer",
+    "type": "Midsize SUV"
+  },
+  {
+    "model": "Traverse",
+    "type": "Full-Size SUV"
+  },
+  {
+    "model": "Tahoe",
+    "type": "Full-Size SUV"
+  },
+  {
+    "model": "Suburban",
+    "type": "Full-Size SUV"
+  },
+  {
+    "model": "Colorado",
+    "type": "Midsize Pickup Truck"
+  },
+  {
+    "model": "Silverado 1500",
+    "type": "Full-Size Pickup Truck"
+  },
+  {
+    "model": "Silverado HD",
+    "type": "Heavy-Duty Pickup Truck"
+  },
+  {
+    "model": "Bolt EV",
+    "type": "Electric Hatchback"
+  },
+  {
+    "model": "Blazer EV",
+    "type": "Electric SUV"
+  },
+  {
+    "model": "Equinox EV",
+    "type": "Electric SUV"
+  },
+  {
+    "model": "Silverado EV",
+    "type": "Electric Pickup Truck"
+  }
+]

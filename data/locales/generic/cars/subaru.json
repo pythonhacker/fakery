@@ -1,0 +1,8 @@
+[
+  { "model": "Impreza", "type": "Hatchback" },
+  { "model": "Legacy", "type": "Sedan" },
+  { "model": "Forester", "type": "SUV" },
+  { "model": "Outback", "type": "SUV" },
+  { "model": "Crosstrek", "type": "SUV" },
+  { "model": "BRZ", "type": "Coupe" }
+]

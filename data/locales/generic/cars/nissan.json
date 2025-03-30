@@ -1,0 +1,17 @@
+[
+  { "model": "Altima", "type": "Sedan" },
+  { "model": "Maxima", "type": "Sedan" },
+  { "model": "Versa", "type": "Compact Sedan" },
+  { "model": "Sentra", "type": "Compact Sedan" },
+  { "model": "GT-R", "type": "Sports Car" },
+  { "model": "Z", "type": "Sports Car" },
+  { "model": "Ariya", "type": "Electric SUV" },
+  { "model": "Leaf", "type": "Electric Hatchback" },
+  { "model": "Kicks", "type": "Subcompact SUV" },
+  { "model": "Rogue", "type": "Compact SUV" },
+  { "model": "Murano", "type": "Mid-Size SUV" },
+  { "model": "Pathfinder", "type": "Mid-Size SUV" },
+  { "model": "Armada", "type": "Full-Size SUV" },
+  { "model": "Frontier", "type": "Mid-Size Pickup Truck" },
+  { "model": "Titan", "type": "Full-Size Pickup Truck" }
+]

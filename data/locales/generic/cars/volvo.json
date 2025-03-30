@@ -1,0 +1,9 @@
+[
+  { "model": "S60", "type": "Sedan" },
+  { "model": "S90", "type": "Sedan" },
+  { "model": "V60", "type": "Wagon" },
+  { "model": "V90", "type": "Wagon" },
+  { "model": "XC40", "type": "SUV" },
+  { "model": "XC60", "type": "SUV" },
+  { "model": "XC90", "type": "SUV" }
+]

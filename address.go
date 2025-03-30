@@ -54,7 +54,7 @@ var zipCode = []string{"#####", "#####-####"}
 func (f *Faker) City() string {
 	data := f.LoadGenericLocale(&addressLoader)
 
-	cityFormat, err := f.RandomItem(&cityFormats)
+	cityFormat, err := f.RandomWeightedItem(&cityFormats)
 	if err != nil {
 		return ""
 	}
@@ -178,6 +178,10 @@ func (f *Faker) ZipCode() string {
 
 func (f *Faker) Country() string {
 	return f.RandomString(f.LoadGenericLocale(&addressLoader).Get("countries"))
+}
+
+func (f *Faker) CountryCode() string {
+	return f.RandomString(f.LoadGenericLocale(&addressLoader).Get("country_codes"))
 }
 
 func (f *Faker) Address() *Address {

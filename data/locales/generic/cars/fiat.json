@@ -1,0 +1,58 @@
+[
+  {
+    "model": "500",
+    "type": "City Car"
+  },
+  {
+    "model": "500e",
+    "type": "Electric City Car"
+  },
+  {
+    "model": "500X",
+    "type": "Compact SUV"
+  },
+  {
+    "model": "Panda",
+    "type": "City Car"
+  },
+  {
+    "model": "Panda Hybrid",
+    "type": "Mild Hybrid City Car"
+  },
+  {
+    "model": "Tipo",
+    "type": "Compact Car"
+  },
+  {
+    "model": "Tipo Cross",
+    "type": "Crossover Hatchback"
+  },
+  {
+    "model": "Punto (New)",
+    "type": "Subcompact Car"
+  },
+  {
+      "model": "Fastback",
+      "type": "Crossover Coupe"
+  },
+  {
+    "model": "Pulse",
+    "type": "Compact SUV"
+  },
+  {
+    "model": "Strada",
+    "type": "Small Pickup Truck"
+  },
+  {
+    "model": "Toro",
+    "type": "Mid-Size Pickup Truck"
+  },
+  {
+    "model": "Ducato",
+    "type": "Commercial Van"
+  },
+  {
+    "model": "Scudo",
+    "type": "Mid-Size Van"
+  }
+]

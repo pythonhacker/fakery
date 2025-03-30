@@ -1,0 +1,50 @@
+[
+  {
+    "model": "Panda Mini EV",
+    "type": "Micro Electric Car"
+  },
+  {
+    "model": "Geometry G6",
+    "type": "Compact Electric Sedan"
+  },
+  {
+    "model": "Geometry M6",
+    "type": "Compact Electric MPV"
+  },
+  {
+    "model": "Binrui Cool",
+    "type": "Compact Sedan"
+  },
+  {
+    "model": "Emgrand",
+    "type": "Compact Sedan"
+  },
+  {
+    "model": "Preface",
+    "type": "Mid-Size Sedan"
+  },
+  {
+    "model": "Monjaro (Xingyue L)",
+    "type": "Mid-Size SUV"
+  },
+  {
+    "model": "Xingyue S",
+    "type": "Compact Coupe SUV"
+  },
+  {
+    "model": "Boyue L",
+    "type": "Compact SUV"
+  },
+  {
+    "model": "Boyue Cool",
+    "type": "Compact SUV"
+  },
+  {
+    "model": "Haoyue (Okavango)",
+    "type": "Full-Size SUV"
+  },
+  {
+    "model": "FX11",
+    "type": "Compact SUV"
+  }
+]

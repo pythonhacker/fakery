@@ -1,0 +1,34 @@
+[
+  {
+    "model": "CT4",
+    "type": "Compact Luxury Sedan"
+  },
+  {
+    "model": "CT4-V",
+    "type": "Performance Luxury Sedan"
+  },
+  {
+    "model": "CT5",
+    "type": "Midsize Luxury Sedan"
+  },
+  {
+    "model": "CT5-V",
+    "type": "Performance Luxury Sedan"
+  },
+  {
+    "model": "Escalade",
+    "type": "Full-Size Luxury SUV"
+  },
+  {
+    "model": "Escalade-V",
+    "type": "High-Performance Luxury SUV"
+  },
+  {
+    "model": "Lyriq",
+    "type": "Electric Luxury SUV"
+  },
+  {
+    "model": "Celestiq",
+    "type": "Ultra-Luxury Electric Sedan"
+  }
+]

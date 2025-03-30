@@ -1,0 +1,6 @@
+[
+  { "model": "Huracan", "type": "Supercar" },
+  { "model": "Revuelto", "type": "Hybrid Supercar" },
+  { "model": "Urus", "type": "Super SUV" },
+  { "model": "Sterrato", "type": "Off-Road Supercar" }
+]

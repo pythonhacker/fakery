@@ -1,0 +1,8 @@
+[
+  { "model": "Clio", "type": "Hatchback" },
+  { "model": "Captur", "type": "SUV" },
+  { "model": "Megane", "type": "Hatchback" },
+  { "model": "Arkana", "type": "SUV" },
+  { "model": "Austral", "type": "SUV" },
+  { "model": "Espace", "type": "SUV" }
+]

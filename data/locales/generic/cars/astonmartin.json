@@ -1,0 +1,66 @@
+[
+  {
+    "model": "DB12",
+    "type": "Grand Tourer"
+  },
+  {
+    "model": "DB11",
+    "type": "Grand Tourer"
+  },
+  {
+    "model": "DB10",
+    "type": "Sports Car"
+  },
+  {
+    "model": "DB9",
+    "type": "Grand Tourer"
+  },
+  {
+    "model": "DB7",
+    "type": "Grand Tourer"
+  },
+  {
+    "model": "DB6",
+    "type": "Classic Grand Tourer"
+  },
+  {
+    "model": "Vantage",
+    "type": "Sports Car"
+  },
+  {
+    "model": "V12 Vantage",
+    "type": "Sports Car"
+  },
+  {
+    "model": "Vanquish",
+    "type": "Grand Tourer"
+  },
+  {
+    "model": "Virage",
+    "type": "Grand Tourer"
+  },
+  {
+    "model": "Rapide",
+    "type": "Luxury Sedan"
+  },
+  {
+    "model": "Valhalla",
+    "type": "Hybrid Supercar"
+  },
+  {
+    "model": "Valkyrie",
+    "type": "Hypercar"
+  },
+  {
+    "model": "One-77",
+    "type": "Supercar"
+  },
+  {
+    "model": "CC100 Speedster",
+    "type": "Concept Car"
+  },
+  {
+    "model": "DBX",
+    "type": "SUV"
+  }
+]

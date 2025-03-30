@@ -1,0 +1,66 @@
+[
+  {
+    "model": "Giulia",
+    "type": "Sedan"
+  },
+  {
+    "model": "Stelvio",
+    "type": "SUV"
+  },
+  {
+    "model": "Tonale",
+    "type": "SUV"
+  },
+  {
+    "model": "33 Stradale",
+    "type": "Sports Car"
+  },
+  {
+    "model": "MiTo",
+    "type": "Hatchback"
+  },
+  {
+    "model": "Giulietta",
+    "type": "Hatchback"
+  },
+  {
+    "model": "4C",
+    "type": "Sports Car"
+  },
+  {
+    "model": "8C Competizione",
+    "type": "Sports Car"
+  },
+  {
+    "model": "Brera",
+    "type": "Coupe"
+  },
+  {
+    "model": "GT",
+    "type": "Coupe"
+  },
+  {
+    "model": "GTV",
+    "type": "Coupe"
+  },
+  {
+    "model": "Spider",
+    "type": "Convertible"
+  },
+  {
+    "model": "166",
+    "type": "Sedan"
+  },
+  {
+    "model": "159",
+    "type": "Sedan"
+  },
+  {
+    "model": "156",
+    "type": "Sedan"
+  },
+  {
+    "model": "147",
+    "type": "Hatchback"
+  }
+]

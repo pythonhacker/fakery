@@ -1,0 +1,10 @@
+[
+	{ "model": "G70", "type": "Compact Luxury Sedan" },
+	{ "model": "G80", "type": "Midsize Luxury Sedan" },
+	{ "model": "G90", "type": "Full-Size Luxury Sedan" },
+	{ "model": "GV60", "type": "Electric Luxury SUV" },
+	{ "model": "GV70", "type": "Compact Luxury SUV" },
+	{ "model": "GV80", "type": "Midsize Luxury SUV" }
+]
+
+

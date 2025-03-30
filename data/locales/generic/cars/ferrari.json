@@ -1,0 +1,46 @@
+[
+  {
+    "model": "SF90 Stradale",
+    "type": "Plug-in Hybrid Supercar"
+  },
+  {
+    "model": "SF90 Spider",
+    "type": "Plug-in Hybrid Convertible Supercar"
+  },
+  {
+    "model": "296 GTB",
+    "type": "Plug-in Hybrid Sports Car"
+  },
+  {
+    "model": "296 GTS",
+    "type": "Plug-in Hybrid Convertible Sports Car"
+  },
+  {
+    "model": "Roma",
+    "type": "Grand Tourer"
+  },
+  {
+    "model": "Roma Spider",
+    "type": "Convertible Grand Tourer"
+  },
+  {
+    "model": "Portofino M",
+    "type": "Convertible Grand Tourer"
+  },
+  {
+    "model": "812 Superfast",
+    "type": "V12 Grand Tourer"
+  },
+  {
+    "model": "812 GTS",
+    "type": "Convertible V12 Grand Tourer"
+  },
+  {
+    "model": "Purosangue",
+    "type": "Performance SUV"
+  },
+  {
+    "model": "Daytona SP3",
+    "type": "Limited Edition Supercar"
+  }
+]

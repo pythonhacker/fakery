@@ -1,0 +1,66 @@
+[
+  {
+    "model": "Dolphin",
+    "type": "Compact Electric Hatchback"
+  },
+  {
+    "model": "Seal",
+    "type": "Electric Sedan"
+  },
+  {
+    "model": "Han",
+    "type": "Luxury Electric Sedan"
+  },
+  {
+    "model": "Qin",
+    "type": "Compact Sedan (PHEV & EV)"
+  },
+  {
+    "model": "Destroyer 05",
+    "type": "Plug-in Hybrid Sedan"
+  },
+  {
+    "model": "Tang",
+    "type": "Luxury SUV (PHEV & EV)"
+  },
+  {
+    "model": "Song",
+    "type": "Compact SUV (PHEV & EV)"
+  },
+  {
+    "model": "Yuan",
+    "type": "Compact Electric SUV"
+  },
+  {
+    "model": "Atto 3",
+    "type": "Electric Compact SUV"
+  },
+  {
+    "model": "Frigate 07",
+    "type": "Mid-Size Plug-in Hybrid SUV"
+  },
+  {
+    "model": "Seagull",
+    "type": "Affordable Electric Hatchback"
+  },
+  {
+    "model": "E6",
+    "type": "Electric MPV"
+  },
+  {
+    "model": "Tang EV",
+    "type": "Full Electric SUV"
+  },
+  {
+    "model": "D1",
+    "type": "Electric Ride-Hailing Vehicle"
+  },
+  {
+    "model": "U8",
+    "type": "Luxury Off-Road SUV (EV & Hybrid)"
+  },
+  {
+    "model": "U9",
+    "type": "High-Performance Electric Supercar"
+  }
+]

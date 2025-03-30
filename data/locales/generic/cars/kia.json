@@ -1,0 +1,17 @@
+[
+  { "model": "Rio", "type": "Subcompact Car" },
+  { "model": "Forte", "type": "Compact Car" },
+  { "model": "K5", "type": "Midsize Sedan" },
+  { "model": "Stinger", "type": "Sports Sedan" },
+  { "model": "Soul", "type": "Subcompact Crossover" },
+	{ "model": "Seltos", "type": "Subcompact SUV" },
+  { "model": "Carens", "type": "MPV" },	
+  { "model": "Sportage", "type": "Compact SUV" },
+  { "model": "Sorento", "type": "Midsize SUV" },
+  { "model": "Telluride", "type": "Full-Size SUV" },
+  { "model": "Carnival", "type": "Minivan" },
+  { "model": "Niro", "type": "Compact Hybrid/Electric SUV" },
+  { "model": "Niro EV", "type": "Compact Electric SUV" },
+  { "model": "EV6", "type": "Electric Crossover" },
+  { "model": "EV9", "type": "Electric SUV" }
+]

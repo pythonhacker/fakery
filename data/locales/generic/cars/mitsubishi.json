@@ -1,0 +1,15 @@
+[
+  { "model": "Outlander", "type": "SUV" },
+  { "model": "Outlander PHEV", "type": "Plug-in Hybrid SUV" },
+  { "model": "Eclipse Cross", "type": "Compact SUV" },
+  { "model": "ASX", "type": "Compact SUV" },
+  { "model": "Pajero Sport", "type": "Off-Road SUV" },
+  { "model": "Triton", "type": "Pickup Truck" },
+  { "model": "L200", "type": "Pickup Truck" },
+  { "model": "Mirage", "type": "Subcompact Hatchback" },
+  { "model": "Mirage G4", "type": "Subcompact Sedan" },
+  { "model": "Xpander", "type": "MPV" },
+  { "model": "Xpander Cross", "type": "Crossover MPV" },
+  { "model": "Delica D:5", "type": "Minivan" },
+  { "model": "Minicab-MiEV", "type": "Electric Van" }
+]

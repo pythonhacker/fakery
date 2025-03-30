@@ -1,0 +1,9 @@
+[
+  { "model": "Defender", "type": "SUV" },
+  { "model": "Discovery", "type": "SUV" },
+  { "model": "Discovery Sport", "type": "SUV" },
+  { "model": "Range Rover", "type": "Luxury SUV" },
+  { "model": "Range Rover Sport", "type": "Luxury SUV" },
+  { "model": "Range Rover Velar", "type": "Luxury SUV" },
+  { "model": "Range Rover Evoque", "type": "Compact Luxury SUV" }
+]

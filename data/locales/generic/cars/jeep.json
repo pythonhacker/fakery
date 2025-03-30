@@ -1,0 +1,12 @@
+[
+  { "model": "Renegade", "type": "Subcompact SUV" },
+  { "model": "Compass", "type": "Compact SUV" },
+  { "model": "Cherokee", "type": "Midsize SUV" },
+  { "model": "Grand Cherokee", "type": "Midsize SUV" },
+  { "model": "Grand Cherokee 4xe", "type": "Plug-in Hybrid SUV" },
+  { "model": "Wrangler", "type": "Off-Road SUV" },
+  { "model": "Wrangler 4xe", "type": "Plug-in Hybrid Off-Road SUV" },
+  { "model": "Gladiator", "type": "Midsize Pickup Truck" },
+  { "model": "Wagoneer", "type": "Full-Size Luxury SUV" },
+  { "model": "Grand Wagoneer", "type": "Full-Size Luxury SUV" }
+]

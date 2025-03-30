@@ -1,0 +1,6 @@
+[
+  { "model": "Ghost", "type": "Sedan" },
+  { "model": "Phantom", "type": "Sedan" },
+  { "model": "Cullinan", "type": "SUV" },
+  { "model": "Spectre", "type": "Coupe" }
+]

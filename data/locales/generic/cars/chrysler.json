@@ -1,0 +1,22 @@
+[
+  {
+    "model": "300",
+    "type": "Full-Size Sedan"
+  },
+  {
+    "model": "Pacifica",
+    "type": "Minivan"
+  },
+  {
+    "model": "Pacifica Hybrid",
+    "type": "Plug-in Hybrid Minivan"
+  },
+  {
+    "model": "Voyager",
+    "type": "Minivan (Fleet Only)"
+  },
+  {
+    "model": "Airflow",
+    "type": "Electric SUV"
+  }
+]

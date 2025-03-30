@@ -1,0 +1,6 @@
+[
+  { "model": "1500", "type": "Truck" },
+  { "model": "2500", "type": "Truck" },
+  { "model": "3500", "type": "Truck" },
+  { "model": "ProMaster", "type": "Van" }
+]

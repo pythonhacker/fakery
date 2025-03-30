@@ -1,0 +1,10 @@
+[
+  { "model": "ET5", "type": "Electric Sedan" },
+  { "model": "ET5 Touring", "type": "Electric Wagon" },
+  { "model": "ET7", "type": "Electric Luxury Sedan" },
+  { "model": "ES6", "type": "Electric SUV" },
+  { "model": "ES7", "type": "Electric Mid-Size SUV" },
+  { "model": "ES8", "type": "Electric Full-Size SUV" },
+  { "model": "EC6", "type": "Electric Coupe SUV" },
+  { "model": "EC7", "type": "Electric Coupe SUV" }
+]

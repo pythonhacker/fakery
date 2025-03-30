@@ -1,0 +1,22 @@
+[
+  {
+    "model": "Chiron",
+    "type": "Hypercar"
+  },
+  {
+    "model": "Chiron Pur Sport",
+    "type": "Track-Focused Hypercar"
+  },
+  {
+    "model": "Chiron Super Sport",
+    "type": "High-Speed Hypercar"
+  },
+  {
+    "model": "Bolide",
+    "type": "Track-Only Hypercar"
+  },
+  {
+    "model": "Mistral",
+    "type": "Open-Top Hypercar"
+  }
+]

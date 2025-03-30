@@ -1,0 +1,8 @@
+[
+  { "model": "Golf", "type": "Hatchback" },
+  { "model": "Passat", "type": "Sedan" },
+  { "model": "Tiguan", "type": "SUV" },
+  { "model": "Atlas", "type": "SUV" },
+  { "model": "ID.4", "type": "SUV" },
+  { "model": "ID. Buzz", "type": "Van" }
+]

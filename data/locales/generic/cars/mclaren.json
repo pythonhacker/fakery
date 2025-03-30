@@ -1,0 +1,10 @@
+[
+  { "model": "Artura", "type": "Hybrid Supercar" },
+  { "model": "750S", "type": "Supercar" },
+  { "model": "750S Spider", "type": "Convertible Supercar" },
+  { "model": "765LT", "type": "Supercar" },
+  { "model": "765LT Spider", "type": "Convertible Supercar" },
+  { "model": "Elva", "type": "Ultra-Limited Roadster" },
+  { "model": "GT", "type": "Grand Tourer" },
+  { "model": "Solus GT", "type": "Track-Only Hypercar" }
+]

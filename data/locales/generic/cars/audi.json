@@ -1,0 +1,98 @@
+[
+  {
+    "model": "A1",
+    "type": "Hatchback"
+  },
+  {
+    "model": "A3",
+    "type": "Compact Sedan"
+  },
+  {
+    "model": "A4",
+    "type": "Sedan"
+  },
+  {
+    "model": "A5",
+    "type": "Coupe"
+  },
+  {
+    "model": "A6",
+    "type": "Sedan"
+  },
+  {
+    "model": "A7",
+    "type": "Luxury Fastback"
+  },
+  {
+    "model": "A8",
+    "type": "Luxury Sedan"
+  },
+  {
+    "model": "Q2",
+    "type": "Compact SUV"
+  },
+  {
+    "model": "Q3",
+    "type": "Small SUV"
+  },
+  {
+    "model": "Q4 e-tron",
+    "type": "Electric SUV"
+  },
+  {
+    "model": "Q5",
+    "type": "Mid-Size SUV"
+  },
+  {
+    "model": "Q7",
+    "type": "Full-Size SUV"
+  },
+  {
+    "model": "Q8",
+    "type": "Luxury SUV"
+  },
+  {
+    "model": "R8",
+    "type": "Supercar"
+  },
+  {
+    "model": "TT",
+    "type": "Sports Coupe"
+  },
+  {
+    "model": "e-tron GT",
+    "type": "Electric Sports Sedan"
+  },
+  {
+    "model": "RS3",
+    "type": "Performance Sedan"
+  },
+  {
+    "model": "RS4",
+    "type": "Performance Sedan/Wagon"
+  },
+  {
+    "model": "RS5",
+    "type": "Performance Coupe"
+  },
+  {
+    "model": "RS6",
+    "type": "Performance Wagon"
+  },
+  {
+    "model": "RS7",
+    "type": "Performance Luxury Fastback"
+  },
+  {
+    "model": "RS Q3",
+    "type": "Performance SUV"
+  },
+  {
+    "model": "RS Q5",
+    "type": "Performance SUV"
+  },
+  {
+    "model": "RS Q8",
+    "type": "Performance Luxury SUV"
+  }
+]

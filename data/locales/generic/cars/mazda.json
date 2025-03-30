@@ -1,0 +1,16 @@
+[
+  { "model": "Mazda2", "type": "Hatchback" },
+  { "model": "Mazda3", "type": "Sedan" },
+  { "model": "Mazda3 Hatchback", "type": "Hatchback" },
+  { "model": "Mazda6", "type": "Sedan" },
+  { "model": "MX-5 Miata", "type": "Convertible" },
+  { "model": "MX-5 Miata RF", "type": "Convertible" },
+  { "model": "CX-3", "type": "Compact SUV" },
+  { "model": "CX-30", "type": "Compact SUV" },
+  { "model": "CX-5", "type": "SUV" },
+  { "model": "CX-50", "type": "SUV" },
+  { "model": "CX-60", "type": "Midsize SUV" },
+  { "model": "CX-70", "type": "Midsize SUV" },
+  { "model": "CX-80", "type": "Three-Row SUV" },
+  { "model": "CX-90", "type": "Three-Row SUV" }
+]

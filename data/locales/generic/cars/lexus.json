@@ -1,0 +1,13 @@
+[
+  { "model": "ES", "type": "Luxury Sedan" },
+  { "model": "LS", "type": "Luxury Sedan" },
+  { "model": "IS", "type": "Compact Luxury Sedan" },
+  { "model": "RC", "type": "Luxury Coupe" },
+  { "model": "LC", "type": "Luxury Coupe" },
+  { "model": "UX", "type": "Compact SUV" },
+  { "model": "NX", "type": "Compact Luxury SUV" },
+  { "model": "RX", "type": "Luxury SUV" },
+  { "model": "GX", "type": "Off-Road Luxury SUV" },
+  { "model": "LX", "type": "Flagship Luxury SUV" },
+  { "model": "RZ", "type": "Electric SUV" }
+]

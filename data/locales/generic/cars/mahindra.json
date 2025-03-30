@@ -1,0 +1,12 @@
+[
+  { "model": "XUV700", "type": "SUV" },
+  { "model": "Scorpio-N", "type": "SUV" },
+  { "model": "Thar", "type": "Off-Road SUV" },
+  { "model": "Bolero", "type": "SUV" },
+  { "model": "XUV300", "type": "Compact SUV" },
+  { "model": "Marazzo", "type": "MPV" },
+  { "model": "Alturas G4", "type": "Luxury SUV" },
+  { "model": "KUV100", "type": "Micro SUV" },
+  { "model": "eVerito", "type": "Electric Sedan" },
+  { "model": "XUV400 EV", "type": "Electric SUV" }
+]

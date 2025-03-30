@@ -1,0 +1,118 @@
+[
+  {
+    "model": "1 Series",
+    "type": "Compact Hatchback"
+  },
+  {
+    "model": "2 Series",
+    "type": "Coupe/Sedan"
+  },
+  {
+    "model": "3 Series",
+    "type": "Sedan"
+  },
+  {
+    "model": "4 Series",
+    "type": "Coupe/Convertible"
+  },
+  {
+    "model": "5 Series",
+    "type": "Luxury Sedan"
+  },
+  {
+    "model": "6 Series",
+    "type": "Luxury Coupe/Convertible"
+  },
+  {
+    "model": "7 Series",
+    "type": "Luxury Sedan"
+  },
+  {
+    "model": "8 Series",
+    "type": "Luxury Coupe/Convertible"
+  },
+  {
+    "model": "X1",
+    "type": "Compact SUV"
+  },
+  {
+    "model": "X2",
+    "type": "Sporty Compact SUV"
+  },
+  {
+    "model": "X3",
+    "type": "Mid-Size SUV"
+  },
+  {
+    "model": "X4",
+    "type": "Sporty SUV Coupe"
+  },
+  {
+    "model": "X5",
+    "type": "Luxury SUV"
+  },
+  {
+    "model": "X6",
+    "type": "Luxury SUV Coupe"
+  },
+  {
+    "model": "X7",
+    "type": "Full-Size Luxury SUV"
+  },
+  {
+    "model": "i3",
+    "type": "Electric Hatchback"
+  },
+  {
+    "model": "i4",
+    "type": "Electric Gran Coupe"
+  },
+  {
+    "model": "i5",
+    "type": "Electric Sedan"
+  },
+  {
+    "model": "i7",
+    "type": "Luxury Electric Sedan"
+  },
+  {
+    "model": "iX",
+    "type": "Electric SUV"
+  },
+  {
+    "model": "Z3",
+    "type": "Roadster"
+  },
+  {
+    "model": "Z4",
+    "type": "Roadster"
+  },
+  {
+    "model": "M2",
+    "type": "Performance Coupe"
+  },
+  {
+    "model": "M3",
+    "type": "Performance Sedan"
+  },
+  {
+    "model": "M4",
+    "type": "Performance Coupe"
+  },
+  {
+    "model": "M5",
+    "type": "Performance Sedan"
+  },
+  {
+    "model": "M6",
+    "type": "Performance Coupe/Convertible"
+  },
+  {
+    "model": "M8",
+    "type": "High-Performance Luxury Coupe"
+  },
+  {
+    "model": "XM",
+    "type": "Performance Luxury SUV"
+  }
+]

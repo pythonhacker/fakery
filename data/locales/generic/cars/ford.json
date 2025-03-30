@@ -1,0 +1,78 @@
+[
+  {
+    "model": "Fiesta",
+    "type": "Subcompact Car"
+  },
+  {
+    "model": "Focus",
+    "type": "Compact Car"
+  },
+  {
+    "model": "Mustang",
+    "type": "Sports Car"
+  },
+  {
+    "model": "Mustang Mach-E",
+    "type": "Electric SUV"
+  },
+  {
+    "model": "Puma",
+    "type": "Subcompact SUV"
+  },
+  {
+    "model": "Escape",
+    "type": "Compact SUV"
+  },
+  {
+    "model": "Kuga",
+    "type": "Compact SUV"
+  },
+  {
+    "model": "Edge",
+    "type": "Mid-Size SUV"
+  },
+  {
+    "model": "Explorer",
+    "type": "Mid-Size SUV"
+  },
+  {
+    "model": "Expedition",
+    "type": "Full-Size SUV"
+  },
+  {
+    "model": "Bronco",
+    "type": "Off-Road SUV"
+  },
+  {
+    "model": "Bronco Sport",
+    "type": "Compact Off-Road SUV"
+  },
+  {
+    "model": "Maverick",
+    "type": "Compact Pickup Truck"
+  },
+  {
+    "model": "Ranger",
+    "type": "Mid-Size Pickup Truck"
+  },
+  {
+    "model": "F-150",
+    "type": "Full-Size Pickup Truck"
+  },
+  {
+    "model": "F-150 Lightning",
+    "type": "Electric Full-Size Pickup Truck"
+  },
+  {
+    "model": "Super Duty",
+    "type": "Heavy-Duty Pickup Truck"
+  },
+  {
+    "model": "Transit",
+    "type": "Commercial Van"
+  },
+  {
+    "model": "E-Transit",
+    "type": "Electric Commercial Van"
+  }
+]

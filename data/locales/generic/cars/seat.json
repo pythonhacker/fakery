@@ -1,0 +1,6 @@
+[
+  { "model": "Ibiza", "type": "Hatchback" },
+  { "model": "Leon", "type": "Hatchback" },
+  { "model": "Ateca", "type": "SUV" },
+  { "model": "Tarraco", "type": "SUV" }
+]

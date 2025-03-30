@@ -1,0 +1,6 @@
+[
+  { "model": "F-PACE", "type": "Luxury SUV" },
+  { "model": "E-PACE", "type": "Compact SUV" },
+  { "model": "I-PACE", "type": "Electric SUV" },
+  { "model": "F-TYPE", "type": "Sports Car" }
+]

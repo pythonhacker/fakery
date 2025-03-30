@@ -1,0 +1,42 @@
+[
+  {
+    "model": "Tiggo 2 Pro",
+    "type": "Subcompact SUV"
+  },
+  {
+    "model": "Tiggo 4 Pro",
+    "type": "Compact SUV"
+  },
+  {
+    "model": "Tiggo 7 Pro",
+    "type": "Midsize SUV"
+  },
+  {
+    "model": "Tiggo 8 Pro",
+    "type": "Full-Size SUV"
+  },
+  {
+    "model": "Tiggo 9",
+    "type": "Flagship SUV"
+  },
+  {
+    "model": "Omoda 5",
+    "type": "Crossover SUV"
+  },
+  {
+    "model": "Omoda E5",
+    "type": "Electric Crossover SUV"
+  },
+  {
+    "model": "Arrizo 5",
+    "type": "Compact Sedan"
+  },
+  {
+    "model": "Arrizo 6 Pro",
+    "type": "Midsize Sedan"
+  },
+  {
+    "model": "Arrizo 8",
+    "type": "Premium Sedan"
+  }
+]

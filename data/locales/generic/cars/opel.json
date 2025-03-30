@@ -1,0 +1,12 @@
+[
+  { "model": "Astra", "type": "Hatchback" },
+  { "model": "Corsa", "type": "Hatchback" },
+  { "model": "Mokka", "type": "SUV" },
+  { "model": "Grandland", "type": "SUV" },
+  { "model": "Crossland", "type": "SUV" },
+  { "model": "Insignia", "type": "Sedan" },
+  { "model": "Combo", "type": "Van" },
+  { "model": "Vivaro", "type": "Van" },
+  { "model": "Zafira Life", "type": "Minivan" },
+  { "model": "Rocks-e", "type": "Electric Microcar" }
+]

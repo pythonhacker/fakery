@@ -1,0 +1,9 @@
+[
+  { "model": "Corolla", "type": "Sedan" },
+  { "model": "Camry", "type": "Sedan" },
+  { "model": "RAV4", "type": "SUV" },
+  { "model": "Highlander", "type": "SUV" },
+  { "model": "Tacoma", "type": "Truck" },
+  { "model": "Tundra", "type": "Truck" },
+  { "model": "4Runner", "type": "SUV" }
+]

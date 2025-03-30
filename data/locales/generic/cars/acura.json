@@ -1,0 +1,62 @@
+[
+  {
+    "model": "Integra",
+    "type": "Sedan"
+  },
+  {
+    "model": "TLX",
+    "type": "Sedan"
+  },
+  {
+    "model": "RLX",
+    "type": "Sedan"
+  },
+  {
+    "model": "ILX",
+    "type": "Sedan"
+  },
+  {
+    "model": "Legend",
+    "type": "Sedan"
+  },
+  {
+    "model": "Vigor",
+    "type": "Sedan"
+  },
+  {
+    "model": "TSX",
+    "type": "Sedan"
+  },
+  {
+    "model": "CL",
+    "type": "Coupe"
+  },
+  {
+    "model": "NSX",
+    "type": "Sports Car"
+  },
+  {
+    "model": "RDX",
+    "type": "SUV"
+  },
+  {
+    "model": "MDX",
+    "type": "SUV"
+  },
+  {
+    "model": "ZDX",
+    "type": "SUV"
+  },
+  {
+    "model": "SLX",
+    "type": "SUV"
+  },
+  {
+    "model": "EL",
+    "type": "Compact Sedan"
+  },
+  {
+    "model": "CSX",
+    "type": "Compact Sedan"
+  }
+]

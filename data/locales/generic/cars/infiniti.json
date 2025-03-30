@@ -1,0 +1,7 @@
+[
+  { "model": "Q50", "type": "Sedan" },
+  { "model": "QX50", "type": "Compact SUV" },
+  { "model": "QX55", "type": "Coupe SUV" },
+  { "model": "QX60", "type": "Mid-Size SUV" },
+  { "model": "QX80", "type": "Full-Size SUV" }
+]

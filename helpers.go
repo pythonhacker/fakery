@@ -11,6 +11,7 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"regexp"
 	"runtime"
 	"strconv"
 	"strings"
@@ -200,7 +201,7 @@ func (l *LocaleData) Get(key string) []string {
 }
 
 // Fetch random data item from map
-func (l *LocaleData) RandomItem(f *Faker) map[string]string {
+func (l *LocaleData) RandomWeightedItem(f *Faker) map[string]string {
 	return l.dataMap[f.IntRange(len(l.dataMap))]
 }
 
@@ -331,6 +332,19 @@ func SplitVowel(in string) []string {
 
 func startsWithVowel(in string) bool {
 	return strings.Contains("AEIOU", string(in[0]))
+}
+
+// Normalize a string
+// remove punctuations, remove spaces and lowercase
+func NormalizeString(s string) string {
+	// Convert to lowercase
+	s = strings.ToLower(s)
+
+	// Use a regex to remove all non-alphanumeric characters
+	reg := regexp.MustCompile(`[^a-z0-9]`)
+	s = reg.ReplaceAllString(s, "")
+
+	return s
 }
 
 // determine article depending on following word

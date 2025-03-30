@@ -1,0 +1,30 @@
+[
+  {
+    "model": "Charger",
+    "type": "Muscle Sedan"
+  },
+  {
+    "model": "Challenger",
+    "type": "Muscle Coupe"
+  },
+  {
+    "model": "Hornet",
+    "type": "Compact SUV"
+  },
+  {
+    "model": "Durango",
+    "type": "Midsize SUV"
+  },
+  {
+    "model": "Ram 1500",
+    "type": "Full-Size Pickup Truck"
+  },
+  {
+    "model": "Ram 2500",
+    "type": "Heavy-Duty Pickup Truck"
+  },
+  {
+    "model": "Ram 3500",
+    "type": "Heavy-Duty Pickup Truck"
+  }
+]

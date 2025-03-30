@@ -1,0 +1,7 @@
+[
+  { "model": "Corsa", "type": "Hatchback" },
+  { "model": "Astra", "type": "Hatchback" },
+  { "model": "Insignia", "type": "Sedan" },
+  { "model": "Mokka", "type": "SUV" },
+  { "model": "Grandland", "type": "SUV" }
+]

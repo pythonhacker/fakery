@@ -1,0 +1,10 @@
+[
+  { "model": "Grecale", "type": "SUV" },
+  { "model": "Levante", "type": "SUV" },
+  { "model": "GranTurismo", "type": "Coupe" },
+  { "model": "GranCabrio", "type": "Convertible" },
+  { "model": "Ghibli", "type": "Sedan" },
+  { "model": "Quattroporte", "type": "Luxury Sedan" },
+  { "model": "MC20", "type": "Supercar" },
+  { "model": "MC20 Cielo", "type": "Convertible Supercar" }
+]

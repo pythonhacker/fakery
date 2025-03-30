@@ -94,8 +94,21 @@ func (f *Faker) RollDice() int {
 	return f.IntRange(6) + 1
 }
 
+// Random integer of given length
+func (f *Faker) RandInteger(length int) int {
+
+	if length == 1 {
+		return f.RandDigit()
+	}
+
+	var min int = int(math.Pow10(length - 1))
+	var max int = int(math.Pow10(length)) - 1
+
+	return f.RandIntBetween(min, max)
+}
+
 // Return a random item according to weights
-func (f *Faker) RandomItem(array *WeightedArray) (string, error) {
+func (f *Faker) RandomWeightedItem(array *WeightedArray) (string, error) {
 	randVal := f.rng.Float64()
 
 	if ok, val := array.Validate(); !ok {

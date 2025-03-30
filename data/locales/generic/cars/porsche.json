@@ -1,0 +1,9 @@
+[
+  { "model": "911", "type": "Coupe" },
+  { "model": "718 Boxster", "type": "Convertible" },
+  { "model": "718 Cayman", "type": "Coupe" },
+  { "model": "Taycan", "type": "Sedan" },
+  { "model": "Panamera", "type": "Sedan" },
+  { "model": "Macan", "type": "SUV" },
+  { "model": "Cayenne", "type": "SUV" }
+]

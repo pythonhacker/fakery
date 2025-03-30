@@ -1,0 +1,7 @@
+[
+  { "model": "Model S", "type": "Sedan" },
+  { "model": "Model 3", "type": "Sedan" },
+  { "model": "Model X", "type": "SUV" },
+  { "model": "Model Y", "type": "SUV" },
+  { "model": "Cybertruck", "type": "Truck" }
+]

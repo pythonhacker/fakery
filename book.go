@@ -367,7 +367,7 @@ func (f *Faker) BookAuthor() string {
 }
 
 func (f *Faker) BookFormat() string {
-	format, _ := f.RandomItem(&formats)
+	format, _ := f.RandomWeightedItem(&formats)
 	return format
 }
 
@@ -400,7 +400,7 @@ func (f *Faker) Book() *Book {
 	// Page count
 	b.PageCount = f.RandIntBetween(100, 501)
 
-	b.Format, _ = f.RandomItem(&formats)
+	b.Format, _ = f.RandomWeightedItem(&formats)
 
 	return &b
 }

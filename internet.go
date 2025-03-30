@@ -17,7 +17,7 @@ func init() {
 func (f Faker) GetRandomTLD() string {
 
 	tldArray, _ := f.LoadGenericLocale(&netLoader).GetWeightedArray("common_tlds_weighted", ":")
-	tld, _ := f.RandomItem(tldArray)
+	tld, _ := f.RandomWeightedItem(tldArray)
 
 	return tld
 }

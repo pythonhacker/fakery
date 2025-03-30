@@ -1,0 +1,13 @@
+[
+  { "model": "Haval H6", "type": "Compact SUV" },
+  { "model": "Haval Jolion", "type": "Compact SUV" },
+  { "model": "Haval Big Dog", "type": "Mid-Size SUV" },
+  { "model": "Haval Dargo", "type": "Mid-Size SUV" },
+  { "model": "Haval H9", "type": "Full-Size SUV" },
+  { "model": "Ora Good Cat", "type": "Electric Compact Car" },
+  { "model": "Ora Lightning Cat", "type": "Electric Sedan" },
+  { "model": "GWM Cannon", "type": "Full-Size Pickup" },
+  { "model": "Poer", "type": "Mid-Size Pickup" },
+  { "model": "Tank 300 Hybrid", "type": "Off-Road Hybrid SUV" },
+  { "model": "Tank 500 Hybrid", "type": "Large Luxury Hybrid SUV" }
+]

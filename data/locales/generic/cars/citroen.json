@@ -1,0 +1,34 @@
+[
+  {
+    "model": "C3",
+    "type": "Hatchback"
+  },
+  {
+    "model": "C3 Aircross",
+    "type": "Compact SUV"
+  },
+  {
+    "model": "C4",
+    "type": "Hatchback/Crossover"
+  },
+  {
+    "model": "C5 X",
+    "type": "Midsize Crossover"
+  },
+  {
+    "model": "C5 Aircross",
+    "type": "Compact SUV"
+  },
+  {
+    "model": "Berlingo",
+    "type": "Van/MPV"
+  },
+  {
+    "model": "Spacetourer",
+    "type": "Large MPV"
+  },
+  {
+    "model": "Ami",
+    "type": "Electric Microcar"
+  }
+]

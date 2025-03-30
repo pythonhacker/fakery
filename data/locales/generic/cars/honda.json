@@ -1,0 +1,18 @@
+[
+  { "model": "Accord", "type": "Sedan" },
+  { "model": "Civic", "type": "Sedan" },
+  { "model": "City", "type": "Sedan" },
+  { "model": "Fit", "type": "Hatchback" },
+  { "model": "HR-V", "type": "Compact SUV" },
+  { "model": "CR-V", "type": "Mid-Size SUV" },
+  { "model": "Passport", "type": "Mid-Size SUV" },
+  { "model": "Pilot", "type": "Full-Size SUV" },
+  { "model": "Ridgeline", "type": "Pickup Truck" },
+  { "model": "Odyssey", "type": "Minivan" },
+  { "model": "Clarity", "type": "Hybrid/Plug-in Hybrid" },
+  { "model": "Insight", "type": "Hybrid Sedan" },
+  { "model": "CR-V Hybrid", "type": "Hybrid SUV" },
+  { "model": "Accord Hybrid", "type": "Hybrid Sedan" },
+  { "model": "Prologue", "type": "Electric SUV" },
+  { "model": "e:Ny1", "type": "Electric SUV" }
+]

@@ -1,0 +1,7 @@
+[
+  { "model": "Swift", "type": "Hatchback" },
+  { "model": "Baleno", "type": "Hatchback" },
+  { "model": "Vitara", "type": "SUV" },
+  { "model": "S-Cross", "type": "SUV" },
+  { "model": "Jimny", "type": "SUV" }
+]

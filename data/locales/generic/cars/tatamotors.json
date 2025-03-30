@@ -1,0 +1,8 @@
+[
+  { "model": "Tiago", "type": "Hatchback" },
+  { "model": "Tigor", "type": "Sedan" },
+  { "model": "Altroz", "type": "Hatchback" },
+  { "model": "Nexon", "type": "SUV" },
+  { "model": "Harrier", "type": "SUV" },
+  { "model": "Safari", "type": "SUV" }
+]

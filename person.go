@@ -141,7 +141,7 @@ func (f *Faker) PersonMale() *Person {
 	var nameFormat string
 	var namePieces []string
 
-	nameFormat, err := f.RandomItem(&nameFormats)
+	nameFormat, err := f.RandomWeightedItem(&nameFormats)
 	if err != nil {
 		return nil
 	}
@@ -177,7 +177,7 @@ func (f *Faker) PersonFemale() *Person {
 	var nameFormat string
 	var namePieces []string
 
-	nameFormat, err := f.RandomItem(&nameFormats)
+	nameFormat, err := f.RandomWeightedItem(&nameFormats)
 	if err != nil {
 		return nil
 	}

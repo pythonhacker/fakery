@@ -1,0 +1,42 @@
+[
+  {
+    "model": "Terrain",
+    "type": "Compact SUV"
+  },
+  {
+    "model": "Acadia",
+    "type": "Mid-Size SUV"
+  },
+  {
+    "model": "Yukon",
+    "type": "Full-Size SUV"
+  },
+  {
+    "model": "Yukon XL",
+    "type": "Extended Full-Size SUV"
+  },
+  {
+    "model": "Canyon",
+    "type": "Mid-Size Pickup Truck"
+  },
+  {
+    "model": "Sierra 1500",
+    "type": "Full-Size Pickup Truck"
+  },
+  {
+    "model": "Sierra HD",
+    "type": "Heavy-Duty Pickup Truck"
+  },
+  {
+    "model": "Hummer EV Pickup",
+    "type": "Electric Pickup Truck"
+  },
+  {
+    "model": "Hummer EV SUV",
+    "type": "Electric SUV"
+  },
+  {
+    "model": "Savana",
+    "type": "Full-Size Commercial Van"
+  }
+]

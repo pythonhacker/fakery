@@ -1,0 +1,6 @@
+[
+  { "model": "P7", "type": "Sedan" },
+  { "model": "P5", "type": "Sedan" },
+  { "model": "G3i", "type": "SUV" },
+  { "model": "G9", "type": "SUV" }
+]

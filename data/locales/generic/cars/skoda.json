@@ -1,0 +1,26 @@
+[
+    {
+        "model": "Fabia",
+        "type": "Hatchback"
+    },
+    {
+        "model": "Octavia",
+        "type": "Sedan"
+    },
+    {
+        "model": "Superb",
+        "type": "Sedan"
+    },
+    {
+        "model": "Karoq",
+        "type": "SUV"
+    },
+    {
+        "model": "Kodiaq",
+        "type": "SUV"
+    },
+    {
+        "model": "Enyaq",
+        "type": "SUV"
+    }
+]

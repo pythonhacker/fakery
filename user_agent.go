@@ -1,4 +1,6 @@
 // Fake user agents which look realistic
+// ref:
+// https://gist.github.com/pzb/b4b6f57144aea7827ae4
 package gofakelib
 
 import (

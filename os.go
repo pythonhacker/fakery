@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func (f *Faker) Windows() string {
+func (f *Faker) WindowsVersion() string {
 	versions := []string{
 		"Windows NT 10.0; Win64; x64",
 		"Windows NT 10.0; WOW64",
@@ -23,7 +23,7 @@ func (f *Faker) Windows() string {
 }
 
 // Mac returns a random Mac OS version string
-func (f *Faker) Mac() string {
+func (f *Faker) MacVersion() string {
 	// Generate OS X or macOS version
 	majorVersion := 10
 	// Version 10.9 (Mavericks) through 10.15 (Catalina) or 11.0+ (Big Sur and newer)
@@ -41,7 +41,8 @@ func (f *Faker) Mac() string {
 }
 
 // Linux returns a random Linux version string
-func (f *Faker) Linux() string {
+// this is to be used with browser user agents only
+func (f *Faker) LinuxVersion() string {
 	versions := []string{
 		"X11; Linux x86_64",
 		"X11; Ubuntu; Linux x86_64",
@@ -54,7 +55,7 @@ func (f *Faker) Linux() string {
 }
 
 // Android returns a random Android version string
-func (f *Faker) Android() string {
+func (f *Faker) AndroidVersion() string {
 	versions := []string{
 		"Android 13; Mobile",
 		"Android 12; Mobile",
@@ -73,7 +74,7 @@ func (f *Faker) Android() string {
 }
 
 // iOS returns a random iOS version string
-func (f *Faker) iOS() string {
+func (f *Faker) iOSVersion() string {
 	device := f.RandomString([]string{"iPhone", "iPad", "iPod"})
 
 	// iOS versions with corresponding device generations
@@ -98,18 +99,18 @@ func (f *Faker) iOS() string {
 	return fmt.Sprintf("%s; %s", device, cpu)
 }
 
-// Platform returns a random platform string
-func (f *Faker) Platform() string {
+// Platform returns a random platform version string
+func (f *Faker) PlatformVersion() string {
 	switch f.IntRange(5) {
 	case 0:
-		return f.Windows()
+		return f.WindowsVersion()
 	case 1:
-		return f.Mac()
+		return f.MacVersion()
 	case 2:
-		return f.Linux()
+		return f.LinuxVersion()
 	case 3:
-		return f.Android()
+		return f.AndroidVersion()
 	default:
-		return f.iOS()
+		return f.iOSVersion()
 	}
 }

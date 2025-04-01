@@ -16,7 +16,7 @@ func (f *Faker) Chrome() string {
 	patchVersion := f.IntRange(10000)
 	buildVersion := f.IntRange(1000)
 
-	platform := f.Platform()
+	platform := f.PlatformVersion()
 
 	// Mobile-specific modifications
 	if strings.Contains(platform, "Android") {
@@ -42,7 +42,7 @@ func (f *Faker) Firefox() string {
 
 	majorVersion := f.RandIntBetween(45, 136)
 
-	platform := f.Platform()
+	platform := f.PlatformVersion()
 
 	// Special case for Android Firefox (Fennec)
 	if strings.Contains(platform, "Android") {
@@ -61,7 +61,7 @@ func (f *Faker) Firefox() string {
 
 // Safari returns a realistic Safari user agent
 func (f *Faker) Safari() string {
-	platform := f.Platform()
+	platform := f.PlatformVersion()
 
 	// Safari version (corresponds roughly to the OS version)
 	majorVersion := f.RandIntBetween(11, 17)
@@ -88,7 +88,7 @@ func (f *Faker) Safari() string {
 // IE returns a realistic Internet Explorer user agent
 func (f *Faker) IE() string {
 	// IE only runs on Windows
-	windows := f.Windows()
+	windows := f.WindowsVersion()
 
 	// IE versions 8-11 (older versions are too outdated)
 	version := f.RandIntBetween(7, 11)
@@ -110,7 +110,7 @@ func (f *Faker) IE() string {
 
 // Edge returns a realistic Microsoft Edge user agent
 func (f *Faker) Edge() string {
-	platform := f.Windows() // Edge was originally Windows-only
+	platform := f.WindowsVersion() // Edge was originally Windows-only
 
 	// Decide between legacy Edge and Chromium-based Edge
 	if f.RollDice() < 3 {
@@ -126,9 +126,9 @@ func (f *Faker) Edge() string {
 
 		// Platform can be Windows, Mac, or even Linux for newer Edge
 		if f.RollDice() < 3 {
-			platform = f.Mac()
+			platform = f.MacVersion()
 		} else {
-			platform = f.Linux()
+			platform = f.LinuxVersion()
 		}
 
 		edgeVersion := fmt.Sprintf("%d.0.%d.%d", majorVersion, patchVersion, f.IntRange(1000))
@@ -139,7 +139,7 @@ func (f *Faker) Edge() string {
 
 // Opera returns a realistic Opera user agent
 func (f *Faker) Opera() string {
-	platform := f.Platform()
+	platform := f.PlatformVersion()
 
 	// Modern Opera is Chromium-based
 	majorVersion := f.RandIntBetween(59, 100)
@@ -166,7 +166,7 @@ func (f *Faker) Opera() string {
 // Return a random browser user agent
 func (f *Faker) UserAgent() string {
 
-	switch f.IntRange(5) {
+	switch f.IntRange(6) {
 	case 0:
 		return f.Chrome()
 	case 1:
@@ -175,6 +175,8 @@ func (f *Faker) UserAgent() string {
 		return f.Safari()
 	case 3:
 		return f.IE()
+	case 4:
+		return f.Opera()
 	default:
 		return f.Edge()
 	}

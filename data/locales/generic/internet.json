@@ -1,19 +1,18 @@
 {
   "common_tlds_weighted": [
-      ".com:0.50",
-      ".org:0.12",
-      ".net:0.08",
-      ".edu:0.07",
-      ".gov:0.06",
-      ".co:0.04",
-      ".io:0.03",
-      ".ai:0.03",
-      ".biz:0.02",
-      ".info:0.02",
-	  ".news:0.02",
-	  ".app:0.01"
+    ".com:0.50",
+    ".org:0.12",
+    ".net:0.08",
+    ".edu:0.07",
+    ".gov:0.06",
+    ".co:0.04",
+    ".io:0.03",
+    ".ai:0.03",
+    ".biz:0.02",
+    ".info:0.02",
+    ".news:0.02",
+    ".app:0.01"
   ],
-
   "fake_email_domains": [
     "summary.com",
     "mailgrab.com",
@@ -120,5 +119,19 @@
     "eclipsemail.org",
     "uplinkpost.io",
     "vortexmail.co"
+  ],
+  "free_email_domains": [
+    "gmail.com",
+    "outlook.com",
+    "hotmail.com",
+    "live.com",
+    "yahoo.com",
+    "icloud.com",
+    "aol.com",
+    "mail.com",
+    "gmx.com",
+    "yandex.com",
+    "yandex.ru",
+    "zoho.com"
   ]
 }

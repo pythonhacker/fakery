@@ -28,9 +28,17 @@ func TestEmailWithName(t *testing.T) {
 }
 
 func TestTLD(t *testing.T) {
-	Expect(t, true, len(gofakelib.New().GetRandomTLD()) > 0)
+	Expect(t, true, len(gofakelib.New().TLD()) > 0)
 }
 
 func TestEmailDomain(t *testing.T) {
-	Expect(t, true, len(gofakelib.New().GetRandomEmailDomain()) > 0)
+	Expect(t, true, len(gofakelib.New().EmailDomain()) > 0)
+}
+
+func TestFreeEmailDomain(t *testing.T) {
+	Expect(t, true, len(gofakelib.New().FreeEmailDomain()) > 0)
+}
+
+func TestUserName(t *testing.T) {
+	Expect(t, true, len(gofakelib.New().UserName()) > 0)
 }

@@ -1,5 +1,5 @@
 // Functions related to a fake address
-package gofakelib
+package fakery
 
 import (
 	"fmt"

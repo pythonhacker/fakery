@@ -1,5 +1,5 @@
 // Fake colors
-package gofakelib
+package fakery
 
 import (
 	"fmt"

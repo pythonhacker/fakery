@@ -1,14 +1,14 @@
 package tests
 
 import (
-	"gofakelib"
+	"fakery"
 	"strconv"
 	"strings"
 	"testing"
 )
 
 func TestCreditCard(t *testing.T) {
-	c := gofakelib.New().CreditCard()
+	c := fakery.New().CreditCard()
 	Expect(t, true, c != nil)
 	Expect(t, true, len(c.Type) > 0)
 	Expect(t, true, len(c.Number) > 0)

@@ -1,5 +1,5 @@
 // Functions related to a fake Internet
-package gofakelib
+package fakery
 
 import (
 	"fmt"

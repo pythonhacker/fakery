@@ -1,7 +1,7 @@
 package tests
 
 import (
-	"gofakelib"
+	"fakery"
 	"net/mail"
 	"testing"
 )
@@ -16,11 +16,11 @@ func testEmail(email string) bool {
 }
 
 func TestEmail(t *testing.T) {
-	Expect(t, true, testEmail(gofakelib.New().Email()))
+	Expect(t, true, testEmail(fakery.New().Email()))
 }
 
 func TestEmailWithName(t *testing.T) {
-	f := gofakelib.New()
+	f := fakery.New()
 	firstName := f.FirstName()
 	lastName := f.LastName()
 
@@ -28,17 +28,17 @@ func TestEmailWithName(t *testing.T) {
 }
 
 func TestTLD(t *testing.T) {
-	Expect(t, true, len(gofakelib.New().TLD()) > 0)
+	Expect(t, true, len(fakery.New().TLD()) > 0)
 }
 
 func TestEmailDomain(t *testing.T) {
-	Expect(t, true, len(gofakelib.New().EmailDomain()) > 0)
+	Expect(t, true, len(fakery.New().EmailDomain()) > 0)
 }
 
 func TestFreeEmailDomain(t *testing.T) {
-	Expect(t, true, len(gofakelib.New().FreeEmailDomain()) > 0)
+	Expect(t, true, len(fakery.New().FreeEmailDomain()) > 0)
 }
 
 func TestUserName(t *testing.T) {
-	Expect(t, true, len(gofakelib.New().UserName()) > 0)
+	Expect(t, true, len(fakery.New().UserName()) > 0)
 }

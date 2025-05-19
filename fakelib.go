@@ -1,4 +1,4 @@
-package gofakelib
+package fakery
 
 import (
 	"encoding/json"
@@ -11,6 +11,7 @@ import (
 
 const upperAlpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 const lowerAlpha = "abcdefghijklmnopqrstuvwxy"
+const hexChars = "0123456789ABCDEF"
 
 // Base is the base class for data types, not Faker
 type Base struct{}
@@ -164,6 +165,11 @@ func (f *Faker) RandomStringExcl(stringItems []string, excl string) string {
 func (f *Faker) RandomAZ() string {
 
 	return fmt.Sprintf("%c", upperAlpha[f.IntRange(26)])
+}
+
+// Return a random hex char as string
+func (f *Faker) RandomHex() string {
+	return fmt.Sprintf("%c", hexChars[f.IntRange(len(hexChars))])
 }
 
 // Return a random letter [A-Z] in a specific range

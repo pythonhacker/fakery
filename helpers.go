@@ -1,5 +1,5 @@
 // Data helpers module
-package gofakelib
+package fakery
 
 import (
 	"encoding/json"

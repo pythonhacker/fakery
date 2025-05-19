@@ -1,5 +1,5 @@
 // Functions related to a person's job but managed in separate data source
-package gofakelib
+package fakery
 
 var jobLoader DataLoader
 

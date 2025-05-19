@@ -1,5 +1,5 @@
 // Functions related to a fake person
-package gofakelib
+package fakery
 
 import (
 	"strings"

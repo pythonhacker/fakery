@@ -1,12 +1,12 @@
 package tests
 
 import (
-	"gofakelib"
+	"fakery"
 	"testing"
 )
 
 func TestBinaryString(t *testing.T) {
-	f := gofakelib.New()
+	f := fakery.New()
 	length := f.RandDigitNonZero()
 	Expect(t, true, len(f.BinaryString(length)) == length)
 }

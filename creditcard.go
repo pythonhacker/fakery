@@ -1,5 +1,5 @@
 // Generate fake credit card data
-package gofakelib
+package fakery
 
 import (
 	"fmt"

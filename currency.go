@@ -1,4 +1,4 @@
-package gofakelib
+package fakery
 
 var (
 	currencyLoader DataLoader

@@ -1,5 +1,5 @@
 // Build and deliver fake cars.
-package gofakelib
+package fakery
 
 import (
 	"fmt"

@@ -1,5 +1,5 @@
 // Random operating system related functions
-package gofakelib
+package fakery
 
 import (
 	"fmt"

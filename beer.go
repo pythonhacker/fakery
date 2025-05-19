@@ -1,5 +1,5 @@
 // Random beers! Cheers...\U0001f37a
-package gofakelib
+package fakery
 
 import (
 	"fmt"

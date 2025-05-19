@@ -1,5 +1,5 @@
 // Configurations
-package gofakelib
+package fakery
 
 var DefaultLocale = "en_US"
 var GenericLocale = "generic"

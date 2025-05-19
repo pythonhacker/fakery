@@ -1,5 +1,5 @@
 // Handling different type of words
-package gofakelib
+package fakery
 
 var (
 	wordsLoader DataLoader

@@ -1,5 +1,5 @@
 // Generate fake books
-package gofakelib
+package fakery
 
 import (
 	"github.com/gertd/go-pluralize"

@@ -1,2 +1,2 @@
-# gofakelib
-Random data generator library in Go 🚧
+# fakery
+Random data generator library in Go. Fakery is your bakery🎂 for fake data 🚧

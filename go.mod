@@ -7,4 +7,7 @@ require (
 	github.com/google/uuid v1.6.0
 )
 
-require github.com/mileusna/useragent v1.3.5
+require (
+	github.com/mileusna/useragent v1.3.5
+	golang.org/x/text v0.26.0
+)

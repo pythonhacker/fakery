@@ -1,3 +1,4 @@
+// The main fakery module. We also absorb most utility functions in this module.
 package fakery
 
 import (
@@ -7,6 +8,9 @@ import (
 	"math/rand"
 	"strings"
 	"time"
+
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 const upperAlpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -17,8 +21,16 @@ const hexChars = "0123456789ABCDEF"
 type Base struct{}
 
 func (b Base) String(v interface{}) string {
-	val, _ := json.MarshalIndent(v, "", "\t")
-	return string(val)
+	var sb strings.Builder
+
+	encoder := json.NewEncoder(&sb)
+	encoder.SetEscapeHTML(false)
+	encoder.SetIndent("", "  ")
+	err := encoder.Encode(v)
+	if err == nil {
+		return sb.String()
+	}
+	return ""
 }
 
 // We will use the format of having a few top level
@@ -235,6 +247,12 @@ func (f *Faker) SpecificAlphify(inputString string) string {
 	}
 
 	return inputString
+}
+
+// Capitalize all words in a  sentence
+func (f *Faker) Capitalize(sentence string) string {
+
+	return cases.Title(language.Und).String(sentence)
 }
 
 // Set locale

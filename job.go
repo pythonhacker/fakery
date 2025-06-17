@@ -13,7 +13,7 @@ type Job struct {
 	Profession string `json:"profession,omitempty"`
 }
 
-func (f *Faker) Job() *Job {
+func (f *Fakery) Job() *Job {
 	var job string
 
 	data := f.LoadGenericLocale(&jobLoader)

@@ -19,19 +19,19 @@ func (e Emoji) String() string {
 }
 
 // Return random emoji symbol
-func (f *Faker) EmojiSymbol() string {
+func (f *Fakery) EmojiSymbol() string {
 	idx := f.IntRange(len(source.Emojis))
 	return source.Emojis[idx].Symbol
 }
 
 // Return random emoji category
-func (f *Faker) EmojiCategory() string {
+func (f *Fakery) EmojiCategory() string {
 	idx := f.IntRange(len(source.Emojis))
 	return source.Emojis[idx].Category
 }
 
 // Return random emoji description
-func (f *Faker) EmojiDescription() string {
+func (f *Fakery) EmojiDescription() string {
 	idx := f.IntRange(len(source.Emojis))
 	// manage description
 	desc := source.Emojis[idx].Description
@@ -40,7 +40,7 @@ func (f *Faker) EmojiDescription() string {
 }
 
 // Return random emoji tags (aliases)
-func (f *Faker) EmojiAlias() string {
+func (f *Fakery) EmojiAlias() string {
 	idx := f.IntRange(len(source.Emojis))
 	aliases := source.Emojis[idx].Aliases
 	if len(aliases) == 1 {
@@ -50,7 +50,7 @@ func (f *Faker) EmojiAlias() string {
 }
 
 // Return random emoji struct
-func (f *Faker) Emoji() *Emoji {
+func (f *Fakery) Emoji() *Emoji {
 	idx := f.IntRange(len(source.Emojis))
 	emojiData := source.Emojis[idx]
 

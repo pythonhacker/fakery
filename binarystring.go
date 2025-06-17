@@ -4,7 +4,7 @@ import (
 	"strings"
 )
 
-func (f *Faker) BinaryString(length int) string {
+func (f *Fakery) BinaryString(length int) string {
 	var bs strings.Builder
 
 	// First is always 1

@@ -17,21 +17,21 @@ type WordsData struct {
 }
 
 // Return a random adjective
-func (f *Faker) Adjective() string {
+func (f *Fakery) Adjective() string {
 	return f.RandomString(f.LoadGenericLocale(&wordsLoader).Get("adjectives"))
 }
 
 // Return a random positive adjective
-func (f *Faker) AdjectivePositive() string {
+func (f *Fakery) AdjectivePositive() string {
 	return f.RandomString(f.LoadGenericLocale(&wordsLoader).Get("adjectives_positive"))
 }
 
 // Return a random negative adjective
-func (f *Faker) AdjectiveNegative() string {
+func (f *Fakery) AdjectiveNegative() string {
 	return f.RandomString(f.LoadGenericLocale(&wordsLoader).Get("adjectives_negative"))
 }
 
 // Return a random adverb
-func (f *Faker) Adverb() string {
+func (f *Fakery) Adverb() string {
 	return f.RandomString(f.LoadGenericLocale(&wordsLoader).Get("adverbs"))
 }

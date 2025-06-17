@@ -49,46 +49,46 @@ func (w Wine) String() string {
 	return w.Base.String(w)
 }
 
-func (f *Faker) WineName() string {
+func (f *Fakery) WineName() string {
 	return f.RandomString(wineData.WineNames)
 }
 
-func (f *Faker) WineVarietal() string {
+func (f *Fakery) WineVarietal() string {
 	return f.RandomString(wineData.WineVarietals)
 }
 
-func (f *Faker) WineRegion() string {
+func (f *Fakery) WineRegion() string {
 	return f.RandomString(wineData.WineRegions)
 }
 
-func (f *Faker) WineBody() string {
+func (f *Fakery) WineBody() string {
 	return f.RandomString(wineData.WineBodies)
 }
 
-func (f *Faker) WineAcidity() string {
+func (f *Fakery) WineAcidity() string {
 	return f.RandomString(wineData.WineAcidities)
 }
 
-func (f *Faker) WineTannins() string {
+func (f *Fakery) WineTannins() string {
 	return f.RandomString(wineData.WineTannins)
 }
 
-func (f *Faker) WineSweetness() string {
+func (f *Fakery) WineSweetness() string {
 	return f.RandomString(wineData.WineSweetness)
 }
 
-func (f *Faker) WineVintage() string {
+func (f *Fakery) WineVintage() string {
 	// This can be a year in the last 50 years, let us always go 1 year back
 	year := time.Now().UTC().Year()
 	return fmt.Sprintf("%d", f.RandIntBetween(year-50, year-1))
 }
 
-func (f *Faker) WineAlcohol() string {
+func (f *Fakery) WineAlcohol() string {
 	// in the 5 - 23% range
 	return strconv.FormatFloat(f.RandFloat(2, 5.0, 24.0), 'f', 1, 64) + "%"
 }
 
-func (f *Faker) Wine() *Wine {
+func (f *Fakery) Wine() *Wine {
 	var w Wine
 
 	w.Name = f.WineName()

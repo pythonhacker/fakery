@@ -22,22 +22,22 @@ func (c Currency) String() string {
 	return c.Base.String(c)
 }
 
-func (f *Faker) CurrencyCode() string {
+func (f *Fakery) CurrencyCode() string {
 	item := f.LoadGenericLocale(&currencyLoader).RandomWeightedItem(f)
 	return item["code"]
 }
 
-func (f *Faker) CurrencyName() string {
+func (f *Fakery) CurrencyName() string {
 	item := f.LoadGenericLocale(&currencyLoader).RandomWeightedItem(f)
 	return item["currency"]
 }
 
-func (f *Faker) CurrencyCountry() string {
+func (f *Fakery) CurrencyCountry() string {
 	item := f.LoadGenericLocale(&currencyLoader).RandomWeightedItem(f)
 	return item["country"]
 }
 
-func (f *Faker) Currency() *Currency {
+func (f *Fakery) Currency() *Currency {
 	var c Currency
 
 	// The data has to be consistent

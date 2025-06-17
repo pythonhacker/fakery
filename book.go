@@ -71,7 +71,7 @@ func (b Book) String() string {
 }
 
 // validateISBN10 checks if the provided string is a valid ISBN-10 number
-func (f *Faker) ValidateISBN(isbn string) bool {
+func (f *Fakery) ValidateISBN(isbn string) bool {
 	// Remove any hyphens or spaces
 	isbn = strings.ReplaceAll(isbn, "-", "")
 	isbn = strings.ReplaceAll(isbn, " ", "")
@@ -86,7 +86,7 @@ func (f *Faker) ValidateISBN(isbn string) bool {
 	return false
 }
 
-func (f *Faker) validateISBN13(isbn string) bool {
+func (f *Fakery) validateISBN13(isbn string) bool {
 	match, err := regexp.MatchString(`^\d{13}$`, isbn)
 	if err != nil || !match {
 		return false
@@ -112,7 +112,7 @@ func (f *Faker) validateISBN13(isbn string) bool {
 }
 
 // validate ISBN10 numbers
-func (f *Faker) validateISBN10(isbn string) bool {
+func (f *Fakery) validateISBN10(isbn string) bool {
 
 	// Check if first 9 characters are digits
 	for i := 0; i < 9; i++ {
@@ -149,7 +149,7 @@ func (f *Faker) validateISBN10(isbn string) bool {
 }
 
 // generateISBN10 creates a valid ISBN-10 number
-func (f *Faker) generateISBN10() string {
+func (f *Fakery) generateISBN10() string {
 	// Generate 9 random digits
 	digits := make([]int, 9)
 	for i := 0; i < 9; i++ {
@@ -189,7 +189,7 @@ func (f *Faker) generateISBN10() string {
 }
 
 // generateISBN13 creates a valid ISBN-13 number
-func (f *Faker) generateISBN13() string {
+func (f *Fakery) generateISBN13() string {
 	// Start with 978 or 979 (EAN prefix for books)
 	prefix := 978
 	if f.RandDigitNonZero() > 7 { // About 20% chance for 979
@@ -240,7 +240,7 @@ func (f *Faker) generateISBN13() string {
 	return strings.Join(parts, "-")
 }
 
-func (f *Faker) BookTitle() string {
+func (f *Fakery) BookTitle() string {
 
 	var items []string
 	// Patterns for which a "The" can be prefixed
@@ -337,7 +337,7 @@ func (f *Faker) BookTitle() string {
 	return title
 }
 
-func (f *Faker) BookPublisher() string {
+func (f *Fakery) BookPublisher() string {
 
 	var items []string
 	pattern := f.IntRange(3) + 1
@@ -358,24 +358,24 @@ func (f *Faker) BookPublisher() string {
 	return strings.Join(items, " ")
 }
 
-func (f *Faker) BookGenre() string {
+func (f *Fakery) BookGenre() string {
 	return f.RandomString(booksData.Genres)
 }
 
-func (f *Faker) BookAuthor() string {
+func (f *Fakery) BookAuthor() string {
 	return f.Name()
 }
 
-func (f *Faker) BookFormat() string {
+func (f *Fakery) BookFormat() string {
 	format, _ := f.RandomWeightedItem(&formats)
 	return format
 }
 
-func (f *Faker) BookYear() int {
+func (f *Fakery) BookYear() int {
 	return f.RandIntBetween(1980, time.Now().Year()-1)
 }
 
-func (f *Faker) BookISBN() string {
+func (f *Fakery) BookISBN() string {
 	if f.Choice() == 1 {
 		return f.generateISBN10()
 	} else {
@@ -383,7 +383,7 @@ func (f *Faker) BookISBN() string {
 	}
 }
 
-func (f *Faker) Book() *Book {
+func (f *Fakery) Book() *Book {
 	var b Book
 
 	b.Title = f.BookTitle()

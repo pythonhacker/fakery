@@ -201,7 +201,7 @@ func (l *LocaleData) Get(key string) []string {
 }
 
 // Fetch random data item from map
-func (l *LocaleData) RandomWeightedItem(f *Faker) map[string]string {
+func (l *LocaleData) RandomWeightedItem(f *Fakery) map[string]string {
 	return l.dataMap[f.IntRange(len(l.dataMap))]
 }
 
@@ -348,7 +348,7 @@ func NormalizeString(s string) string {
 }
 
 // determine article depending on following word
-func DetermineArticle(following string, f *Faker) string {
+func DetermineArticle(following string, f *Fakery) string {
 	var article = "a"
 	if startsWithVowel(following) {
 		if f.Choice() == 1 {

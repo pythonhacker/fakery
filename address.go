@@ -51,7 +51,7 @@ var postCode = []string{"#####", "######", "#####-####"}
 var zipCode = []string{"#####", "#####-####"}
 
 // Return a random fake city
-func (f *Faker) City() string {
+func (f *Fakery) City() string {
 	data := f.LoadGenericLocale(&addressLoader)
 
 	cityFormat, err := f.RandomWeightedItem(&cityFormats)
@@ -75,7 +75,7 @@ func (f *Faker) City() string {
 }
 
 // Return a random building number
-func (f *Faker) BuildingNumber() string {
+func (f *Fakery) BuildingNumber() string {
 
 	var secFormat string
 
@@ -94,7 +94,7 @@ func (f *Faker) BuildingNumber() string {
 }
 
 // Return random building name
-func (f *Faker) BuildingName() string {
+func (f *Fakery) BuildingName() string {
 
 	var namePieces []string
 
@@ -112,7 +112,7 @@ func (f *Faker) BuildingName() string {
 }
 
 // Return random street name
-func (f *Faker) StreetName() string {
+func (f *Fakery) StreetName() string {
 
 	var name string
 
@@ -137,7 +137,7 @@ func (f *Faker) StreetName() string {
 }
 
 // Return a random street address
-func (f *Faker) StreetAddress() string {
+func (f *Fakery) StreetAddress() string {
 
 	streetAddress := f.RandomString(streetAddressFormats)
 
@@ -154,37 +154,37 @@ func (f *Faker) StreetAddress() string {
 }
 
 // Random two letter state abbreviation
-func (f *Faker) StateAbbr() string {
+func (f *Fakery) StateAbbr() string {
 	return f.RandomString(f.LoadLocale(&addressLoader).Get("state_abbrevs"))
 }
 
 // Random state
-func (f *Faker) State() string {
+func (f *Fakery) State() string {
 	// states is specific to
 	states := f.LoadLocale(&addressLoader).Get("states")
 	return f.RandomString(states)
 }
 
-func (f *Faker) PostCode() string {
+func (f *Fakery) PostCode() string {
 	format := f.RandomString(postCode)
 	return f.Numerify(format)
 }
 
 // For US
-func (f *Faker) ZipCode() string {
+func (f *Fakery) ZipCode() string {
 	format := f.RandomString(zipCode)
 	return f.Numerify(format)
 }
 
-func (f *Faker) Country() string {
+func (f *Fakery) Country() string {
 	return f.RandomString(f.LoadGenericLocale(&addressLoader).Get("countries"))
 }
 
-func (f *Faker) CountryCode() string {
+func (f *Fakery) CountryCode() string {
 	return f.RandomString(f.LoadGenericLocale(&addressLoader).Get("country_codes"))
 }
 
-func (f *Faker) Address() *Address {
+func (f *Fakery) Address() *Address {
 
 	var a Address
 	var code string
@@ -217,7 +217,7 @@ func (f *Faker) Address() *Address {
 }
 
 // Random State - not used
-func (f *Faker) FakeState() string {
+func (f *Fakery) FakeState() string {
 
 	states := f.LoadLocale(&addressLoader).Get("states")
 
@@ -264,7 +264,7 @@ func (f *Faker) FakeState() string {
 }
 
 // given locale get the country
-func (f *Faker) getCountry() string {
+func (f *Fakery) getCountry() string {
 
 	// Split the locale by underscore
 	parts := strings.Split(f.locale, "_")

@@ -65,13 +65,13 @@ var nameFormats = WeightedArray{
 }
 
 // Return a random gender
-func (f *Faker) Gender() Gender {
+func (f *Fakery) Gender() Gender {
 	idx := f.Choice()
 	return genders[idx]
 }
 
 // Return a random name
-func (f *Faker) Name() string {
+func (f *Fakery) Name() string {
 
 	var firstName string
 	var lastName string
@@ -89,7 +89,7 @@ func (f *Faker) Name() string {
 }
 
 // Return random first name
-func (f *Faker) FirstName() string {
+func (f *Fakery) FirstName() string {
 
 	var firstName string
 
@@ -105,7 +105,7 @@ func (f *Faker) FirstName() string {
 }
 
 // Return random last name
-func (f *Faker) LastName() string {
+func (f *Fakery) LastName() string {
 
 	var lastName string
 
@@ -116,7 +116,7 @@ func (f *Faker) LastName() string {
 }
 
 // returns a fake Person object
-func (f *Faker) Person() *Person {
+func (f *Fakery) Person() *Person {
 	var person *Person
 
 	gender := f.Gender()
@@ -135,7 +135,7 @@ func (f *Faker) Person() *Person {
 }
 
 // Returns a fake Person object with Male gender
-func (f *Faker) PersonMale() *Person {
+func (f *Fakery) PersonMale() *Person {
 
 	var person Person
 	var nameFormat string
@@ -171,7 +171,7 @@ func (f *Faker) PersonMale() *Person {
 }
 
 // Returns a fake Person object with Female gender
-func (f *Faker) PersonFemale() *Person {
+func (f *Fakery) PersonFemale() *Person {
 
 	var person Person
 	var nameFormat string

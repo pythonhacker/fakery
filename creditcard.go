@@ -81,17 +81,17 @@ func generate(prefix string, length int) string {
 	return num
 }
 
-func (f *Faker) CreditCardCompany() string {
+func (f *Fakery) CreditCardCompany() string {
 	company, _ := f.RandomWeightedItem(&creditCardTypes)
 	return company
 }
 
-func (f *Faker) CreditCardType() string {
+func (f *Fakery) CreditCardType() string {
 	return f.CreditCardCompany()
 }
 
 // Generates a card number for the given type
-func (f *Faker) CreditCardNumber(cardType string) string {
+func (f *Fakery) CreditCardNumber(cardType string) string {
 
 	switch strings.ToLower(cardType) {
 	case "visa":
@@ -116,7 +116,7 @@ func (f *Faker) CreditCardNumber(cardType string) string {
 	return "unsupported card type"
 }
 
-func (f *Faker) CreditCardExpiryDate() string {
+func (f *Fakery) CreditCardExpiryDate() string {
 
 	month := f.RandIntBetween(1, 13)
 	currentYear := time.Now().Year()
@@ -125,7 +125,7 @@ func (f *Faker) CreditCardExpiryDate() string {
 	return fmt.Sprintf("%02d/%02d", month, year%100)
 }
 
-func (f *Faker) CreditCardCVV(cardType string) string {
+func (f *Fakery) CreditCardCVV(cardType string) string {
 	// For Amex CVV - 4 digits, for everyone else - 3 digits
 	if strings.ToLower(cardType) == "amex" {
 		return f.Numerify("####")
@@ -134,7 +134,7 @@ func (f *Faker) CreditCardCVV(cardType string) string {
 	}
 }
 
-func (f *Faker) CreditCard() *CreditCard {
+func (f *Fakery) CreditCard() *CreditCard {
 	var c CreditCard
 
 	c.Type = f.CreditCardType()

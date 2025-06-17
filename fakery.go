@@ -17,7 +17,7 @@ const upperAlpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 const lowerAlpha = "abcdefghijklmnopqrstuvwxy"
 const hexChars = "0123456789ABCDEF"
 
-// Base is the base class for data types, not Faker
+// Base is the base class for data types, not Fakery
 type Base struct{}
 
 func (b Base) String(v interface{}) string {
@@ -37,7 +37,7 @@ func (b Base) String(v interface{}) string {
 // structures and associating field data to those
 // structures. E.g: Person->Name, Person->Address,
 // Person->Creditcard etc.
-type Faker struct {
+type Fakery struct {
 	rng    *rand.Rand
 	locale string
 	// Cached locale data
@@ -48,27 +48,27 @@ type Faker struct {
 // at any given time a faker instance is associated with
 // only one state mapping to its current request
 // so keep this state locally is safe.
-func (f *Faker) LoadLocale(l *DataLoader) *LocaleData {
+func (f *Fakery) LoadLocale(l *DataLoader) *LocaleData {
 	return l.EnsureLoaded(f.locale)
 }
 
 // Wrapper function to load generic locale data
-func (f *Faker) LoadGenericLocale(l *DataLoader) *LocaleData {
+func (f *Fakery) LoadGenericLocale(l *DataLoader) *LocaleData {
 	return l.EnsureLoaded(GenericLocale)
 }
 
 // Return an integer in the interval [0, n)
-func (f *Faker) IntRange(n int) int {
+func (f *Fakery) IntRange(n int) int {
 	return f.rng.Intn(n)
 }
 
 // Return a random digit in range 0..9
-func (f *Faker) RandDigit() int {
+func (f *Fakery) RandDigit() int {
 	return f.IntRange(9999) % 10
 }
 
 // Random integer between x and y, y>x
-func (f *Faker) RandIntBetween(x, y int) int {
+func (f *Fakery) RandIntBetween(x, y int) int {
 	if y < x {
 		return 0
 	}
@@ -76,7 +76,7 @@ func (f *Faker) RandIntBetween(x, y int) int {
 }
 
 // Return fake random float in range of (x, y)
-func (f *Faker) RandFloat(maxDecimals, x, y int) float64 {
+func (f *Fakery) RandFloat(maxDecimals, x, y int) float64 {
 	value := float64(f.RandIntBetween(x, y-1))
 	if maxDecimals < 1 {
 		return value
@@ -89,12 +89,12 @@ func (f *Faker) RandFloat(maxDecimals, x, y int) float64 {
 }
 
 // Return a random digit in range 1..9
-func (f *Faker) RandDigitNonZero() int {
+func (f *Fakery) RandDigitNonZero() int {
 	return f.IntRange(9) + 1
 }
 
 // Return either 0 or 1 for a two choice array index
-func (f *Faker) Choice() int {
+func (f *Fakery) Choice() int {
 	randVal := f.rng.Float64()
 	if randVal <= 0.5 {
 		return 0
@@ -103,12 +103,12 @@ func (f *Faker) Choice() int {
 }
 
 // Roll dice i.e return number in range [1-6]
-func (f *Faker) RollDice() int {
+func (f *Fakery) RollDice() int {
 	return f.IntRange(6) + 1
 }
 
 // Random integer of given length
-func (f *Faker) RandInteger(length int) int {
+func (f *Fakery) RandInteger(length int) int {
 
 	if length == 1 {
 		return f.RandDigit()
@@ -121,7 +121,7 @@ func (f *Faker) RandInteger(length int) int {
 }
 
 // Return a random item according to weights
-func (f *Faker) RandomWeightedItem(array *WeightedArray) (string, error) {
+func (f *Fakery) RandomWeightedItem(array *WeightedArray) (string, error) {
 	randVal := f.rng.Float64()
 
 	if ok, val := array.Validate(); !ok {
@@ -145,19 +145,19 @@ func (f *Faker) RandomWeightedItem(array *WeightedArray) (string, error) {
 
 // Return one of any two strings in a string array
 // Use only when the array has two items
-func (f *Faker) OneOf(choices []string) string {
+func (f *Fakery) OneOf(choices []string) string {
 	return choices[f.Choice()]
 }
 
 // Return a random string
-func (f *Faker) RandomString(stringItems []string) string {
+func (f *Fakery) RandomString(stringItems []string) string {
 
 	idx := f.IntRange(len(stringItems))
 	return stringItems[idx]
 }
 
 // Return a random string excluding given one
-func (f *Faker) RandomStringExcl(stringItems []string, excl string) string {
+func (f *Fakery) RandomStringExcl(stringItems []string, excl string) string {
 
 	var idxElem int
 
@@ -174,18 +174,18 @@ func (f *Faker) RandomStringExcl(stringItems []string, excl string) string {
 }
 
 // Return a random letter [A-Z]
-func (f *Faker) RandomAZ() string {
+func (f *Fakery) RandomAZ() string {
 
 	return fmt.Sprintf("%c", upperAlpha[f.IntRange(26)])
 }
 
 // Return a random hex char as string
-func (f *Faker) RandomHex() string {
+func (f *Fakery) RandomHex() string {
 	return fmt.Sprintf("%c", hexChars[f.IntRange(len(hexChars))])
 }
 
 // Return a random letter [A-Z] in a specific range
-func (f *Faker) RandomAZSpecific(upto string) string {
+func (f *Fakery) RandomAZSpecific(upto string) string {
 
 	idx := strings.Index(upperAlpha, upto)
 	if idx == -1 {
@@ -196,7 +196,7 @@ func (f *Faker) RandomAZSpecific(upto string) string {
 
 // Return a string which replaces all '#' chars in a string
 // with numbers
-func (f *Faker) Numerify(inputString string) string {
+func (f *Fakery) Numerify(inputString string) string {
 	var digit int
 
 	count := strings.Count(inputString, "#")
@@ -215,7 +215,7 @@ func (f *Faker) Numerify(inputString string) string {
 
 // Return a string which replaces all '@' chars in a string
 // with alphabets
-func (f *Faker) Alphify(inputString string) string {
+func (f *Fakery) Alphify(inputString string) string {
 
 	count := strings.Count(inputString, "@")
 	for i := 1; i <= count; i++ {
@@ -227,7 +227,7 @@ func (f *Faker) Alphify(inputString string) string {
 
 // Return a string which replaces all '@' chars in a string
 // with alphabets till a specific string
-func (f *Faker) AlphifySpecific(inputString, upto string) string {
+func (f *Fakery) AlphifySpecific(inputString, upto string) string {
 
 	count := strings.Count(inputString, "@")
 	for i := 1; i <= count; i++ {
@@ -239,7 +239,7 @@ func (f *Faker) AlphifySpecific(inputString, upto string) string {
 
 // Return a string which replaces all '@' chars in a string
 // with alphabets upto a specific range
-func (f *Faker) SpecificAlphify(inputString string) string {
+func (f *Fakery) SpecificAlphify(inputString string) string {
 
 	count := strings.Count(inputString, "@")
 	for i := 1; i <= count; i++ {
@@ -250,35 +250,35 @@ func (f *Faker) SpecificAlphify(inputString string) string {
 }
 
 // Capitalize all words in a  sentence
-func (f *Faker) Capitalize(sentence string) string {
+func (f *Fakery) Capitalize(sentence string) string {
 
 	return cases.Title(language.Und).String(sentence)
 }
 
 // Set locale
-func (f *Faker) SetLocale(locale string) {
+func (f *Fakery) SetLocale(locale string) {
 	f.locale = locale
 }
 
-// Faker constructors
-func New() *Faker {
+// Fakery constructors
+func New() *Fakery {
 	seed := time.Now().Nanosecond()
-	return &Faker{
+	return &Fakery{
 		rng:    rand.New(rand.NewSource(int64(seed))),
 		locale: DefaultLocale,
 	}
 }
 
-func NewFromLocale(locale string) *Faker {
+func NewFromLocale(locale string) *Fakery {
 	seed := time.Now().Nanosecond()
-	return &Faker{
+	return &Fakery{
 		rng:    rand.New(rand.NewSource(int64(seed))),
 		locale: locale,
 	}
 }
 
-func NewFromSeed(seed int64) *Faker {
-	return &Faker{
+func NewFromSeed(seed int64) *Fakery {
+	return &Fakery{
 		rng:    rand.New(rand.NewSource(int64(seed))),
 		locale: DefaultLocale,
 	}

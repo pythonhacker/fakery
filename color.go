@@ -67,7 +67,7 @@ type ColorData struct {
 }
 
 // Return a random color name
-func (f *Faker) ColorName() string {
+func (f *Fakery) ColorName() string {
 	colorAdjective := f.RandomString(colorData.ColorAdjectives)
 	colorName := f.RandomString(colorData.ColorNames)
 
@@ -75,17 +75,17 @@ func (f *Faker) ColorName() string {
 }
 
 // Return a more realistic "safe" color name
-func (f *Faker) SafeColorName() string {
+func (f *Fakery) SafeColorName() string {
 	return f.RandomString(colorData.ColorNames)
 }
 
 // Random hex color
-func (f *Faker) HexColor() string {
+func (f *Fakery) HexColor() string {
 	return fmt.Sprintf("#%06X", f.IntRange(0xFFFFFF))
 }
 
 // Random RGB Color
-func (f *Faker) RGBColor() string {
+func (f *Fakery) RGBColor() string {
 	var colors []string
 
 	for _, item := range f.rgb() {
@@ -96,7 +96,7 @@ func (f *Faker) RGBColor() string {
 }
 
 // Return Random color in HSL
-func (f *Faker) HSLColor() string {
+func (f *Fakery) HSLColor() string {
 
 	var hsl []string
 
@@ -107,7 +107,7 @@ func (f *Faker) HSLColor() string {
 }
 
 // Return a random color
-func (f *Faker) Color() *Color {
+func (f *Fakery) Color() *Color {
 
 	var c Color
 	var hslColor []string
@@ -138,7 +138,7 @@ func (f *Faker) Color() *Color {
 }
 
 // rgb as 3 tuple int
-func (f *Faker) rgb() []int {
+func (f *Fakery) rgb() []int {
 	r := f.IntRange(256)
 	g := f.IntRange(256)
 	b := f.IntRange(256)
@@ -147,7 +147,7 @@ func (f *Faker) rgb() []int {
 }
 
 // hsl as 3 tuple int
-func (f *Faker) hsl() []int {
+func (f *Fakery) hsl() []int {
 	// Hue is in range 0-359,
 	// Sat is in range 0-100
 	// Light is in range 0-100
@@ -161,7 +161,7 @@ func (f *Faker) hsl() []int {
 }
 
 // Convert Hex color to RGB int array
-func (f *Faker) hexToRGB(hex string) []int {
+func (f *Fakery) hexToRGB(hex string) []int {
 	var r, g, b int
 
 	fmt.Sscanf(hex, "#%02X%02X%02X", &r, &g, &b) // Parse hex values
@@ -169,7 +169,7 @@ func (f *Faker) hexToRGB(hex string) []int {
 }
 
 // HSL to RGB conversion
-func (f *Faker) hslToRGB(hsl []int) []int {
+func (f *Fakery) hslToRGB(hsl []int) []int {
 	var h, s, l int
 
 	h = hsl[0]
@@ -219,17 +219,17 @@ func (f *Faker) hslToRGB(hsl []int) []int {
 }
 
 // Convert RGB to HEX
-func (f *Faker) rgbToHex(rgb []int) string {
+func (f *Fakery) rgbToHex(rgb []int) string {
 	return fmt.Sprintf("#%02X%02X%02X", rgb[0], rgb[1], rgb[2])
 }
 
 // Calculate Euclidean distance between two RGB colors
-func (f *Faker) colorDistance(r1, g1, b1, r2, g2, b2 int) float64 {
+func (f *Fakery) colorDistance(r1, g1, b1, r2, g2, b2 int) float64 {
 	return math.Sqrt(math.Pow(float64(r1-r2), 2) + math.Pow(float64(g1-g2), 2) + math.Pow(float64(b1-b2), 2))
 }
 
 // Find the closest named color
-func (f *Faker) closestColor(rgb []int) string {
+func (f *Fakery) closestColor(rgb []int) string {
 
 	var closestName string
 
@@ -252,12 +252,12 @@ func (f *Faker) closestColor(rgb []int) string {
 }
 
 // Calculate brightness (luminance)
-func (f *Faker) calculateLuminance(r, g, b int) float64 {
+func (f *Fakery) calculateLuminance(r, g, b int) float64 {
 	return 0.299*float64(r) + 0.587*float64(g) + 0.114*float64(b)
 }
 
 // Determine shade category
-func (f *Faker) getShade(luminance float64) string {
+func (f *Fakery) getShade(luminance float64) string {
 	if luminance < 85 {
 		return "Dark"
 	} else if luminance < 170 {

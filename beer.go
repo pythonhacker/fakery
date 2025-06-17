@@ -42,37 +42,37 @@ func (b Beer) String() string {
 	return b.Base.String(b)
 }
 
-func (f *Faker) BeerName() string {
+func (f *Fakery) BeerName() string {
 	return f.RandomString(beerData.BeerNames)
 }
 
-func (f *Faker) BeerStyle() string {
+func (f *Fakery) BeerStyle() string {
 	return f.RandomString(beerData.BeerStyles)
 }
 
-func (f *Faker) BeerHops() string {
+func (f *Fakery) BeerHops() string {
 	return fmt.Sprintf("%s Hops", f.RandomString(beerData.BeerHops))
 }
 
-func (f *Faker) BeerMalt() string {
+func (f *Fakery) BeerMalt() string {
 	return fmt.Sprintf("%s Malt", f.RandomString(beerData.BeerMalts))
 }
 
-func (f *Faker) BeerAlcohol() string {
+func (f *Fakery) BeerAlcohol() string {
 	return strconv.FormatFloat(f.RandFloat(2, 2.0, 10.0), 'f', 1, 64) + "%"
 }
 
 // Ibu will return a random beer ibu value between 10 and 100
-func (f *Faker) BeerIbu() string {
+func (f *Fakery) BeerIbu() string {
 	return strconv.Itoa(f.RandIntBetween(10, 100)) + " IBU"
 }
 
 // Blg will return a random beer blg between 5.0 and 20.0
-func (f *Faker) BeerBlg() string {
+func (f *Fakery) BeerBlg() string {
 	return strconv.FormatFloat(f.RandFloat(2, 5.0, 20.0), 'f', 1, 64) + "°Blg"
 }
 
-func (f *Faker) Beer() *Beer {
+func (f *Fakery) Beer() *Beer {
 	var b Beer
 
 	b.Name = f.BeerName()

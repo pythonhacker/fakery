@@ -9,7 +9,7 @@ import (
 )
 
 // Chrome returns a realistic Chrome user agent
-func (f *Faker) Chrome() string {
+func (f *Fakery) Chrome() string {
 	majorVersion := f.RandIntBetween(45, 138)
 
 	// Minor version, patch, and build
@@ -38,7 +38,7 @@ func (f *Faker) Chrome() string {
 }
 
 // Firefox returns a realistic Firefox user agent
-func (f *Faker) Firefox() string {
+func (f *Fakery) Firefox() string {
 
 	majorVersion := f.RandIntBetween(45, 136)
 
@@ -60,7 +60,7 @@ func (f *Faker) Firefox() string {
 }
 
 // Safari returns a realistic Safari user agent
-func (f *Faker) Safari() string {
+func (f *Fakery) Safari() string {
 	platform := f.PlatformVersion()
 
 	// Safari version (corresponds roughly to the OS version)
@@ -86,7 +86,7 @@ func (f *Faker) Safari() string {
 }
 
 // IE returns a realistic Internet Explorer user agent
-func (f *Faker) IE() string {
+func (f *Fakery) IE() string {
 	// IE only runs on Windows
 	windows := f.WindowsVersion()
 
@@ -109,7 +109,7 @@ func (f *Faker) IE() string {
 }
 
 // Edge returns a realistic Microsoft Edge user agent
-func (f *Faker) Edge() string {
+func (f *Fakery) Edge() string {
 	platform := f.WindowsVersion() // Edge was originally Windows-only
 
 	// Decide between legacy Edge and Chromium-based Edge
@@ -138,7 +138,7 @@ func (f *Faker) Edge() string {
 }
 
 // Opera returns a realistic Opera user agent
-func (f *Faker) Opera() string {
+func (f *Fakery) Opera() string {
 	platform := f.PlatformVersion()
 
 	// Modern Opera is Chromium-based
@@ -164,7 +164,7 @@ func (f *Faker) Opera() string {
 }
 
 // Return a random browser user agent
-func (f *Faker) UserAgent() string {
+func (f *Fakery) UserAgent() string {
 
 	switch f.IntRange(6) {
 	case 0:

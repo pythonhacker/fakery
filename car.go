@@ -76,15 +76,15 @@ var carPlateFormats = []string{
 }
 
 // The car company/make
-func (f *Faker) CarMake() string {
+func (f *Fakery) CarMake() string {
 	return f.RandomString(carData.CarMakers)
 }
 
-func (f *Faker) CarSeries() string {
+func (f *Fakery) CarSeries() string {
 	return f.RandomString(carData.CarSeries)
 }
 
-func (f *Faker) makeFromModel(make string) string {
+func (f *Fakery) makeFromModel(make string) string {
 	var makerLoader DataLoader
 
 	makerNorm := NormalizeString(make)
@@ -98,19 +98,19 @@ func (f *Faker) makeFromModel(make string) string {
 }
 
 // A random car model
-func (f *Faker) CarModel() string {
+func (f *Fakery) CarModel() string {
 
 	make := f.CarMake()
 	return f.makeFromModel(make)
 }
 
-func (f *Faker) CarMakeAndModel() (string, string) {
+func (f *Fakery) CarMakeAndModel() (string, string) {
 
 	make := f.CarMake()
 	return make, f.makeFromModel(make)
 }
 
-func (f *Faker) CarCategory() string {
+func (f *Fakery) CarCategory() string {
 	category := f.RandomString(carData.CarCategories)
 	// 5/6 times add an adjective
 	if f.RollDice() < 6 {
@@ -123,22 +123,22 @@ func (f *Faker) CarCategory() string {
 	return category
 }
 
-func (f *Faker) CarType() string {
+func (f *Fakery) CarType() string {
 	return f.RandomString(carData.CarFuelTypes)
 }
 
-func (f *Faker) CarTransmission() string {
+func (f *Fakery) CarTransmission() string {
 	transmission, _ := f.RandomWeightedItem(&transmissionTypes)
 	return transmission
 }
 
-func (f *Faker) CarPlate() string {
+func (f *Fakery) CarPlate() string {
 	format := f.RandomString(carPlateFormats)
 	return f.Alphify(f.Numerify(format))
 }
 
 // Random car
-func (f *Faker) Car() *Car {
+func (f *Fakery) Car() *Car {
 	var car Car
 
 	make, model := f.CarMakeAndModel()

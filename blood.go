@@ -16,13 +16,13 @@ func (b Blood) String() string {
 
 var bloodTypes = []string{"A", "B", "AB", "O"}
 
-func (f *Faker) BloodType() string {
+func (f *Fakery) BloodType() string {
 	typ := f.RandomString(bloodTypes)
 	factor := f.OneOf([]string{"+", "-"})
 	return fmt.Sprintf("%s%s", typ, factor)
 }
 
-func (f *Faker) Blood() *Blood {
+func (f *Fakery) Blood() *Blood {
 	var b Blood
 
 	b.Type = f.RandomString(bloodTypes)

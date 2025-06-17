@@ -16,7 +16,7 @@ func init() {
 
 // Internet data belongs to generic locale
 // return random TLD
-func (f *Faker) TLD() string {
+func (f *Fakery) TLD() string {
 
 	tldArray, _ := f.LoadGenericLocale(&netLoader).GetWeightedArray("common_tlds_weighted", ":")
 	tld, _ := f.RandomWeightedItem(tldArray)
@@ -24,16 +24,16 @@ func (f *Faker) TLD() string {
 	return tld
 }
 
-func (f *Faker) EmailDomain() string {
+func (f *Fakery) EmailDomain() string {
 	return f.RandomString(f.LoadGenericLocale(&netLoader).Get("fake_email_domains"))
 }
 
-func (f *Faker) FreeEmailDomain() string {
+func (f *Fakery) FreeEmailDomain() string {
 	return f.RandomString(f.LoadGenericLocale(&netLoader).Get("free_email_domains"))
 }
 
 // return random email
-func (f *Faker) Email() string {
+func (f *Fakery) Email() string {
 	var name string
 	var pieces []string
 	var prefix string
@@ -56,7 +56,7 @@ func (f *Faker) Email() string {
 }
 
 // Return random email but with given first name and last name
-func (f *Faker) EmailWithName(firstName, lastName string) string {
+func (f *Fakery) EmailWithName(firstName, lastName string) string {
 	var prefix string
 	var domain string
 
@@ -74,7 +74,7 @@ func (f *Faker) EmailWithName(firstName, lastName string) string {
 }
 
 // Return a random username
-func (f *Faker) UserName() string {
+func (f *Fakery) UserName() string {
 
 	var separators = []string{".", "_", "-", ""}
 	var adj, sep2 string

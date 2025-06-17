@@ -1,0 +1,25 @@
+name: Run unit tests
+
+on:
+  push:
+    branches:
+      - development
+      - testing
+  workflow_dispatch:  # \U0001f448 this should be outside 'push'
+
+jobs:
+  UnitTest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch Repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Setup Go
+        uses: actions/setup-go@v5  # \u2705 You missed the "uses" line here
+        with:
+          go-version: '1.23.7'
+
+      - name: Unit Tests
+        run: cd tests && go test ./...

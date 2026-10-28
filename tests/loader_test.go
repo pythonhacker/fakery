@@ -244,3 +244,54 @@ func TestDataLoaderConcurrentInitAndGet(t *testing.T) {
 	}
 	wg.Wait()
 }
+
+// Check if the loader reversts to the base locale for a requested
+// locale that doesn't exist.
+func TestResolveLocaleDoesNotFallbackToBaseLanguage(t *testing.T) {
+	dataRoot := t.TempDir()
+
+	// A base-language resource exists, but the requested regional
+	// locale resource does not.
+	baseLocaleDir := filepath.Join(dataRoot, "fr")
+	if err := os.MkdirAll(baseLocaleDir, 0o755); err != nil {
+		t.Fatal(err)
+	}
+
+	resource := filepath.Join(baseLocaleDir, "names.json")
+	if err := os.WriteFile(
+		resource,
+		[]byte(`{"firstName":["Jean"]}`),
+		0o644,
+	); err != nil {
+		t.Fatal(err)
+	}
+
+	// Anthropic's DataLoader supports a custom data root.
+	loader := fakery.NewDataLoader("names.json")
+	loader.SetRoot(dataRoot)
+
+	// LoadLocale should request exactly "fr_CA".
+	f := fakery.NewFromLocale("fr_CA")
+	got := f.LoadLocale(loader)
+
+	if got == nil {
+		t.Fatal("LoadLocale returned nil")
+	}
+
+	if got.Locale() != "fr_CA" {
+		t.Errorf(
+			"LoadLocale(%q) returned locale %q; want exact locale %q",
+			"fr_CA",
+			got.Locale(),
+			"fr_CA",
+		)
+	}
+
+	if err := got.Err(); !errors.Is(err, os.ErrNotExist) {
+		t.Errorf(
+			"LoadLocale(%q) error = %v; want os.ErrNotExist",
+			"fr_CA",
+			err,
+		)
+	}
+}

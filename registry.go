@@ -76,7 +76,7 @@ func (r *Registry) Register(fileName string, opts ...SourceOption) *DataLoader {
 	loader, ok := r.loaders[fileName]
 	if !ok {
 		loader = NewDataLoader(fileName)
-		loader.setRoot(r.root)
+		loader.SetRoot(r.root)
 	}
 	// Options only lock the loader (never the registry), so applying them
 	// while holding r.mu cannot deadlock.

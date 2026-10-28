@@ -37,24 +37,37 @@ func (b Base) String(v interface{}) string {
 // structures and associating field data to those
 // structures. E.g: Person->Name, Person->Address,
 // Person->Creditcard etc.
+//
+// A Fakery instance owns a non thread-safe random source, so use one
+// instance per goroutine. Locale data is shared by all instances through
+// the concurrency-safe DefaultRegistry.
 type Fakery struct {
 	rng    *rand.Rand
 	locale string
-	// Cached locale data
-	data *LocaleData
 }
 
-// Wrapper function to load locale data
-// at any given time a faker instance is associated with
-// only one state mapping to its current request
-// so keep this state locally is safe.
+// LoadLocale loads (once) and returns the data of loader for this
+// instance's locale.
 func (f *Fakery) LoadLocale(l *DataLoader) *LocaleData {
 	return l.EnsureLoaded(f.locale)
 }
 
-// Wrapper function to load generic locale data
+// LoadGenericLocale loads (once) and returns the generic (locale
+// independent) data of loader.
 func (f *Fakery) LoadGenericLocale(l *DataLoader) *LocaleData {
 	return l.EnsureLoaded(GenericLocale)
+}
+
+// localeSource returns the data of a registered source for this instance's
+// locale.
+func (f *Fakery) localeSource(source string) *LocaleData {
+	return defaultRegistry.Load(source, f.locale)
+}
+
+// genericSource returns the generic (locale independent) data of a
+// registered source.
+func (f *Fakery) genericSource(source string) *LocaleData {
+	return defaultRegistry.Load(source, GenericLocale)
 }
 
 // Return an integer in the interval [0, n)

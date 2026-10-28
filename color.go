@@ -8,15 +8,8 @@ import (
 	"strings"
 )
 
-var (
-	colorLoader DataLoader
-	colorData   ColorData
-)
-
-func init() {
-	colorLoader.Init("color.json")
-	ConvertMapToStruct(colorLoader.Preload(GenericLocale), &colorData)
-}
+// Generic color data, decoded lazily on first use
+var colorData = NewDataView[ColorData](defaultRegistry, SourceColor, GenericLocale)
 
 type Color struct {
 	Hex  string `json:"hex"`                    // hex color
@@ -68,15 +61,15 @@ type ColorData struct {
 
 // Return a random color name
 func (f *Fakery) ColorName() string {
-	colorAdjective := f.RandomString(colorData.ColorAdjectives)
-	colorName := f.RandomString(colorData.ColorNames)
+	colorAdjective := f.RandomString(colorData.Get().ColorAdjectives)
+	colorName := f.RandomString(colorData.Get().ColorNames)
 
 	return strings.Join([]string{colorAdjective, colorName}, " ")
 }
 
 // Return a more realistic "safe" color name
 func (f *Fakery) SafeColorName() string {
-	return f.RandomString(colorData.ColorNames)
+	return f.RandomString(colorData.Get().ColorNames)
 }
 
 // Random hex color

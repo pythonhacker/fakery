@@ -6,18 +6,8 @@ import (
 	"strconv"
 )
 
-var (
-	beerLoader DataLoader
-	beerData   BeerData
-)
-
-func init() {
-	// Preload since this is all generic data
-	beerLoader.Init("beer.json")
-	dataMap := beerLoader.Preload(GenericLocale)
-	// Convert to structure
-	ConvertMapToStruct(dataMap, &beerData)
-}
+// Generic beer data, decoded lazily on first use
+var beerData = NewDataView[BeerData](defaultRegistry, SourceBeer, GenericLocale)
 
 type Beer struct {
 	Name    string `json:"name"`  // Crane Blowout IPA
@@ -43,19 +33,19 @@ func (b Beer) String() string {
 }
 
 func (f *Fakery) BeerName() string {
-	return f.RandomString(beerData.BeerNames)
+	return f.RandomString(beerData.Get().BeerNames)
 }
 
 func (f *Fakery) BeerStyle() string {
-	return f.RandomString(beerData.BeerStyles)
+	return f.RandomString(beerData.Get().BeerStyles)
 }
 
 func (f *Fakery) BeerHops() string {
-	return fmt.Sprintf("%s Hops", f.RandomString(beerData.BeerHops))
+	return fmt.Sprintf("%s Hops", f.RandomString(beerData.Get().BeerHops))
 }
 
 func (f *Fakery) BeerMalt() string {
-	return fmt.Sprintf("%s Malt", f.RandomString(beerData.BeerMalts))
+	return fmt.Sprintf("%s Malt", f.RandomString(beerData.Get().BeerMalts))
 }
 
 func (f *Fakery) BeerAlcohol() string {

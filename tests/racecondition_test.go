@@ -1,9 +1,9 @@
 package tests
 
 import (
+	"fakery"
 	"fmt"
 	"sync"
-	"fakery"
 	"testing"
 )
 

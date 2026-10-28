@@ -14,15 +14,6 @@ const (
 
 var genders = []Gender{GenderMale, GenderFemale}
 
-var (
-	personLoader DataLoader
-	namesData    NamesData
-)
-
-func init() {
-	personLoader.Init("names.json")
-}
-
 // Struct describing a person
 type Person struct {
 	Name string `json:"name"`
@@ -76,7 +67,7 @@ func (f *Fakery) Name() string {
 	var firstName string
 	var lastName string
 
-	data := f.LoadLocale(&personLoader)
+	data := f.localeSource(SourceNames)
 
 	if f.Choice() == 0 {
 		firstName = f.RandomString(data.Get("first_name_male"))
@@ -93,7 +84,7 @@ func (f *Fakery) FirstName() string {
 
 	var firstName string
 
-	data := f.LoadLocale(&personLoader)
+	data := f.localeSource(SourceNames)
 
 	if f.Choice() == 0 {
 		firstName = f.RandomString(data.Get("first_name_male"))
@@ -109,7 +100,7 @@ func (f *Fakery) LastName() string {
 
 	var lastName string
 
-	data := f.LoadLocale(&personLoader)
+	data := f.localeSource(SourceNames)
 
 	lastName = f.RandomString(data.Get("last_name"))
 	return lastName
@@ -146,7 +137,7 @@ func (f *Fakery) PersonMale() *Person {
 		return nil
 	}
 
-	data := f.LoadLocale(&personLoader)
+	data := f.localeSource(SourceNames)
 
 	if strings.Contains(nameFormat, "{{prefix}}") {
 		person.Prefix = f.RandomString(data.Get("prefix_male"))
@@ -182,7 +173,7 @@ func (f *Fakery) PersonFemale() *Person {
 		return nil
 	}
 
-	data := f.LoadLocale(&personLoader)
+	data := f.localeSource(SourceNames)
 
 	if strings.Contains(nameFormat, "{{prefix}}") {
 		person.Prefix = f.RandomString(data.Get("prefix_female"))

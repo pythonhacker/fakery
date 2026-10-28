@@ -6,30 +6,24 @@ import (
 	"strings"
 )
 
-var (
-	netLoader DataLoader
-)
-
-func init() {
-	netLoader.Init("internet.json")
-}
-
 // Internet data belongs to generic locale
 // return random TLD
 func (f *Fakery) TLD() string {
-
-	tldArray, _ := f.LoadGenericLocale(&netLoader).GetWeightedArray("common_tlds_weighted", ":")
+	tldArray, err := f.LoadGenericResource(ResourceInternet).GetWeightedArray("common_tlds_weighted", ":")
+	if err != nil || tldArray == nil {
+		return ""
+	}
 	tld, _ := f.RandomWeightedItem(tldArray)
 
 	return tld
 }
 
 func (f *Fakery) EmailDomain() string {
-	return f.RandomString(f.LoadGenericLocale(&netLoader).Get("fake_email_domains"))
+	return f.RandomString(f.LoadGenericResource(ResourceInternet).Get("fake_email_domains"))
 }
 
 func (f *Fakery) FreeEmailDomain() string {
-	return f.RandomString(f.LoadGenericLocale(&netLoader).Get("free_email_domains"))
+	return f.RandomString(f.LoadGenericResource(ResourceInternet).Get("free_email_domains"))
 }
 
 // return random email
@@ -41,6 +35,9 @@ func (f *Fakery) Email() string {
 
 	name = f.Name()
 	pieces = strings.Split(name, " ")
+	if len(pieces) < 2 {
+		return ""
+	}
 
 	domain = f.EmailDomain()
 
@@ -75,7 +72,6 @@ func (f *Fakery) EmailWithName(firstName, lastName string) string {
 
 // Return a random username
 func (f *Fakery) UserName() string {
-
 	var separators = []string{".", "_", "-", ""}
 	var adj, sep2 string
 
@@ -87,7 +83,7 @@ func (f *Fakery) UserName() string {
 
 	switch choice {
 	case 0:
-		// firstname + seperator + lastname
+		// firstname + separator + lastname
 		return firstName + sep + lastName
 	case 1:
 		// lastName + separator + firstName
@@ -122,21 +118,19 @@ func (f *Fakery) UserName() string {
 		// adjective + separator + lastName or firstName + number
 		if f.Choice() == 1 {
 			return fmt.Sprintf("%s%s%s%d", adj, sep, firstName, f.IntRange(1000))
-		} else {
-			return fmt.Sprintf("%s%s%s%d", adj, sep, lastName, f.IntRange(1000))
 		}
+		return fmt.Sprintf("%s%s%s%d", adj, sep, lastName, f.IntRange(1000))
 	case 10:
 		sep2 = f.RandomString(separators)
 		adj = f.AdjectivePositive()
 		if f.Choice() == 1 {
 			// adjective + separator + firstName + separator + lastName
 			return fmt.Sprintf("%s%s%s%s%s", adj, sep, firstName, sep2, lastName)
-		} else {
-			// firstName + separator + lastName + separator + adjective
-			return fmt.Sprintf("%s%s%s%s%s", firstName, sep2, lastName, sep, adj)
 		}
+		// firstName + separator + lastName + separator + adjective
+		return fmt.Sprintf("%s%s%s%s%s", firstName, sep2, lastName, sep, adj)
 	case 11:
-		// firstName + separator + lastName + separator+ adjective + number
+		// firstName + separator + lastName + separator + adjective + number
 		sep2 = f.RandomString(separators)
 		adj = f.AdjectivePositive()
 		return fmt.Sprintf("%s%s%s%s%s%d", firstName, sep2, lastName, sep, adj, f.IntRange(1000))

@@ -1,4 +1,4 @@
-// Random wines! Cheers...\U0001f377
+// Random wines! Cheers...🍷
 package fakery
 
 import (
@@ -7,17 +7,6 @@ import (
 	"strings"
 	"time"
 )
-
-var (
-	wineLoader DataLoader
-	wineData   WineData
-)
-
-func init() {
-	wineLoader.Init("wine.json")
-	// Convert to structure
-	ConvertMapToStruct(wineLoader.Preload(GenericLocale), &wineData)
-}
 
 // Wine structure and wine data - courtesy ChatGPT.
 type Wine struct {
@@ -50,31 +39,31 @@ func (w Wine) String() string {
 }
 
 func (f *Fakery) WineName() string {
-	return f.RandomString(wineData.WineNames)
+	return f.RandomString(f.LoadGenericResource(ResourceWine).Get("wine_names"))
 }
 
 func (f *Fakery) WineVarietal() string {
-	return f.RandomString(wineData.WineVarietals)
+	return f.RandomString(f.LoadGenericResource(ResourceWine).Get("wine_varietals"))
 }
 
 func (f *Fakery) WineRegion() string {
-	return f.RandomString(wineData.WineRegions)
+	return f.RandomString(f.LoadGenericResource(ResourceWine).Get("wine_regions"))
 }
 
 func (f *Fakery) WineBody() string {
-	return f.RandomString(wineData.WineBodies)
+	return f.RandomString(f.LoadGenericResource(ResourceWine).Get("wine_bodies"))
 }
 
 func (f *Fakery) WineAcidity() string {
-	return f.RandomString(wineData.WineAcidities)
+	return f.RandomString(f.LoadGenericResource(ResourceWine).Get("wine_acidities"))
 }
 
 func (f *Fakery) WineTannins() string {
-	return f.RandomString(wineData.WineTannins)
+	return f.RandomString(f.LoadGenericResource(ResourceWine).Get("wine_tannins"))
 }
 
 func (f *Fakery) WineSweetness() string {
-	return f.RandomString(wineData.WineSweetness)
+	return f.RandomString(f.LoadGenericResource(ResourceWine).Get("wine_sweetness"))
 }
 
 func (f *Fakery) WineVintage() string {
@@ -96,10 +85,11 @@ func (f *Fakery) Wine() *Wine {
 	region := f.WineRegion()
 	// split this
 	items := strings.SplitN(region, ",", 3)
-	// first 2 for the region (area, city) and the last
-	// the country
-	w.Region = strings.Join(items[:2], ",")
-	w.Country = items[2]
+	if len(items) == 3 {
+		// first 2 for the region (area, city) and the last the country
+		w.Region = strings.Join(items[:2], ",")
+		w.Country = items[2]
+	}
 	w.Vintage = f.WineVintage()
 	w.Alcohol = f.WineAlcohol()
 	w.Body = f.WineBody()

@@ -2,25 +2,14 @@
 package fakery
 
 import (
-	"github.com/gertd/go-pluralize"
 	"regexp"
 	"strconv"
 	"strings"
 	"time"
 	"unicode"
-)
 
-var (
-	bookLoader DataLoader
-	booksData  BooksData
+	"github.com/gertd/go-pluralize"
 )
-
-func init() {
-	// We prepare book data from different words
-	bookLoader.Init("book.json")
-	// Convert to structure
-	ConvertMapToStruct(bookLoader.Preload(GenericLocale), &booksData)
-}
 
 type Book struct {
 	Title     string `json:"title"`
@@ -46,11 +35,11 @@ type BooksData struct {
 	PublisherFirstNames  []string `json:"publisher_first_names"`
 	PublisherSecondNames []string `json:"publisher_second_names"`
 	PublisherLastNames   []string `json:"publisher_last_names"`
-
-	Genres []string `json:"genres"`
+	Genres               []string `json:"genres"`
 }
 
-var numbers = []string{"One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight",
+var numbers = []string{
+	"One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight",
 	"Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Nineteen", "Twenty",
 	"Thirty", "Fifty", "Hundred", "Thousand", "Ten Thousand", "Fifty Thousand",
 	"An Infinity of", "Countless",
@@ -113,7 +102,6 @@ func (f *Fakery) validateISBN13(isbn string) bool {
 
 // validate ISBN10 numbers
 func (f *Fakery) validateISBN10(isbn string) bool {
-
 	// Check if first 9 characters are digits
 	for i := 0; i < 9; i++ {
 		if !unicode.IsDigit(rune(isbn[i])) {
@@ -241,26 +229,26 @@ func (f *Fakery) generateISBN13() string {
 }
 
 func (f *Fakery) BookTitle() string {
-
 	var items []string
 	// Patterns for which a "The" can be prefixed
 	var theAllowedPatterns = "2479"
 	// Generate a random pattern
 	pattern := f.IntRange(11) + 1
-	//	fmt.Println(pattern)
 
-	// Easy placeholders to avoid long code
-	nouns := booksData.LiteraryNouns
-	adjectives := booksData.LiteraryAdjectives
-	gerunds := booksData.LiteraryGerunds
-	conjunctions := booksData.LiteraryConjunctions
-	prepositions := booksData.LiteraryPrepositions
-	actionVerbs := booksData.LiteraryActionVerbs
+	data := f.LoadGenericResource(ResourceBook)
+	nouns := data.Get("literary_nouns")
+	adjectives := data.Get("literary_adjectives")
+	gerunds := data.Get("literary_gerunds")
+	conjunctions := data.Get("literary_conjunctions")
+	prepositions := data.Get("literary_prepositions")
+	actionVerbs := data.Get("literary_action_verbs")
+
+	if len(nouns) == 0 {
+		return ""
+	}
 
 	switch pattern {
 	case 1: // Single Noun
-		// return f.RandomString(nouns)
-		// The + Noun
 		items = []string{"The", f.RandomString(nouns)}
 
 	case 2: // Adjective + Noun
@@ -294,23 +282,18 @@ func (f *Fakery) BookTitle() string {
 	case 9: // Noun of Noun
 		lastNoun := f.RandomString(nouns)
 		if f.RollDice() < 6 {
-			// produce this format 5/6 times
-			// E.g: Fire of the Sanctuary
 			items = []string{f.RandomString(nouns), "of", DetermineArticle(lastNoun, f), lastNoun}
 		} else {
-			// produce this rarely
-			// E.g: Sentinel of Wall
 			items = []string{f.RandomString(nouns), "of", lastNoun}
 		}
 
 	case 10: // Alliterative (Noun and Noun)
 		n1 := f.RandomString(nouns)
-		// Find nouns that start with the same letter
 		sameLetterNouns := []string{}
 		firstChar := []rune(n1)[0]
 
 		for _, n := range nouns {
-			if []rune(n)[0] == firstChar && n != n1 {
+			if len(n) > 0 && []rune(n)[0] == firstChar && n != n1 {
 				sameLetterNouns = append(sameLetterNouns, n)
 			}
 		}
@@ -338,13 +321,13 @@ func (f *Fakery) BookTitle() string {
 }
 
 func (f *Fakery) BookPublisher() string {
-
 	var items []string
 	pattern := f.IntRange(3) + 1
 
-	firstNames := booksData.PublisherFirstNames
-	secondNames := booksData.PublisherSecondNames
-	lastNames := booksData.PublisherLastNames
+	data := f.LoadGenericResource(ResourceBook)
+	firstNames := data.Get("publisher_first_names")
+	secondNames := data.Get("publisher_second_names")
+	lastNames := data.Get("publisher_last_names")
 
 	switch pattern {
 	case 1: // FirstWord + SecondWord
@@ -359,7 +342,7 @@ func (f *Fakery) BookPublisher() string {
 }
 
 func (f *Fakery) BookGenre() string {
-	return f.RandomString(booksData.Genres)
+	return f.RandomString(f.LoadGenericResource(ResourceBook).Get("genres"))
 }
 
 func (f *Fakery) BookAuthor() string {
@@ -378,9 +361,8 @@ func (f *Fakery) BookYear() int {
 func (f *Fakery) BookISBN() string {
 	if f.Choice() == 1 {
 		return f.generateISBN10()
-	} else {
-		return f.generateISBN13()
 	}
+	return f.generateISBN13()
 }
 
 func (f *Fakery) Book() *Book {
@@ -391,7 +373,7 @@ func (f *Fakery) Book() *Book {
 	b.Genre = f.BookGenre()
 	b.Year = f.BookYear()
 	b.Publisher = f.BookPublisher()
-	b.Language = strings.Split(f.locale, "_")[0]
+	b.Language = strings.Split(f.Locale(), "_")[0]
 	if f.Choice() == 1 {
 		b.ISBN10 = f.generateISBN10()
 	} else {

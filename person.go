@@ -14,15 +14,6 @@ const (
 
 var genders = []Gender{GenderMale, GenderFemale}
 
-var (
-	personLoader DataLoader
-	namesData    NamesData
-)
-
-func init() {
-	personLoader.Init("names.json")
-}
-
 // Struct describing a person
 type Person struct {
 	Name string `json:"name"`
@@ -72,11 +63,10 @@ func (f *Fakery) Gender() Gender {
 
 // Return a random name
 func (f *Fakery) Name() string {
-
 	var firstName string
 	var lastName string
 
-	data := f.LoadLocale(&personLoader)
+	data := f.LoadResource(ResourceNames)
 
 	if f.Choice() == 0 {
 		firstName = f.RandomString(data.Get("first_name_male"))
@@ -90,10 +80,9 @@ func (f *Fakery) Name() string {
 
 // Return random first name
 func (f *Fakery) FirstName() string {
-
 	var firstName string
 
-	data := f.LoadLocale(&personLoader)
+	data := f.LoadResource(ResourceNames)
 
 	if f.Choice() == 0 {
 		firstName = f.RandomString(data.Get("first_name_male"))
@@ -106,13 +95,8 @@ func (f *Fakery) FirstName() string {
 
 // Return random last name
 func (f *Fakery) LastName() string {
-
-	var lastName string
-
-	data := f.LoadLocale(&personLoader)
-
-	lastName = f.RandomString(data.Get("last_name"))
-	return lastName
+	data := f.LoadResource(ResourceNames)
+	return f.RandomString(data.Get("last_name"))
 }
 
 // returns a fake Person object
@@ -136,7 +120,6 @@ func (f *Fakery) Person() *Person {
 
 // Returns a fake Person object with Male gender
 func (f *Fakery) PersonMale() *Person {
-
 	var person Person
 	var nameFormat string
 	var namePieces []string
@@ -146,7 +129,7 @@ func (f *Fakery) PersonMale() *Person {
 		return nil
 	}
 
-	data := f.LoadLocale(&personLoader)
+	data := f.LoadResource(ResourceNames)
 
 	if strings.Contains(nameFormat, "{{prefix}}") {
 		person.Prefix = f.RandomString(data.Get("prefix_male"))
@@ -172,7 +155,6 @@ func (f *Fakery) PersonMale() *Person {
 
 // Returns a fake Person object with Female gender
 func (f *Fakery) PersonFemale() *Person {
-
 	var person Person
 	var nameFormat string
 	var namePieces []string
@@ -182,7 +164,7 @@ func (f *Fakery) PersonFemale() *Person {
 		return nil
 	}
 
-	data := f.LoadLocale(&personLoader)
+	data := f.LoadResource(ResourceNames)
 
 	if strings.Contains(nameFormat, "{{prefix}}") {
 		person.Prefix = f.RandomString(data.Get("prefix_female"))

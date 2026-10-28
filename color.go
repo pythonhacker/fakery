@@ -8,16 +8,6 @@ import (
 	"strings"
 )
 
-var (
-	colorLoader DataLoader
-	colorData   ColorData
-)
-
-func init() {
-	colorLoader.Init("color.json")
-	ConvertMapToStruct(colorLoader.Preload(GenericLocale), &colorData)
-}
-
 type Color struct {
 	Hex  string `json:"hex"`                    // hex color
 	RGB  string `json:"rgb"`                    // matching rgb color
@@ -68,15 +58,16 @@ type ColorData struct {
 
 // Return a random color name
 func (f *Fakery) ColorName() string {
-	colorAdjective := f.RandomString(colorData.ColorAdjectives)
-	colorName := f.RandomString(colorData.ColorNames)
+	data := f.LoadGenericResource(ResourceColor)
+	colorAdjective := f.RandomString(data.Get("color_adjectives"))
+	colorName := f.RandomString(data.Get("color_names"))
 
 	return strings.Join([]string{colorAdjective, colorName}, " ")
 }
 
 // Return a more realistic "safe" color name
 func (f *Fakery) SafeColorName() string {
-	return f.RandomString(colorData.ColorNames)
+	return f.RandomString(f.LoadGenericResource(ResourceColor).Get("color_names"))
 }
 
 // Random hex color
@@ -97,7 +88,6 @@ func (f *Fakery) RGBColor() string {
 
 // Return Random color in HSL
 func (f *Fakery) HSLColor() string {
-
 	var hsl []string
 
 	for _, item := range f.hsl() {
@@ -108,7 +98,6 @@ func (f *Fakery) HSLColor() string {
 
 // Return a random color
 func (f *Fakery) Color() *Color {
-
 	var c Color
 	var hslColor []string
 	var rgbColor []string
@@ -134,7 +123,6 @@ func (f *Fakery) Color() *Color {
 	c.Name = f.closestColor(rgb)
 
 	return &c
-
 }
 
 // rgb as 3 tuple int
@@ -148,9 +136,6 @@ func (f *Fakery) rgb() []int {
 
 // hsl as 3 tuple int
 func (f *Fakery) hsl() []int {
-	// Hue is in range 0-359,
-	// Sat is in range 0-100
-	// Light is in range 0-100
 	var h, s, l int
 
 	h = f.IntRange(360)
@@ -164,7 +149,7 @@ func (f *Fakery) hsl() []int {
 func (f *Fakery) hexToRGB(hex string) []int {
 	var r, g, b int
 
-	fmt.Sscanf(hex, "#%02X%02X%02X", &r, &g, &b) // Parse hex values
+	fmt.Sscanf(hex, "#%02X%02X%02X", &r, &g, &b)
 	return []int{r, g, b}
 }
 
@@ -230,7 +215,6 @@ func (f *Fakery) colorDistance(r1, g1, b1, r2, g2, b2 int) float64 {
 
 // Find the closest named color
 func (f *Fakery) closestColor(rgb []int) string {
-
 	var closestName string
 
 	minDist := math.MaxFloat64
@@ -262,7 +246,6 @@ func (f *Fakery) getShade(luminance float64) string {
 		return "Dark"
 	} else if luminance < 170 {
 		return "Medium"
-	} else {
-		return "Light"
 	}
+	return "Light"
 }

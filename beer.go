@@ -1,23 +1,10 @@
-// Random beers! Cheers...\U0001f37a
+// Random beers! Cheers...🍺
 package fakery
 
 import (
 	"fmt"
 	"strconv"
 )
-
-var (
-	beerLoader DataLoader
-	beerData   BeerData
-)
-
-func init() {
-	// Preload since this is all generic data
-	beerLoader.Init("beer.json")
-	dataMap := beerLoader.Preload(GenericLocale)
-	// Convert to structure
-	ConvertMapToStruct(dataMap, &beerData)
-}
 
 type Beer struct {
 	Name    string `json:"name"`  // Crane Blowout IPA
@@ -43,19 +30,19 @@ func (b Beer) String() string {
 }
 
 func (f *Fakery) BeerName() string {
-	return f.RandomString(beerData.BeerNames)
+	return f.RandomString(f.LoadGenericResource(ResourceBeer).Get("beer_names"))
 }
 
 func (f *Fakery) BeerStyle() string {
-	return f.RandomString(beerData.BeerStyles)
+	return f.RandomString(f.LoadGenericResource(ResourceBeer).Get("beer_styles"))
 }
 
 func (f *Fakery) BeerHops() string {
-	return fmt.Sprintf("%s Hops", f.RandomString(beerData.BeerHops))
+	return fmt.Sprintf("%s Hops", f.RandomString(f.LoadGenericResource(ResourceBeer).Get("beer_hops")))
 }
 
 func (f *Fakery) BeerMalt() string {
-	return fmt.Sprintf("%s Malt", f.RandomString(beerData.BeerMalts))
+	return fmt.Sprintf("%s Malt", f.RandomString(f.LoadGenericResource(ResourceBeer).Get("beer_malts")))
 }
 
 func (f *Fakery) BeerAlcohol() string {

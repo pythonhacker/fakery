@@ -6,16 +6,6 @@ import (
 	"time"
 )
 
-var (
-	carLoader DataLoader
-	carData   CarData
-)
-
-func init() {
-	carLoader.Init("car.json")
-	ConvertMapToStruct(carLoader.Preload(GenericLocale), &carData)
-}
-
 type Car struct {
 	Make         string `json:"make"`            // Company - Toyota, Tata, Suzuki, Subaru
 	Model        string `json:"model"`           // Glanza, Harrier, Swift
@@ -77,45 +67,40 @@ var carPlateFormats = []string{
 
 // The car company/make
 func (f *Fakery) CarMake() string {
-	return f.RandomString(carData.CarMakers)
+	return f.RandomString(f.LoadGenericResource(ResourceCar).Get("car_makers"))
 }
 
 func (f *Fakery) CarSeries() string {
-	return f.RandomString(carData.CarSeries)
+	return f.RandomString(f.LoadGenericResource(ResourceCar).Get("car_series"))
 }
 
 func (f *Fakery) makeFromModel(make string) string {
-	var makerLoader DataLoader
-
-	makerNorm := NormalizeString(make)
-	makerLoader.Init(fmt.Sprintf("cars/%s.json", makerNorm))
-	makerLoader.SetIsMap(GenericLocale)
-
-	// Load maker's data
-	data := f.LoadGenericLocale(&makerLoader)
+	if make == "" {
+		return ""
+	}
+	data := f.LoadGenericResource(carModelResource(make))
 	model := data.RandomWeightedItem(f)
 	return model["model"]
 }
 
 // A random car model
 func (f *Fakery) CarModel() string {
-
 	make := f.CarMake()
 	return f.makeFromModel(make)
 }
 
 func (f *Fakery) CarMakeAndModel() (string, string) {
-
 	make := f.CarMake()
 	return make, f.makeFromModel(make)
 }
 
 func (f *Fakery) CarCategory() string {
-	category := f.RandomString(carData.CarCategories)
+	data := f.LoadGenericResource(ResourceCar)
+	category := f.RandomString(data.Get("car_categories"))
 	// 5/6 times add an adjective
 	if f.RollDice() < 6 {
-		adjective := f.RandomString(carData.CarCategoryAdjectives)
-		if adjective != category {
+		adjective := f.RandomString(data.Get("car_category_adjectives"))
+		if adjective != "" && adjective != category {
 			return fmt.Sprintf("%s %s", adjective, category)
 		}
 	}
@@ -124,7 +109,7 @@ func (f *Fakery) CarCategory() string {
 }
 
 func (f *Fakery) CarType() string {
-	return f.RandomString(carData.CarFuelTypes)
+	return f.RandomString(f.LoadGenericResource(ResourceCar).Get("car_fuel_types"))
 }
 
 func (f *Fakery) CarTransmission() string {

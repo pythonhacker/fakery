@@ -7,6 +7,7 @@ import (
 	"math"
 	"math/rand"
 	"strings"
+	"sync"
 	"time"
 
 	"golang.org/x/text/cases"
@@ -38,27 +39,75 @@ func (b Base) String(v interface{}) string {
 // structures. E.g: Person->Name, Person->Address,
 // Person->Creditcard etc.
 type Fakery struct {
-	rng    *rand.Rand
-	locale string
-	// Cached locale data
-	data *LocaleData
+	mu       sync.RWMutex
+	rngMu    sync.Mutex
+	rng      *rand.Rand
+	locale   string
+	registry *LoaderRegistry
 }
 
-// Wrapper function to load locale data
-// at any given time a faker instance is associated with
-// only one state mapping to its current request
-// so keep this state locally is safe.
+func (f *Fakery) loaderRegistry() *LoaderRegistry {
+	f.mu.RLock()
+	reg := f.registry
+	f.mu.RUnlock()
+	if reg != nil {
+		return reg
+	}
+	return defaultRegistry
+}
+
+// Locale returns the locale currently configured on this Fakery instance.
+func (f *Fakery) Locale() string {
+	f.mu.RLock()
+	defer f.mu.RUnlock()
+	return f.locale
+}
+
+// Registry returns the LoaderRegistry bound to this Fakery instance.
+func (f *Fakery) Registry() *LoaderRegistry {
+	return f.loaderRegistry()
+}
+
+// SetRegistry binds a custom LoaderRegistry to this Fakery instance (nil restores DefaultRegistry).
+func (f *Fakery) SetRegistry(reg *LoaderRegistry) {
+	f.mu.Lock()
+	defer f.mu.Unlock()
+	f.registry = reg
+}
+
+// Wrapper function to load locale data from an explicit DataLoader.
 func (f *Fakery) LoadLocale(l *DataLoader) *LocaleData {
-	return l.EnsureLoaded(f.locale)
+	if l == nil {
+		return nil
+	}
+	return l.ResolveLocale(f.Locale())
 }
 
-// Wrapper function to load generic locale data
+// Wrapper function to load generic locale data from an explicit DataLoader.
 func (f *Fakery) LoadGenericLocale(l *DataLoader) *LocaleData {
+	if l == nil {
+		return nil
+	}
 	return l.EnsureLoaded(GenericLocale)
+}
+
+// LoadResource loads locale-specific data (with fallback) from the central LoaderRegistry.
+func (f *Fakery) LoadResource(resource string) *LocaleData {
+	return f.loaderRegistry().LoadLocale(resource, f.Locale())
+}
+
+// LoadGenericResource loads generic locale data from the central LoaderRegistry.
+func (f *Fakery) LoadGenericResource(resource string) *LocaleData {
+	return f.loaderRegistry().LoadGeneric(resource)
 }
 
 // Return an integer in the interval [0, n)
 func (f *Fakery) IntRange(n int) int {
+	if n <= 0 {
+		return 0
+	}
+	f.rngMu.Lock()
+	defer f.rngMu.Unlock()
 	return f.rng.Intn(n)
 }
 
@@ -69,7 +118,7 @@ func (f *Fakery) RandDigit() int {
 
 // Random integer between x and y, y>x
 func (f *Fakery) RandIntBetween(x, y int) int {
-	if y < x {
+	if y <= x {
 		return 0
 	}
 	return x + f.IntRange(y-x)
@@ -95,7 +144,9 @@ func (f *Fakery) RandDigitNonZero() int {
 
 // Return either 0 or 1 for a two choice array index
 func (f *Fakery) Choice() int {
+	f.rngMu.Lock()
 	randVal := f.rng.Float64()
+	f.rngMu.Unlock()
 	if randVal <= 0.5 {
 		return 0
 	}
@@ -109,7 +160,6 @@ func (f *Fakery) RollDice() int {
 
 // Random integer of given length
 func (f *Fakery) RandInteger(length int) int {
-
 	if length == 1 {
 		return f.RandDigit()
 	}
@@ -122,7 +172,13 @@ func (f *Fakery) RandInteger(length int) int {
 
 // Return a random item according to weights
 func (f *Fakery) RandomWeightedItem(array *WeightedArray) (string, error) {
+	if array == nil || len(array.Items) == 0 {
+		return "", fmt.Errorf("weighted array is empty")
+	}
+
+	f.rngMu.Lock()
 	randVal := f.rng.Float64()
+	f.rngMu.Unlock()
 
 	if ok, val := array.Validate(); !ok {
 		return "", fmt.Errorf("weighted array validation failed, weight: %.2f", val)
@@ -146,36 +202,37 @@ func (f *Fakery) RandomWeightedItem(array *WeightedArray) (string, error) {
 // Return one of any two strings in a string array
 // Use only when the array has two items
 func (f *Fakery) OneOf(choices []string) string {
+	if len(choices) == 0 {
+		return ""
+	}
+	if len(choices) == 1 {
+		return choices[0]
+	}
 	return choices[f.Choice()]
 }
 
 // Return a random string
 func (f *Fakery) RandomString(stringItems []string) string {
-
+	if len(stringItems) == 0 {
+		return ""
+	}
 	idx := f.IntRange(len(stringItems))
 	return stringItems[idx]
 }
 
 // Return a random string excluding given one
 func (f *Fakery) RandomStringExcl(stringItems []string, excl string) string {
-
-	var idxElem int
-
-	for i := 0; i < len(stringItems); i++ {
-		if stringItems[i] == excl {
-			idxElem = i
-			break
+	filtered := make([]string, 0, len(stringItems))
+	for _, item := range stringItems {
+		if item != excl {
+			filtered = append(filtered, item)
 		}
 	}
-
-	stringItems = append(stringItems[:idxElem], stringItems[idxElem+1:]...)
-	idx := f.IntRange(len(stringItems))
-	return stringItems[idx]
+	return f.RandomString(filtered)
 }
 
 // Return a random letter [A-Z]
 func (f *Fakery) RandomAZ() string {
-
 	return fmt.Sprintf("%c", upperAlpha[f.IntRange(26)])
 }
 
@@ -186,7 +243,6 @@ func (f *Fakery) RandomHex() string {
 
 // Return a random letter [A-Z] in a specific range
 func (f *Fakery) RandomAZSpecific(upto string) string {
-
 	idx := strings.Index(upperAlpha, upto)
 	if idx == -1 {
 		return ""
@@ -216,7 +272,6 @@ func (f *Fakery) Numerify(inputString string) string {
 // Return a string which replaces all '@' chars in a string
 // with alphabets
 func (f *Fakery) Alphify(inputString string) string {
-
 	count := strings.Count(inputString, "@")
 	for i := 1; i <= count; i++ {
 		inputString = strings.Replace(inputString, "@", f.RandomAZ(), 1)
@@ -228,7 +283,6 @@ func (f *Fakery) Alphify(inputString string) string {
 // Return a string which replaces all '@' chars in a string
 // with alphabets till a specific string
 func (f *Fakery) AlphifySpecific(inputString, upto string) string {
-
 	count := strings.Count(inputString, "@")
 	for i := 1; i <= count; i++ {
 		inputString = strings.Replace(inputString, "@", f.RandomAZSpecific(upto), 1)
@@ -240,7 +294,6 @@ func (f *Fakery) AlphifySpecific(inputString, upto string) string {
 // Return a string which replaces all '@' chars in a string
 // with alphabets upto a specific range
 func (f *Fakery) SpecificAlphify(inputString string) string {
-
 	count := strings.Count(inputString, "@")
 	for i := 1; i <= count; i++ {
 		inputString = strings.Replace(inputString, "@", f.RandomAZ(), 1)
@@ -249,37 +302,48 @@ func (f *Fakery) SpecificAlphify(inputString string) string {
 	return inputString
 }
 
-// Capitalize all words in a  sentence
+// Capitalize all words in a sentence
 func (f *Fakery) Capitalize(sentence string) string {
-
 	return cases.Title(language.Und).String(sentence)
 }
 
 // Set locale
 func (f *Fakery) SetLocale(locale string) {
+	f.mu.Lock()
+	defer f.mu.Unlock()
 	f.locale = locale
 }
 
 // Fakery constructors
 func New() *Fakery {
-	seed := time.Now().Nanosecond()
+	seed := time.Now().UnixNano()
 	return &Fakery{
-		rng:    rand.New(rand.NewSource(int64(seed))),
+		rng:    rand.New(rand.NewSource(seed)),
 		locale: DefaultLocale,
 	}
 }
 
 func NewFromLocale(locale string) *Fakery {
-	seed := time.Now().Nanosecond()
+	seed := time.Now().UnixNano()
 	return &Fakery{
-		rng:    rand.New(rand.NewSource(int64(seed))),
+		rng:    rand.New(rand.NewSource(seed)),
 		locale: locale,
 	}
 }
 
 func NewFromSeed(seed int64) *Fakery {
 	return &Fakery{
-		rng:    rand.New(rand.NewSource(int64(seed))),
+		rng:    rand.New(rand.NewSource(seed)),
 		locale: DefaultLocale,
+	}
+}
+
+// NewWithRegistry creates a Fakery instance configured with a specific locale and LoaderRegistry.
+func NewWithRegistry(locale string, reg *LoaderRegistry) *Fakery {
+	seed := time.Now().UnixNano()
+	return &Fakery{
+		rng:      rand.New(rand.NewSource(seed)),
+		locale:   locale,
+		registry: reg,
 	}
 }

@@ -1,15 +1,5 @@
 package fakery
 
-var (
-	currencyLoader DataLoader
-)
-
-func init() {
-	currencyLoader.Init("currency.json")
-	// Indicate the data is an array of maps for generic locale
-	currencyLoader.SetIsMap(GenericLocale)
-}
-
 type Currency struct {
 	Name    string  `json:"name"`    // Rupee
 	Code    string  `json:"code"`    // INR
@@ -23,17 +13,17 @@ func (c Currency) String() string {
 }
 
 func (f *Fakery) CurrencyCode() string {
-	item := f.LoadGenericLocale(&currencyLoader).RandomWeightedItem(f)
+	item := f.LoadGenericResource(ResourceCurrency).RandomWeightedItem(f)
 	return item["code"]
 }
 
 func (f *Fakery) CurrencyName() string {
-	item := f.LoadGenericLocale(&currencyLoader).RandomWeightedItem(f)
+	item := f.LoadGenericResource(ResourceCurrency).RandomWeightedItem(f)
 	return item["currency"]
 }
 
 func (f *Fakery) CurrencyCountry() string {
-	item := f.LoadGenericLocale(&currencyLoader).RandomWeightedItem(f)
+	item := f.LoadGenericResource(ResourceCurrency).RandomWeightedItem(f)
 	return item["country"]
 }
 
@@ -41,7 +31,7 @@ func (f *Fakery) Currency() *Currency {
 	var c Currency
 
 	// The data has to be consistent
-	item := f.LoadGenericLocale(&currencyLoader).RandomWeightedItem(f)
+	item := f.LoadGenericResource(ResourceCurrency).RandomWeightedItem(f)
 	c.Name = item["currency"]
 	c.Code = item["code"]
 	c.Country = item["country"]

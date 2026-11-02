@@ -187,6 +187,11 @@ func (loader *DataLoader) EnsureLoaded(locale string) *LocaleData {
 	return localeData
 }
 
+// Return the locale
+func (l *LocaleData) GetLocale() string {
+	return l.locale;
+}
+
 // Fetch value of key
 func (l *LocaleData) Get(key string) []string {
 

@@ -6,15 +6,8 @@ import (
 	"time"
 )
 
-var (
-	carLoader DataLoader
-	carData   CarData
-)
-
-func init() {
-	carLoader.Init("car.json")
-	ConvertMapToStruct(carLoader.Preload(GenericLocale), &carData)
-}
+// Generic car data, decoded lazily on first use
+var carData = NewDataView[CarData](defaultRegistry, SourceCar, GenericLocale)
 
 type Car struct {
 	Make         string `json:"make"`            // Company - Toyota, Tata, Suzuki, Subaru
@@ -77,23 +70,17 @@ var carPlateFormats = []string{
 
 // The car company/make
 func (f *Fakery) CarMake() string {
-	return f.RandomString(carData.CarMakers)
+	return f.RandomString(carData.Get().CarMakers)
 }
 
 func (f *Fakery) CarSeries() string {
-	return f.RandomString(carData.CarSeries)
+	return f.RandomString(carData.Get().CarSeries)
 }
 
 func (f *Fakery) makeFromModel(make string) string {
-	var makerLoader DataLoader
-
-	makerNorm := NormalizeString(make)
-	makerLoader.Init(fmt.Sprintf("cars/%s.json", makerNorm))
-	makerLoader.SetIsMap(GenericLocale)
-
-	// Load maker's data
-	data := f.LoadGenericLocale(&makerLoader)
-	model := data.RandomWeightedItem(f)
+	// Maker files belong to the "cars/" source family, which is registered
+	// as map based, so each maker file is loaded once and then cached.
+	model := f.genericSource(CarModelsSource(make)).RandomWeightedItem(f)
 	return model["model"]
 }
 
@@ -111,10 +98,10 @@ func (f *Fakery) CarMakeAndModel() (string, string) {
 }
 
 func (f *Fakery) CarCategory() string {
-	category := f.RandomString(carData.CarCategories)
+	category := f.RandomString(carData.Get().CarCategories)
 	// 5/6 times add an adjective
 	if f.RollDice() < 6 {
-		adjective := f.RandomString(carData.CarCategoryAdjectives)
+		adjective := f.RandomString(carData.Get().CarCategoryAdjectives)
 		if adjective != category {
 			return fmt.Sprintf("%s %s", adjective, category)
 		}
@@ -124,7 +111,7 @@ func (f *Fakery) CarCategory() string {
 }
 
 func (f *Fakery) CarType() string {
-	return f.RandomString(carData.CarFuelTypes)
+	return f.RandomString(carData.Get().CarFuelTypes)
 }
 
 func (f *Fakery) CarTransmission() string {

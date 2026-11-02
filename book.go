@@ -10,17 +10,8 @@ import (
 	"unicode"
 )
 
-var (
-	bookLoader DataLoader
-	booksData  BooksData
-)
-
-func init() {
-	// We prepare book data from different words
-	bookLoader.Init("book.json")
-	// Convert to structure
-	ConvertMapToStruct(bookLoader.Preload(GenericLocale), &booksData)
-}
+// Generic book data, decoded lazily on first use
+var booksData = NewDataView[BooksData](defaultRegistry, SourceBook, GenericLocale)
 
 type Book struct {
 	Title     string `json:"title"`
@@ -250,12 +241,12 @@ func (f *Fakery) BookTitle() string {
 	//	fmt.Println(pattern)
 
 	// Easy placeholders to avoid long code
-	nouns := booksData.LiteraryNouns
-	adjectives := booksData.LiteraryAdjectives
-	gerunds := booksData.LiteraryGerunds
-	conjunctions := booksData.LiteraryConjunctions
-	prepositions := booksData.LiteraryPrepositions
-	actionVerbs := booksData.LiteraryActionVerbs
+	nouns := booksData.Get().LiteraryNouns
+	adjectives := booksData.Get().LiteraryAdjectives
+	gerunds := booksData.Get().LiteraryGerunds
+	conjunctions := booksData.Get().LiteraryConjunctions
+	prepositions := booksData.Get().LiteraryPrepositions
+	actionVerbs := booksData.Get().LiteraryActionVerbs
 
 	switch pattern {
 	case 1: // Single Noun
@@ -342,9 +333,9 @@ func (f *Fakery) BookPublisher() string {
 	var items []string
 	pattern := f.IntRange(3) + 1
 
-	firstNames := booksData.PublisherFirstNames
-	secondNames := booksData.PublisherSecondNames
-	lastNames := booksData.PublisherLastNames
+	firstNames := booksData.Get().PublisherFirstNames
+	secondNames := booksData.Get().PublisherSecondNames
+	lastNames := booksData.Get().PublisherLastNames
 
 	switch pattern {
 	case 1: // FirstWord + SecondWord
@@ -359,7 +350,7 @@ func (f *Fakery) BookPublisher() string {
 }
 
 func (f *Fakery) BookGenre() string {
-	return f.RandomString(booksData.Genres)
+	return f.RandomString(booksData.Get().Genres)
 }
 
 func (f *Fakery) BookAuthor() string {

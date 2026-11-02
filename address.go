@@ -6,14 +6,6 @@ import (
 	"strings"
 )
 
-var (
-	addressLoader DataLoader
-)
-
-func init() {
-	addressLoader.Init("address.json")
-}
-
 type Address struct {
 	Number     string `json:"number"`                // A-1142
 	Building   string `json:"building,omitempty"`    // Harvey Towers
@@ -52,7 +44,7 @@ var zipCode = []string{"#####", "#####-####"}
 
 // Return a random fake city
 func (f *Fakery) City() string {
-	data := f.LoadGenericLocale(&addressLoader)
+	data := f.genericSource(SourceAddress)
 
 	cityFormat, err := f.RandomWeightedItem(&cityFormats)
 	if err != nil {
@@ -98,7 +90,7 @@ func (f *Fakery) BuildingName() string {
 
 	var namePieces []string
 
-	data := f.LoadGenericLocale(&addressLoader)
+	data := f.genericSource(SourceAddress)
 
 	if f.Choice() == 1 {
 		namePieces = append(namePieces, f.FirstName())
@@ -116,7 +108,7 @@ func (f *Fakery) StreetName() string {
 
 	var name string
 
-	suffix := f.RandomString(f.LoadGenericLocale(&addressLoader).Get("street_suffixes"))
+	suffix := f.RandomString(f.genericSource(SourceAddress).Get("street_suffixes"))
 
 	if f.Choice() == 1 {
 		name = f.FirstName()
@@ -155,13 +147,13 @@ func (f *Fakery) StreetAddress() string {
 
 // Random two letter state abbreviation
 func (f *Fakery) StateAbbr() string {
-	return f.RandomString(f.LoadLocale(&addressLoader).Get("state_abbrevs"))
+	return f.RandomString(f.localeSource(SourceAddress).Get("state_abbrevs"))
 }
 
 // Random state
 func (f *Fakery) State() string {
 	// states is specific to
-	states := f.LoadLocale(&addressLoader).Get("states")
+	states := f.localeSource(SourceAddress).Get("states")
 	return f.RandomString(states)
 }
 
@@ -177,11 +169,11 @@ func (f *Fakery) ZipCode() string {
 }
 
 func (f *Fakery) Country() string {
-	return f.RandomString(f.LoadGenericLocale(&addressLoader).Get("countries"))
+	return f.RandomString(f.genericSource(SourceAddress).Get("countries"))
 }
 
 func (f *Fakery) CountryCode() string {
-	return f.RandomString(f.LoadGenericLocale(&addressLoader).Get("country_codes"))
+	return f.RandomString(f.genericSource(SourceAddress).Get("country_codes"))
 }
 
 func (f *Fakery) Address() *Address {
@@ -219,7 +211,7 @@ func (f *Fakery) Address() *Address {
 // Random State - not used
 func (f *Fakery) FakeState() string {
 
-	states := f.LoadLocale(&addressLoader).Get("states")
+	states := f.localeSource(SourceAddress).Get("states")
 
 	// Remove any state <= 4 in length
 	states = FilterByLength(states, 5)
@@ -274,7 +266,7 @@ func (f *Fakery) getCountry() string {
 		return ""
 	}
 
-	data := f.LoadGenericLocale(&addressLoader)
+	data := f.genericSource(SourceAddress)
 	countryCodes := data.Get("country_codes")
 	countries := data.Get("countries")
 

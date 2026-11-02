@@ -1,8 +1,8 @@
 package tests
 
 import (
-	"fmt"
 	"fakery"
+	"fmt"
 	"strings"
 	"testing"
 )

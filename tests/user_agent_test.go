@@ -1,8 +1,8 @@
 package tests
 
 import (
-	"github.com/mileusna/useragent"
 	"fakery"
+	"github.com/mileusna/useragent"
 	"testing"
 )
 

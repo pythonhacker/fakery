@@ -8,17 +8,6 @@ import (
 	"time"
 )
 
-var (
-	wineLoader DataLoader
-	wineData   WineData
-)
-
-func init() {
-	wineLoader.Init("wine.json")
-	// Convert to structure
-	ConvertMapToStruct(wineLoader.Preload(GenericLocale), &wineData)
-}
-
 // Wine structure and wine data - courtesy ChatGPT.
 type Wine struct {
 	Name      string `json:"name"`      // Example: "Chateau Soleil Rouge"
@@ -49,32 +38,37 @@ func (w Wine) String() string {
 	return w.Base.String(w)
 }
 
+// Generic wine data, decoded once and shared
+func (f *Fakery) wineData() *WineData {
+	return genericView[WineData](f, ResourceWine)
+}
+
 func (f *Fakery) WineName() string {
-	return f.RandomString(wineData.WineNames)
+	return f.RandomString(f.wineData().WineNames)
 }
 
 func (f *Fakery) WineVarietal() string {
-	return f.RandomString(wineData.WineVarietals)
+	return f.RandomString(f.wineData().WineVarietals)
 }
 
 func (f *Fakery) WineRegion() string {
-	return f.RandomString(wineData.WineRegions)
+	return f.RandomString(f.wineData().WineRegions)
 }
 
 func (f *Fakery) WineBody() string {
-	return f.RandomString(wineData.WineBodies)
+	return f.RandomString(f.wineData().WineBodies)
 }
 
 func (f *Fakery) WineAcidity() string {
-	return f.RandomString(wineData.WineAcidities)
+	return f.RandomString(f.wineData().WineAcidities)
 }
 
 func (f *Fakery) WineTannins() string {
-	return f.RandomString(wineData.WineTannins)
+	return f.RandomString(f.wineData().WineTannins)
 }
 
 func (f *Fakery) WineSweetness() string {
-	return f.RandomString(wineData.WineSweetness)
+	return f.RandomString(f.wineData().WineSweetness)
 }
 
 func (f *Fakery) WineVintage() string {

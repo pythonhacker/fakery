@@ -6,16 +6,6 @@ import (
 	"time"
 )
 
-var (
-	carLoader DataLoader
-	carData   CarData
-)
-
-func init() {
-	carLoader.Init("car.json")
-	ConvertMapToStruct(carLoader.Preload(GenericLocale), &carData)
-}
-
 type Car struct {
 	Make         string `json:"make"`            // Company - Toyota, Tata, Suzuki, Subaru
 	Model        string `json:"model"`           // Glanza, Harrier, Swift
@@ -38,6 +28,11 @@ type CarData struct {
 	CarSeries             []string `json:"car_series"`
 	CarCategoryAdjectives []string `json:"car_category_adjectives"`
 	CarFuelTypes          []string `json:"car_fuel_types"`
+}
+
+// Generic car data, decoded once and shared
+func (f *Fakery) carData() *CarData {
+	return genericView[CarData](f, ResourceCar)
 }
 
 var transmissionTypes = WeightedArray{
@@ -77,23 +72,17 @@ var carPlateFormats = []string{
 
 // The car company/make
 func (f *Fakery) CarMake() string {
-	return f.RandomString(carData.CarMakers)
+	return f.RandomString(f.carData().CarMakers)
 }
 
 func (f *Fakery) CarSeries() string {
-	return f.RandomString(carData.CarSeries)
+	return f.RandomString(f.carData().CarSeries)
 }
 
+// A random model of the given maker. Maker files match the
+// ResourceCarModels pattern and are therefore decoded as map data.
 func (f *Fakery) makeFromModel(make string) string {
-	var makerLoader DataLoader
-
-	makerNorm := NormalizeString(make)
-	makerLoader.Init(fmt.Sprintf("cars/%s.json", makerNorm))
-	makerLoader.SetIsMap(GenericLocale)
-
-	// Load maker's data
-	data := f.LoadGenericLocale(&makerLoader)
-	model := data.RandomWeightedItem(f)
+	model := f.genericData(carModelsResource(make)).RandomWeightedItem(f)
 	return model["model"]
 }
 
@@ -111,10 +100,10 @@ func (f *Fakery) CarMakeAndModel() (string, string) {
 }
 
 func (f *Fakery) CarCategory() string {
-	category := f.RandomString(carData.CarCategories)
+	category := f.RandomString(f.carData().CarCategories)
 	// 5/6 times add an adjective
 	if f.RollDice() < 6 {
-		adjective := f.RandomString(carData.CarCategoryAdjectives)
+		adjective := f.RandomString(f.carData().CarCategoryAdjectives)
 		if adjective != category {
 			return fmt.Sprintf("%s %s", adjective, category)
 		}
@@ -124,7 +113,7 @@ func (f *Fakery) CarCategory() string {
 }
 
 func (f *Fakery) CarType() string {
-	return f.RandomString(carData.CarFuelTypes)
+	return f.RandomString(f.carData().CarFuelTypes)
 }
 
 func (f *Fakery) CarTransmission() string {

@@ -8,16 +8,6 @@ import (
 	"strings"
 )
 
-var (
-	colorLoader DataLoader
-	colorData   ColorData
-)
-
-func init() {
-	colorLoader.Init("color.json")
-	ConvertMapToStruct(colorLoader.Preload(GenericLocale), &colorData)
-}
-
 type Color struct {
 	Hex  string `json:"hex"`                    // hex color
 	RGB  string `json:"rgb"`                    // matching rgb color
@@ -66,17 +56,22 @@ type ColorData struct {
 	ColorNames      []string `json:"color_names"`
 }
 
+// Generic color data, decoded once and shared
+func (f *Fakery) colorData() *ColorData {
+	return genericView[ColorData](f, ResourceColor)
+}
+
 // Return a random color name
 func (f *Fakery) ColorName() string {
-	colorAdjective := f.RandomString(colorData.ColorAdjectives)
-	colorName := f.RandomString(colorData.ColorNames)
+	colorAdjective := f.RandomString(f.colorData().ColorAdjectives)
+	colorName := f.RandomString(f.colorData().ColorNames)
 
 	return strings.Join([]string{colorAdjective, colorName}, " ")
 }
 
 // Return a more realistic "safe" color name
 func (f *Fakery) SafeColorName() string {
-	return f.RandomString(colorData.ColorNames)
+	return f.RandomString(f.colorData().ColorNames)
 }
 
 // Random hex color

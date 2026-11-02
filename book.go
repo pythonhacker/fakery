@@ -10,18 +10,6 @@ import (
 	"unicode"
 )
 
-var (
-	bookLoader DataLoader
-	booksData  BooksData
-)
-
-func init() {
-	// We prepare book data from different words
-	bookLoader.Init("book.json")
-	// Convert to structure
-	ConvertMapToStruct(bookLoader.Preload(GenericLocale), &booksData)
-}
-
 type Book struct {
 	Title     string `json:"title"`
 	Author    string `json:"author"`
@@ -48,6 +36,11 @@ type BooksData struct {
 	PublisherLastNames   []string `json:"publisher_last_names"`
 
 	Genres []string `json:"genres"`
+}
+
+// Generic book data, decoded once and shared
+func (f *Fakery) booksData() *BooksData {
+	return genericView[BooksData](f, ResourceBook)
 }
 
 var numbers = []string{"One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight",
@@ -250,6 +243,7 @@ func (f *Fakery) BookTitle() string {
 	//	fmt.Println(pattern)
 
 	// Easy placeholders to avoid long code
+	booksData := f.booksData()
 	nouns := booksData.LiteraryNouns
 	adjectives := booksData.LiteraryAdjectives
 	gerunds := booksData.LiteraryGerunds
@@ -342,6 +336,7 @@ func (f *Fakery) BookPublisher() string {
 	var items []string
 	pattern := f.IntRange(3) + 1
 
+	booksData := f.booksData()
 	firstNames := booksData.PublisherFirstNames
 	secondNames := booksData.PublisherSecondNames
 	lastNames := booksData.PublisherLastNames
@@ -359,7 +354,7 @@ func (f *Fakery) BookPublisher() string {
 }
 
 func (f *Fakery) BookGenre() string {
-	return f.RandomString(booksData.Genres)
+	return f.RandomString(f.booksData().Genres)
 }
 
 func (f *Fakery) BookAuthor() string {

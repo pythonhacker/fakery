@@ -7,6 +7,7 @@ import (
 	"math"
 	"math/rand"
 	"strings"
+	"sync"
 	"time"
 
 	"golang.org/x/text/cases"
@@ -40,21 +41,68 @@ func (b Base) String(v interface{}) string {
 type Fakery struct {
 	rng    *rand.Rand
 	locale string
-	// Cached locale data
-	data *LocaleData
+	// Source of locale data, nil means the default registry
+	registry *Registry
 }
 
-// Wrapper function to load locale data
-// at any given time a faker instance is associated with
-// only one state mapping to its current request
-// so keep this state locally is safe.
+// lockedSource serialises access to a rand.Source so that a Fakery can be
+// used from several goroutines. It yields the same sequence as the
+// wrapped source.
+type lockedSource struct {
+	mu  sync.Mutex
+	src rand.Source64
+}
+
+func newLockedSource(seed int64) *lockedSource {
+	return &lockedSource{src: rand.NewSource(seed).(rand.Source64)}
+}
+
+func (s *lockedSource) Int63() int64 {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	return s.src.Int63()
+}
+
+func (s *lockedSource) Uint64() uint64 {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	return s.src.Uint64()
+}
+
+func (s *lockedSource) Seed(seed int64) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	s.src.Seed(seed)
+}
+
+// Wrapper function to load locale data for the Fakery's locale
+// using the loader's resource.
 func (f *Fakery) LoadLocale(l *DataLoader) *LocaleData {
-	return l.EnsureLoaded(f.locale)
+	return l.registryOr(f.Registry()).Load(l.fileName, f.locale)
 }
 
 // Wrapper function to load generic locale data
 func (f *Fakery) LoadGenericLocale(l *DataLoader) *LocaleData {
-	return l.EnsureLoaded(GenericLocale)
+	return l.registryOr(f.Registry()).Load(l.fileName, GenericLocale)
+}
+
+// Registry returns the registry the Fakery reads its data from.
+func (f *Fakery) Registry() *Registry {
+	if f.registry != nil {
+		return f.registry
+	}
+	return defaultRegistry
+}
+
+// SetRegistry makes the Fakery read its data from r. A nil r restores
+// the default registry.
+func (f *Fakery) SetRegistry(r *Registry) {
+	f.registry = r
+}
+
+// Locale returns the current locale.
+func (f *Fakery) Locale() string {
+	return f.locale
 }
 
 // Return an integer in the interval [0, n)
@@ -122,6 +170,10 @@ func (f *Fakery) RandInteger(length int) int {
 
 // Return a random item according to weights
 func (f *Fakery) RandomWeightedItem(array *WeightedArray) (string, error) {
+	if array == nil || len(array.Items) == 0 {
+		return "", fmt.Errorf("weighted array is empty")
+	}
+
 	randVal := f.rng.Float64()
 
 	if ok, val := array.Validate(); !ok {
@@ -149,9 +201,12 @@ func (f *Fakery) OneOf(choices []string) string {
 	return choices[f.Choice()]
 }
 
-// Return a random string
+// Return a random string, or "" when there are no items
 func (f *Fakery) RandomString(stringItems []string) string {
 
+	if len(stringItems) == 0 {
+		return ""
+	}
 	idx := f.IntRange(len(stringItems))
 	return stringItems[idx]
 }
@@ -161,6 +216,10 @@ func (f *Fakery) RandomStringExcl(stringItems []string, excl string) string {
 
 	var idxElem int
 
+	if len(stringItems) == 0 {
+		return ""
+	}
+
 	for i := 0; i < len(stringItems); i++ {
 		if stringItems[i] == excl {
 			idxElem = i
@@ -168,9 +227,11 @@ func (f *Fakery) RandomStringExcl(stringItems []string, excl string) string {
 		}
 	}
 
-	stringItems = append(stringItems[:idxElem], stringItems[idxElem+1:]...)
-	idx := f.IntRange(len(stringItems))
-	return stringItems[idx]
+	// Build a new slice, the input may be shared (cached) data
+	remaining := make([]string, 0, len(stringItems))
+	remaining = append(remaining, stringItems[:idxElem]...)
+	remaining = append(remaining, stringItems[idxElem+1:]...)
+	return f.RandomString(remaining)
 }
 
 // Return a random letter [A-Z]
@@ -264,7 +325,7 @@ func (f *Fakery) SetLocale(locale string) {
 func New() *Fakery {
 	seed := time.Now().Nanosecond()
 	return &Fakery{
-		rng:    rand.New(rand.NewSource(int64(seed))),
+		rng:    rand.New(newLockedSource(int64(seed))),
 		locale: DefaultLocale,
 	}
 }
@@ -272,14 +333,14 @@ func New() *Fakery {
 func NewFromLocale(locale string) *Fakery {
 	seed := time.Now().Nanosecond()
 	return &Fakery{
-		rng:    rand.New(rand.NewSource(int64(seed))),
+		rng:    rand.New(newLockedSource(int64(seed))),
 		locale: locale,
 	}
 }
 
 func NewFromSeed(seed int64) *Fakery {
 	return &Fakery{
-		rng:    rand.New(rand.NewSource(int64(seed))),
+		rng:    rand.New(newLockedSource(int64(seed))),
 		locale: DefaultLocale,
 	}
 }

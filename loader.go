@@ -313,7 +313,7 @@ func (loader *DataLoader) FileName() string {
 }
 
 // setRoot sets the data root directory. It is used by Registry.
-func (loader *DataLoader) setRoot(root string) {
+func (loader *DataLoader) SetRoot(root string) {
 	loader.mu.Lock()
 	defer loader.mu.Unlock()
 	loader.root = root

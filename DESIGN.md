@@ -21,31 +21,30 @@ and what that means for compatibility.
 The subsystem has three layers. Each layer returns one shared instance per
 key, so callers asking for the same thing always get the same cached object.
 
-```
-                    ┌──────────────────────────────────────────────┐
- Fakery generators  │ f.localeSource(SourceNames)   (f.locale)     │
- (person.go, …)     │ f.genericSource(SourceWords)  ("generic")    │
-                    │ carData.Get()  ← DataView[CarData]           │
-                    └───────────────────────┬──────────────────────┘
-                                            │
-                    ┌───────────────────────▼──────────────────────┐
- Registry           │ fileName → *DataLoader     (sync.RWMutex)    │
- (registry.go)      │ prefix families: "cars/" → options           │
-                    │ Load(fileName, locale) *LocaleData           │
-                    └───────────────────────┬──────────────────────┘
-                                            │
-                    ┌───────────────────────▼──────────────────────┐
- DataLoader         │ locale → *LocaleData       (sync.RWMutex)    │
- (loader.go)        │ locale → isMap config                        │
-                    └───────────────────────┬──────────────────────┘
-                                            │
-                    ┌───────────────────────▼──────────────────────┐
- LocaleData         │ sync.Once load → immutable payload           │
- (loader.go)        │ atomic "loaded" flag guards all readers      │
-                    └──────────────────────────────────────────────┘
-                     reads  <root>/<locale>/<fileName>
-                     (root defaults to the module's data/locales)
-```
+	                    ┌──────────────────────────────────────────────┐
+	 Fakery generators  │ f.localeSource(SourceNames)   (f.locale)     │
+	 (person.go, …)     │ f.genericSource(SourceWords)  ("generic")    │
+						│ carData.Get()  ← DataView[CarData]           │
+						└───────────────────────┬──────────────────────┘
+												│
+						┌───────────────────────▼──────────────────────┐
+	 Registry           │ fileName → *DataLoader     (sync.RWMutex)    │
+	 (registry.go)      │ prefix families: "cars/" → options           │
+						│ Load(fileName, locale) *LocaleData           │
+						└───────────────────────┬──────────────────────┘
+												│
+						┌───────────────────────▼──────────────────────┐
+	 DataLoader         │ locale → *LocaleData       (sync.RWMutex)    │
+	 (loader.go)        │ locale → isMap config                        │
+						└───────────────────────┬──────────────────────┘
+												│
+						┌───────────────────────▼──────────────────────┐
+	 LocaleData         │ sync.Once load → immutable payload           │
+	 (loader.go)        │ atomic "loaded" flag guards all readers      │
+						└──────────────────────────────────────────────┘
+						 reads  <root>/<locale>/<fileName>
+						 (root defaults to the module's data/locales)
+
 
 ### 1. `LocaleData`: one resource
 
